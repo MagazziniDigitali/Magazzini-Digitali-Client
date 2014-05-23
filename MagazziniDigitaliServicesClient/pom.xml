@@ -1,0 +1,28 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>it.bncf.magazziniDigitali.services.client</groupId>
+  <artifactId>MagazziniDigitaliServicesClient</artifactId>
+  <version>1.0.1</version>
+  <description>Libreria utilizzata per la gestione dell'interfaccie client per il colloquio con i servizi per il Magazzino Digitale </description>
+  <properties>
+    <maven.compiler.source>1.6</maven.compiler.source>
+    <maven.compiler.target>1.6</maven.compiler.target>
+  </properties>
+  <dependencies>
+  	<dependency>
+  		<groupId>axis</groupId>
+  		<artifactId>axis</artifactId>
+  		<version>1.4</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>javax.activation</groupId>
+  		<artifactId>activation</artifactId>
+  		<version>1.1.1</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>javax.mail</groupId>
+  		<artifactId>mailapi</artifactId>
+  		<version>1.4.3</version>
+  	</dependency>
+  </dependencies>
+</project>

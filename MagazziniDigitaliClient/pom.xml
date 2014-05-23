@@ -1,0 +1,36 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>it.bncf.magazziniDigitali.client</groupId>
+	<artifactId>MagazziniDigitgaliClient</artifactId>
+	<version>1.0.1</version>
+	<description>Interfaccia Client relativa all'istituto o ente il quale pubblicherà il materiale nell'area temporanea a lui riservata per la pubblicazione </description>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.6</maven.compiler.source>
+		<maven.compiler.target>1.6</maven.compiler.target>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>it.bncf.magazziniDigitali.services.client</groupId>
+			<artifactId>MagazziniDigitaliServicesClient</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>mx.randalf.configuration</groupId>
+			<artifactId>RandalfConfiguration</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>mx.randalf.digest</groupId>
+			<artifactId>RandalfDigest</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+	</dependencies>
+	<repositories>
+		<repository>
+			<id>randalf.mx-release</id>
+			<url>http://maven.bncf.lan/repository/release</url>
+		</repository>
+	</repositories>
+</project>

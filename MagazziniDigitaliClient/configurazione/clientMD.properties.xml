@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties version="1.0">
+
+    <!-- Percorsi locali in cui vengono registrati la lista dei file da elaborare (Obbligatori almeno 1 percorso)-->
+    <entry key="pathExcel(0)">/Volumes/google/Grin/Excel</entry>
+
+    <!-- Percorsi locali in cui verranno registrati gli oggetti Digitali da inviare al Magazzino digitale (Obbligatori almeno 1 persorso)-->
+    <entry key="pathDescriptati(0)">/Volumes/google/Grin/001-Descriptati</entry>
+
+    <!-- Estensioni dei file da inviare al Magazzino digitale (Obbligatori almeno 1 persorso)-->
+    <entry key="file.extension(0)">tar.gz</entry>
+    <entry key="file.extension(1)">tgz</entry>
+
+    <!-- Url di connessione per l'invio dell'oggetto al Magazzini Digitali con il protocolli Rsync (Obbligatorio) -->
+    <entry key="md.sendRsync">massi@teca.bncf.dmz.tix:/home/massi/tempMD</entry>
+
+    <!-- Url di connessione per la WebServices utilizzata per leggere le informazioni suglio Oggetto digitali -->
+    <entry key="md.wsdlCheckMD">http://localhost:8080/MagazziniDigitaliServices/services/CheckMDPort?wsdl</entry>
+    <entry key="md.wsdlInitSendMD">http://localhost:8080/MagazziniDigitaliServices/services/InitSendMDPort?wsdl</entry>
+    <entry key="md.wsdlEndSendMD">http://localhost:8080/MagazziniDigitaliServices/services/EndSendMDPort?wsdl</entry>
+    <entry key="md.wsdlConfirmDelMD">http://localhost:8080/MagazziniDigitaliServices/services/ConfirmDelMDPort?wsdl</entry>
+    
+    <entry key="istituto.id">IBNF1</entry>
+    <entry key="istituto.password">222222</entry>
+</properties>
