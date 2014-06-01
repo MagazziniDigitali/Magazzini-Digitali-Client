@@ -63,7 +63,7 @@ public class ClientMDRsync extends ClientMD {
 					fSend.getAbsolutePath(),
 					Configuration.getValue("md.sendRsync") };
 
-			proc = rt.exec(cmd);
+			proc = rt.exec(cmd, new String[]{"RSYNC_PASSWORD="+Configuration.getValue("md.sendRsyncPwd")});
 
 			stderr = proc.getErrorStream();
 			isrErr = new InputStreamReader(stderr);

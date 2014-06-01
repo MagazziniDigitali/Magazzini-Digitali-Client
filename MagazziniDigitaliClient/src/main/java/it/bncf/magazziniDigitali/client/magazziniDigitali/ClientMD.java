@@ -163,11 +163,7 @@ abstract class ClientMD {
 									} else if (checkMD
 											.getOggettoDigitale()
 											.getStatoOggettoDigitale()
-											.equals(StatoOggettoDigitale_type.ARCHIVIATO)
-											|| checkMD
-													.getOggettoDigitale()
-													.getStatoOggettoDigitale()
-													.equals(StatoOggettoDigitale_type.CHECKFALLITO)) {
+											.equals(StatoOggettoDigitale_type.ARCHIVIATO)) {
 										// Il file risulta essere stato
 										// archiviato correttamente su MD,
 										// procedo con la cancellazione sul
