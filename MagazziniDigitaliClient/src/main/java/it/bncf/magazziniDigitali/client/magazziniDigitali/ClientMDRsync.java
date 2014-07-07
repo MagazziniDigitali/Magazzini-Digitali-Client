@@ -59,7 +59,9 @@ public class ClientMDRsync extends ClientMD {
 		try {
 			log.info("Invio file: "+fSend.getAbsolutePath());
 			rt = Runtime.getRuntime();
-			cmd = new String[] { "rsync", "-av", "--progress",
+			cmd = new String[] { Configuration.getValue("md.sendRsync.path"), 
+					"-av", 
+					"--progress",
 					fSend.getAbsolutePath(),
 					Configuration.getValue("md.sendRsync") };
 
@@ -74,7 +76,7 @@ public class ClientMDRsync extends ClientMD {
 			brStd = new BufferedReader(isrStd);
 
 			while ((val = brStd.readLine()) != null) {
-				log.debug(val);
+				log.info(val);
 			}
 
 			while ((val = brErr.readLine()) != null) {

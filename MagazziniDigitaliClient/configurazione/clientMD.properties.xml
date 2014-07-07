@@ -14,15 +14,18 @@
 
     <!-- Url di connessione per l'invio dell'oggetto al Magazzini Digitali con il protocolli Rsync (Obbligatorio) -->
     <!--entry key="md.sendRsync">massi@teca.bncf.dmz.tix:/home/massi/tempMD</entry-->
-    <entry key="md.sendRsync">rsync://IBNF1@md-test.bncf.lan/IBNF1</entry>
+    <entry key="md.sendRsync">rsync://IBNF1@193.43.104.153/IBNF1</entry>
     <entry key="md.sendRsyncPwd">222222</entry>
+    <entry key="md.sendRsync.path">/opt/local/bin/rsync</entry>
 
     <!-- Url di connessione per la WebServices utilizzata per leggere le informazioni suglio Oggetto digitali -->
-    <entry key="md.wsdlCheckMD">http://md-test.bncf.lan:8080/MagazziniDigitaliServices/services/CheckMDPort?wsdl</entry>
-    <entry key="md.wsdlInitSendMD">http://md-test.bncf.lan:8080/MagazziniDigitaliServices/services/InitSendMDPort?wsdl</entry>
-    <entry key="md.wsdlEndSendMD">http://md-test.bncf.lan:8080/MagazziniDigitaliServices/services/EndSendMDPort?wsdl</entry>
-    <entry key="md.wsdlConfirmDelMD">http://md-test.bncf.lan:8080/MagazziniDigitaliServices/services/ConfirmDelMDPort?wsdl</entry>
+    <entry key="md.wsdlCheckMD">http://193.43.104.153/MagazziniDigitaliServices/services/CheckMDPort?wsdl</entry>
+    <entry key="md.wsdlInitSendMD">http://193.43.104.153/MagazziniDigitaliServices/services/InitSendMDPort?wsdl</entry>
+    <entry key="md.wsdlEndSendMD">http://193.43.104.153/MagazziniDigitaliServices/services/EndSendMDPort?wsdl</entry>
+    <entry key="md.wsdlConfirmDelMD">http://193.43.104.153/MagazziniDigitaliServices/services/ConfirmDelMDPort?wsdl</entry>
     
     <entry key="istituto.id">IBNF1</entry>
     <entry key="istituto.password">222222</entry>
+    
+    <entry key="md.deleteLocalFile">false</entry>
 </properties>

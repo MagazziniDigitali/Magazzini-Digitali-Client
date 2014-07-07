@@ -62,6 +62,16 @@ abstract class ClientMD {
 	 * Variabile utilizzata per indicare l'ultima data di modifica del file
 	 */
 	private GregorianCalendar lastModified = null;
+	
+	/**
+	 * Variabile utilizzata per indicare che è stato completato il lavoro di pubblicazione sul file
+	 */
+	private boolean completato = false;
+	
+	/**
+	 * Variabile utilizzata per indicare che è stato inviato il file sul Server
+	 */
+	private boolean sender = false;
 
 	/**
 	 * @throws NoSuchAlgorithmException
@@ -150,6 +160,7 @@ abstract class ClientMD {
 										try {
 											send(fSend, hash, lastModified);
 											endSendMD(checkMD, true, null);
+											sender=true;
 										} catch (ClientMDException e) {
 											log.error(
 													"File ["
@@ -164,17 +175,24 @@ abstract class ClientMD {
 											.getOggettoDigitale()
 											.getStatoOggettoDigitale()
 											.equals(StatoOggettoDigitale_type.ARCHIVIATO)) {
-										// Il file risulta essere stato
-										// archiviato correttamente su MD,
-										// procedo con la cancellazione sul
-										// disco locale
-										if (!fSend.delete()) {
-											throw new ClientMDException(
-													"Riscontrato un problam nella cancellazione del file ["
-															+ fSend.getAbsolutePath()
-															+ "]");
+										try {
+											if (Configuration.getValue("md.deleteLocalFile").equalsIgnoreCase("true")){
+												// Il file risulta essere stato
+												// archiviato correttamente su MD,
+												// procedo con la cancellazione sul
+												// disco locale
+												if (!fSend.delete()) {
+													throw new ClientMDException(
+															"Riscontrato un problam nella cancellazione del file ["
+																	+ fSend.getAbsolutePath()
+																	+ "]");
+												}
+												confirmDelMD(checkMD);
+												completato=true;
+											}
+										} catch (ConfigurationException e) {
+											throw new ClientMDException(e.getMessage(), e);
 										}
-										confirmDelMD(checkMD);
 									}
 								} else {
 									throw new ClientMDException(
@@ -184,7 +202,13 @@ abstract class ClientMD {
 								throw new ClientMDException(
 										"Non risultano le informazioni dell'oggetto digitale");
 							}
+						} else {
+							throw new ClientMDException(
+									"Stato dell'istituto non presente");
 						}
+					} else {
+						throw new ClientMDException(
+								"Stato dell'istituto ["+checkMD.getIstituto().getStatoIstituto()+"]");
 					}
 				} else {
 					throw new ClientMDException(
@@ -348,16 +372,21 @@ abstract class ClientMD {
 		Digest[] digest = null;
 
 		try {
+			log.info("checkMD: "+Configuration.getValue("md.wsdlCheckMD")+" sha1: "+hash);
 			proxy = new CheckMDPortTypeProxy(
 					Configuration.getValue("md.wsdlCheckMD"));
 
 			input = new ReadInfoInput();
 
+			log.debug("istituto.id: "+Configuration.getValue("istituto.id"));
+			log.debug("istituto.password: "+Configuration.getValue("istituto.password"));
 			istituto = new ReadInfoInputIstituto();
 			istituto.setId(Configuration.getValue("istituto.id"));
 			istituto.setPassword(Configuration.getValue("istituto.password"));
 			input.setIstituto(istituto);
 
+			log.debug("digest: "+digest);
+			log.debug("lastModified: "+lastModified);
 			oggettoDigitale = new ReadInfoInputOggettoDigitale();
 			oggettoDigitale.setNomeFile(fSend.getName());
 			digest = new Digest[1];
@@ -376,5 +405,13 @@ abstract class ClientMD {
 			throw new ClientMDException(e.getMessage(), e);
 		}
 		return output;
+	}
+
+	public boolean isCompletato() {
+		return completato;
+	}
+
+	public boolean isSender() {
+		return sender;
 	}
 }

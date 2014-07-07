@@ -7,16 +7,23 @@ import it.bncf.magazziniDigitali.client.magazziniDigitali.ClientMDException;
 import it.bncf.magazziniDigitali.client.magazziniDigitali.ClientMDRsync;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Vector;
 
 import mx.randalf.configuration.Configuration;
 import mx.randalf.configuration.exception.ConfigurationException;
+import mx.randalf.digest.MD5;
 
 import org.apache.log4j.Logger;
 
@@ -47,13 +54,29 @@ public class MDClient {
 	public static void main(String[] args) {
 		MDClient mdClient = null;
 		String pathProperties = "."+File.separator;
+		boolean testMode = false;
 		
 		try {
 			mdClient = new MDClient();
 			if (args.length>0){
-				pathProperties=args[0];
+				for (int x=0; x<args.length; x++){
+					if (args[x].equalsIgnoreCase("-h") || 
+							args[x].equalsIgnoreCase("-help") ||
+							args[x].equalsIgnoreCase("--h") ||
+							args[x].equalsIgnoreCase("--help") ||
+							args[x].equalsIgnoreCase("/?")
+							){
+						System.out.println("Indicare i seguenti parametri:");
+						System.out.println("1) Path del file di configurazione (Opzionale)");
+						System.out.println("2) --test (Opzionale) indica l'utilizzo in modalità Test");
+					} else if (args[x].equals("--test")){
+						testMode = true;
+					} else {
+						pathProperties=args[x];
+					}
+				}
 			}
-			mdClient.start(pathProperties);
+			mdClient.start(pathProperties, testMode);
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 		}
@@ -66,10 +89,13 @@ public class MDClient {
 	 * @throws ConfigurationException 
 	 */
 	@SuppressWarnings("unchecked")
-	public void start(String pathProperties) throws ConfigurationException{
+	public void start(String pathProperties, boolean testMode) throws ConfigurationException{
 		Vector<String> pathInput = null;
 		Vector<String> pathDescriptati = null;
 		try {
+			if ( testMode){
+				System.out.println("Inizio elaborazione in Modalità di Test");
+			}
 			if (!Configuration.isInizialize()){
 				Configuration.init(pathProperties);
 			}
@@ -77,11 +103,16 @@ public class MDClient {
 			pathDescriptati =  (Vector<String>) Configuration.getValues("pathDescriptati");
 			for (int x=0; x<pathInput.size(); x++){
 				log.info("Analizzo la cartella ["+pathInput.get(x)+"]");
-				checkExcel(new File(pathInput.get(x)), new File(pathDescriptati.get(x)));
+				checkExcel(new File(pathInput.get(x)), new File(pathDescriptati.get(x)), testMode);
+				if(testMode){
+					break;
+				}
 			}
 		} catch (ConfigurationException e) {
 			log.error(e);
 			throw e;
+		} finally {
+			System.out.println("Fine elaborazione in Modalità di Test");
 		}
 	}
 
@@ -90,16 +121,22 @@ public class MDClient {
 	 * 
 	 * @param pathInput
 	 */
-	private void checkExcel(File pathExcel, File pathDescriptati){
+	private void checkExcel(File pathExcel, File pathDescriptati, boolean testMode){
 		File[] fl = null;
 		File f = null;
 		File fElab = null;
 		ClientMDRsync clientMDRsync = null;
 		BufferedReader br = null;
+		BufferedWriter bw = null;
 		FileReader fr = null;
+		FileWriter fw = null;
 		String line = null;
 		String[] st = null;
 		File fileTarGz = null;
+		boolean completato = false;
+		MD5 md5 = null;
+		DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:SS");
+		boolean testComp = false;
 
 		if (pathExcel.exists()){
 			fl = pathExcel.listFiles(new FileFilter() {
@@ -120,35 +157,82 @@ public class MDClient {
 			});
 			for (int x=0; x<fl.length; x++){
 				f = fl[x];
-				
+
 				fElab = new File(f.getAbsolutePath()+".elab");
 				if (!fElab.exists()){
+					log.info("Elaboro il file ["+f.getAbsolutePath()+"]");
 					try {
+						md5 = new MD5();
 						fr = new FileReader(f);
 						br = new BufferedReader(fr);
+						completato = true;
 						while ((line=br.readLine())!= null){
 							st = line.split("\t");
 							fileTarGz = new File(pathDescriptati.getAbsolutePath()+File.separator+st[0]+".tar.gz");
 							if (fileTarGz.exists()){
 								try {
+									log.info("Elaboro il file ["+fileTarGz.getAbsolutePath()+"]");
 									clientMDRsync = new ClientMDRsync(fileTarGz);
 									clientMDRsync.execute();
+									completato = clientMDRsync.isCompletato();
+									log.info("Completato ["+completato+"] Inviato ["+clientMDRsync.isSender()+"]");
+									if (testMode && clientMDRsync.isSender()){
+										testComp=true;
+										break;
+									}
 								} catch (NoSuchAlgorithmException e) {
 									log.error(e.getMessage(), e);
+									completato = false;
 								} catch (FileNotFoundException e) {
 									log.error(e.getMessage(), e);
+									completato = false;
 								} catch (IOException e) {
 									log.error(e.getMessage(), e);
+									completato = false;
 								} catch (ClientMDException e) {
 									log.error(e.getMessage(), e);
-								}
+									completato = false;
+								} catch (Exception e) {
+									log.error(e.getMessage(), e);
+									completato = false;
+								} 
 							} else {
 								log.error("Il file ["+fileTarGz.getAbsolutePath()+"] non esiste");
+								completato = false;
 							}
+						}
+						if (completato){
+							try {
+								fw = new FileWriter(fElab);
+								bw = new BufferedWriter(fw);
+								bw.write(md5.getDigest(f)+"\t"+df.format(new Date(new GregorianCalendar().getTimeInMillis())));
+							} catch (Exception e) {
+								log.error(e.getMessage(), e);
+							} finally {
+								try {
+									if (bw != null){
+										bw.flush();
+										bw.close();
+									}
+									if (fw != null){
+										fw.close();
+									}
+								} catch (Exception e) {
+									log.error(e.getMessage(), e);
+								}
+							}
+							
+						}
+						if (testMode && testComp){
+							break;
 						}
 					} catch (FileNotFoundException e) {
 						log.error(e.getMessage(), e);
 					} catch (IOException e) {
+						log.error(e.getMessage(), e);
+					} catch (NoSuchAlgorithmException e) {
+						log.error(e.getMessage(), e);
+					} catch (Exception e) {
 						log.error(e.getMessage(), e);
 					} finally {
 						try {
@@ -162,6 +246,8 @@ public class MDClient {
 							log.error(e.getMessage(), e);
 						}
 					}
+				} else {
+					log.info("Il file ["+f.getAbsolutePath()+"] risulta completamente elaborato");
 				}
 			}
 		} else {
