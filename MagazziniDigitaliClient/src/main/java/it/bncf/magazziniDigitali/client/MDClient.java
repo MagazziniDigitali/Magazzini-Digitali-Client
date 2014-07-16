@@ -92,6 +92,7 @@ public class MDClient {
 	public void start(String pathProperties, boolean testMode) throws ConfigurationException{
 		Vector<String> pathInput = null;
 		Vector<String> pathDescriptati = null;
+		boolean sender= false;
 		try {
 			if ( testMode){
 				System.out.println("Inizio elaborazione in Modalità di Test");
@@ -103,8 +104,8 @@ public class MDClient {
 			pathDescriptati =  (Vector<String>) Configuration.getValues("pathDescriptati");
 			for (int x=0; x<pathInput.size(); x++){
 				log.info("Analizzo la cartella ["+pathInput.get(x)+"]");
-				checkExcel(new File(pathInput.get(x)), new File(pathDescriptati.get(x)), testMode);
-				if(testMode){
+				sender = checkExcel(new File(pathInput.get(x)), new File(pathDescriptati.get(x)), testMode);
+				if(testMode && sender){
 					break;
 				}
 			}
@@ -121,7 +122,7 @@ public class MDClient {
 	 * 
 	 * @param pathInput
 	 */
-	private void checkExcel(File pathExcel, File pathDescriptati, boolean testMode){
+	private boolean checkExcel(File pathExcel, File pathDescriptati, boolean testMode){
 		File[] fl = null;
 		File f = null;
 		File fElab = null;
@@ -137,6 +138,7 @@ public class MDClient {
 		MD5 md5 = null;
 		DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:SS");
 		boolean testComp = false;
+		boolean sender=false;
 
 		if (pathExcel.exists()){
 			fl = pathExcel.listFiles(new FileFilter() {
@@ -175,6 +177,7 @@ public class MDClient {
 									clientMDRsync = new ClientMDRsync(fileTarGz);
 									clientMDRsync.execute();
 									completato = clientMDRsync.isCompletato();
+									sender = true;
 									log.info("Completato ["+completato+"] Inviato ["+clientMDRsync.isSender()+"]");
 									if (testMode && clientMDRsync.isSender()){
 										testComp=true;
@@ -253,6 +256,7 @@ public class MDClient {
 		} else {
 			log.error("La cartella ["+pathExcel.getAbsolutePath()+"] non esiste");
 		}
+		return sender;
 	}
 
 	/**
