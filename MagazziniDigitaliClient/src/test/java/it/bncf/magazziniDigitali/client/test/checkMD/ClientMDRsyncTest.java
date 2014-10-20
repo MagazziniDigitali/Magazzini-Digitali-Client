@@ -52,16 +52,27 @@ public class ClientMDRsyncTest {
 		BufferedReader brStd = null;
 		String val = null;
 		int exitVal = -1;
+		String fileInput = null;
 
 		try {
+			
 			log.info("Invio file: "+fSend.getAbsolutePath());
 			rt = Runtime.getRuntime();
+			if (File.separator.equals("\\")){
+				fileInput = "/cygdrive/"+fSend.getAbsolutePath().replace(":", "").replace("\\", "/");
+			} else {
+				fileInput = fSend.getAbsolutePath();
+			}
 			cmd = new String[] { Configuration.getValue("md.sendRsync.path"), 
 					"-av", 
 					"--progress",
-					fSend.getAbsolutePath(),
+					fileInput,
 					Configuration.getValue("md.sendRsync") };
 
+			System.out.println();
+			System.out.println("Rsync: "+Configuration.getValue("md.sendRsync.path") +" "+
+					"-av --progress "+fileInput+" "+Configuration.getValue("md.sendRsync"));
+			System.out.println();
 			proc = rt.exec(cmd, new String[]{"RSYNC_PASSWORD="+Configuration.getValue("md.sendRsyncPwd")});
 
 			stderr = proc.getErrorStream();

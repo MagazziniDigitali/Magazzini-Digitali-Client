@@ -3,7 +3,6 @@
  */
 package it.bncf.magazziniDigitali.client.test.checkMD;
 
-import it.bncf.magazziniDigitali.client.magazziniDigitali.ClientMDException;
 import it.depositolegale.www.oggettiDigitali.Digest;
 import it.depositolegale.www.oggettiDigitali.Digest_type;
 import it.depositolegale.www.readInfoInput.ReadInfoInput;
@@ -14,9 +13,6 @@ import it.depositolegale.www.webservice_checkMD.CheckMDPortTypeProxy;
 
 import java.rmi.RemoteException;
 import java.util.GregorianCalendar;
-
-import mx.randalf.configuration.Configuration;
-import mx.randalf.configuration.exception.ConfigurationException;
 
 /**
  * @author massi
@@ -42,8 +38,8 @@ public class CheckMD {
 		Digest[] digest = null;
 		String url = null;
 		String hash = null;
-		String idIstituto = "IBNF1";
-		String pwdIstituto = "222222";
+		String idIstituto = "IBNR1";
+		String pwdIstituto = "8sjjVN8Sn1";
 		GregorianCalendar lastModified = new GregorianCalendar();
 		String nomeFile="pippo.tar.gz";
 

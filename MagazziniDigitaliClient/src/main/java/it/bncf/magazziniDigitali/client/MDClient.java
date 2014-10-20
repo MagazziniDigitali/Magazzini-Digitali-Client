@@ -3,27 +3,13 @@
  */
 package it.bncf.magazziniDigitali.client;
 
-import it.bncf.magazziniDigitali.client.magazziniDigitali.ClientMDException;
-import it.bncf.magazziniDigitali.client.magazziniDigitali.ClientMDRsync;
+import it.bncf.magazziniDigitali.client.thread.MDCheckComplite;
+import it.bncf.magazziniDigitali.client.thread.MDCheckRsync;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileFilter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Vector;
 
 import mx.randalf.configuration.Configuration;
 import mx.randalf.configuration.exception.ConfigurationException;
-import mx.randalf.digest.MD5;
 
 import org.apache.log4j.Logger;
 
@@ -40,6 +26,8 @@ public class MDClient {
 	 */
 	private Logger log = Logger.getLogger(MDClient.class);
 
+	private MDCheckComplite mdCheckComplite;
+	private MDCheckRsync mdCheckRsync;
 	/**
 	 * Costruttore
 	 */
@@ -88,11 +76,7 @@ public class MDClient {
 	 * @param pathProperties Path relativa alla posizione dei files di configurazione dell'applicazione
 	 * @throws ConfigurationException 
 	 */
-	@SuppressWarnings("unchecked")
 	public void start(String pathProperties, boolean testMode) throws ConfigurationException{
-		Vector<String> pathInput = null;
-		Vector<String> pathDescriptati = null;
-		boolean sender= false;
 		try {
 			if ( testMode){
 				System.out.println("Inizio elaborazione in Modalità di Test");
@@ -100,163 +84,34 @@ public class MDClient {
 			if (!Configuration.isInizialize()){
 				Configuration.init(pathProperties);
 			}
-			pathInput =  (Vector<String>) Configuration.getValues("pathExcel");
-			pathDescriptati =  (Vector<String>) Configuration.getValues("pathDescriptati");
-			for (int x=0; x<pathInput.size(); x++){
-				log.info("Analizzo la cartella ["+pathInput.get(x)+"]");
-				sender = checkExcel(new File(pathInput.get(x)), new File(pathDescriptati.get(x)), testMode);
-				if(testMode && sender){
-					break;
+			if (Configuration.getValue("md.coda")== null ||Configuration.getValue("md.coda").equalsIgnoreCase("false")){
+				mdCheckRsync = new MDCheckRsync(Thread.currentThread(), "RSync", testMode);
+				if (testMode){
+					mdCheckRsync.run();
+				} else {
+					mdCheckRsync.start();
 				}
+				Thread.sleep(10000);
+				mdCheckComplite = new MDCheckComplite(Thread.currentThread(), "Complete", testMode);
+				if (testMode){
+					mdCheckComplite.run();
+				} else {
+					mdCheckComplite.start();
+				}
+			} else if (Configuration.getValue("md.coda").equalsIgnoreCase("true")){
+				
 			}
 		} catch (ConfigurationException e) {
 			log.error(e);
 			throw e;
+		} catch (InterruptedException e) {
+			log.error(e);
+			throw new ConfigurationException(e.getMessage(), e);
 		} finally {
-			System.out.println("Fine elaborazione in Modalità di Test");
-		}
-	}
-
-	/**
-	 * Metodo utilizzato per testare il contenuto di una cartella
-	 * 
-	 * @param pathInput
-	 */
-	private boolean checkExcel(File pathExcel, File pathDescriptati, boolean testMode){
-		File[] fl = null;
-		File f = null;
-		File fElab = null;
-		ClientMDRsync clientMDRsync = null;
-		BufferedReader br = null;
-		BufferedWriter bw = null;
-		FileReader fr = null;
-		FileWriter fw = null;
-		String line = null;
-		String[] st = null;
-		File fileTarGz = null;
-		boolean completato = false;
-		MD5 md5 = null;
-		DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:SS");
-		boolean testComp = false;
-		boolean sender=false;
-
-		if (pathExcel.exists()){
-			fl = pathExcel.listFiles(new FileFilter() {
-				
-				@Override
-				public boolean accept(File f) {
-					boolean ris = false;
-					
-					// Verifico che il file/cartella non sia di tipo nascosto
-					if (!f.getName().startsWith(".") && !f.isHidden()){
-						// controllo se è una cartella
-						if (f.getName().toLowerCase().endsWith(".txt")){
-							ris = true;
-						}
-					}
-					return ris;
-				}
-			});
-			for (int x=0; x<fl.length; x++){
-				f = fl[x];
-
-				fElab = new File(f.getAbsolutePath()+".elab");
-				if (!fElab.exists()){
-					log.info("Elaboro il file ["+f.getAbsolutePath()+"]");
-					try {
-						md5 = new MD5();
-						fr = new FileReader(f);
-						br = new BufferedReader(fr);
-						completato = true;
-						while ((line=br.readLine())!= null){
-							st = line.split("\t");
-							fileTarGz = new File(pathDescriptati.getAbsolutePath()+File.separator+st[0]+".tar.gz");
-							if (fileTarGz.exists()){
-								try {
-									log.info("Elaboro il file ["+fileTarGz.getAbsolutePath()+"]");
-									clientMDRsync = new ClientMDRsync(fileTarGz);
-									clientMDRsync.execute();
-									completato = clientMDRsync.isCompletato();
-									sender = true;
-									log.info("Completato ["+completato+"] Inviato ["+clientMDRsync.isSender()+"]");
-									if (testMode && clientMDRsync.isSender()){
-										testComp=true;
-										break;
-									}
-								} catch (NoSuchAlgorithmException e) {
-									log.error(e.getMessage(), e);
-									completato = false;
-								} catch (FileNotFoundException e) {
-									log.error(e.getMessage(), e);
-									completato = false;
-								} catch (IOException e) {
-									log.error(e.getMessage(), e);
-									completato = false;
-								} catch (ClientMDException e) {
-									log.error(e.getMessage(), e);
-									completato = false;
-								} catch (Exception e) {
-									log.error(e.getMessage(), e);
-									completato = false;
-								} 
-							} else {
-								log.error("Il file ["+fileTarGz.getAbsolutePath()+"] non esiste");
-								completato = false;
-							}
-						}
-						if (completato){
-							try {
-								fw = new FileWriter(fElab);
-								bw = new BufferedWriter(fw);
-								bw.write(md5.getDigest(f)+"\t"+df.format(new Date(new GregorianCalendar().getTimeInMillis())));
-							} catch (Exception e) {
-								log.error(e.getMessage(), e);
-							} finally {
-								try {
-									if (bw != null){
-										bw.flush();
-										bw.close();
-									}
-									if (fw != null){
-										fw.close();
-									}
-								} catch (Exception e) {
-									log.error(e.getMessage(), e);
-								}
-							}
-							
-						}
-						if (testMode && testComp){
-							break;
-						}
-					} catch (FileNotFoundException e) {
-						log.error(e.getMessage(), e);
-					} catch (IOException e) {
-						log.error(e.getMessage(), e);
-					} catch (NoSuchAlgorithmException e) {
-						log.error(e.getMessage(), e);
-					} catch (Exception e) {
-						log.error(e.getMessage(), e);
-					} finally {
-						try {
-							if (br != null){
-								br.close();
-							}
-							if (fr != null){
-								fr.close();
-							}
-						} catch (IOException e) {
-							log.error(e.getMessage(), e);
-						}
-					}
-				} else {
-					log.info("Il file ["+f.getAbsolutePath()+"] risulta completamente elaborato");
-				}
+			if ( testMode){
+				System.out.println("Fine elaborazione in Modalità di Test");
 			}
-		} else {
-			log.error("La cartella ["+pathExcel.getAbsolutePath()+"] non esiste");
 		}
-		return sender;
 	}
 
 	/**
