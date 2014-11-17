@@ -3,6 +3,10 @@
  */
 package it.bncf.magazziniDigitali.client.test.checkMD;
 
+import it.depositolegale.www.endSend.EndSend;
+import it.depositolegale.www.endSend.EndSendReadInfoOutput;
+import it.depositolegale.www.endSend.EndSendReadInfoOutputIstituto;
+import it.depositolegale.www.endSend.EndSendReadInfoOutputOggettoDigitale;
 import it.depositolegale.www.oggettiDigitali.Digest;
 import it.depositolegale.www.oggettiDigitali.Digest_type;
 import it.depositolegale.www.readInfoInput.ReadInfoInput;
@@ -10,6 +14,8 @@ import it.depositolegale.www.readInfoInput.ReadInfoInputIstituto;
 import it.depositolegale.www.readInfoInput.ReadInfoInputOggettoDigitale;
 import it.depositolegale.www.readInfoOutput.ReadInfoOutput;
 import it.depositolegale.www.webservice_checkMD.CheckMDPortTypeProxy;
+import it.depositolegale.www.webservice_endSendMD.EndSendMDPortTypeProxy;
+import it.depositolegale.www.webservice_initSendMD.InitSendMDPortTypeProxy;
 
 import java.rmi.RemoteException;
 import java.util.GregorianCalendar;
@@ -18,26 +24,28 @@ import java.util.GregorianCalendar;
  * @author massi
  *
  */
-public class CheckMD {
+public class EndSendMD {
 
 	/**
 	 * 
 	 */
-	public CheckMD() {
+	public EndSendMD() {
 	}
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		CheckMDPortTypeProxy proxy = null;
-		ReadInfoInput input = null;
+		EndSendMDPortTypeProxy proxy = null;
+		EndSend endSend = null;
+		EndSendReadInfoOutput readInfoOutput = null;
+		
 		ReadInfoOutput output = null;
-		ReadInfoInputIstituto istituto = null;
-		ReadInfoInputOggettoDigitale oggettoDigitale = null;
+		EndSendReadInfoOutputIstituto istituto = null;
+		EndSendReadInfoOutputOggettoDigitale oggettoDigitale = null;
 		Digest[] digest = null;
 		String url = null;
-		String hash = null;
+		String idOggettoDigitale = null;
 		String idIstituto = "IBNF1";
 		String pwdIstituto = "222222";
 		GregorianCalendar lastModified = new GregorianCalendar();
@@ -45,32 +53,39 @@ public class CheckMD {
 
 		try {
 			if (args.length==2){
-				url = "http://"+args[0]+"/MagazziniDigitaliServices/services/CheckMDPort?wsdl";
-				hash=args[1];
+				url = "http://"+args[0]+"/MagazziniDigitaliServices/services/EndSendMDPort?wsdl";
+				idOggettoDigitale=args[1];
 
-				System.out.println("checkMD: "+url+" sha1: "+hash);
-				proxy = new CheckMDPortTypeProxy(url);
+				System.out.println("initSendMD: "+url+" idOggettoDigitale: "+idOggettoDigitale);
+				proxy = new EndSendMDPortTypeProxy(url);
 	
-				input = new ReadInfoInput();
+				endSend = new EndSend();
+				endSend.setEsito(true);
 	
+				readInfoOutput = new EndSendReadInfoOutput();
 				System.out.println("istituto.id: "+idIstituto);
 				System.out.println("istituto.password: "+pwdIstituto);
-				istituto = new ReadInfoInputIstituto();
+				istituto = new EndSendReadInfoOutputIstituto();
 				istituto.setId(idIstituto);
 				istituto.setPassword(pwdIstituto);
-				input.setIstituto(istituto);
+				readInfoOutput.setIstituto(istituto);
 	
 				System.out.println("lastModified: "+lastModified);
-				oggettoDigitale = new ReadInfoInputOggettoDigitale();
+				oggettoDigitale = new EndSendReadInfoOutputOggettoDigitale();
+				oggettoDigitale.setId(idOggettoDigitale);
 				oggettoDigitale.setNomeFile(nomeFile);
-				digest = new Digest[1];
-				digest[0] = new Digest();
-				digest[0].setDigestType(Digest_type.SHA1);
-				digest[0].setDigestValue(hash);
-				oggettoDigitale.setDigest(digest);
+//				digest = new Digest[1];
+//				digest[0] = new Digest();
+//				digest[0].setDigestType(Digest_type.SHA1);
+//				digest[0].setDigestValue(hash);
+//				oggettoDigitale.setDigest(digest);
 				oggettoDigitale.setUltimaModifica(lastModified);
-				input.setOggettoDigitale(oggettoDigitale);
-				output = proxy.checkMDOperation(input);
+				readInfoOutput.setOggettoDigitale(oggettoDigitale);;
+
+				endSend.setReadInfoOutput(readInfoOutput);
+				
+				
+				proxy.endSendMDOperation(endSend);
 				if (output != null){
 					if (output.getIstituto() != null){
 						System.out.println("output.getIstituto().getId: "+output.getIstituto().getId());

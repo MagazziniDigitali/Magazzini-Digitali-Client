@@ -171,9 +171,9 @@ public abstract class MDCheck extends Thread {
 									completato = false;
 								}
 							} else {
-								if (getName().equals("RSync")){
-									Thread.sleep(5000);
-								}
+//								if (getName().equals("RSync")){
+//									Thread.sleep(5000);
+//								}
 //								log.error(getName()+" Il file ["
 //										+ fileTarGz.getAbsolutePath()
 //										+ "] non esiste");

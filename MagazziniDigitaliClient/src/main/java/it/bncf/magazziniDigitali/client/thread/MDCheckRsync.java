@@ -67,7 +67,7 @@ public class MDCheckRsync extends MDCheck {
 				pathDescriptati.getAbsolutePath()
 				+ File.separator + fileName
 				+ ".tar.gz");
-		log.info("File da cercare: "+f.getAbsolutePath());
+//		log.info("File da cercare: "+f.getAbsolutePath());
 		return f;
 	}
 

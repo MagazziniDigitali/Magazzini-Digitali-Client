@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>it.bncf.magazziniDigitali.client</groupId>
 	<artifactId>MagazziniDigitgaliClient</artifactId>
-	<version>1.0.3</version>
+	<version>1.0.4</version>
 	<description>Interfaccia Client relativa all'istituto o ente il quale pubblicherà il materiale nell'area temporanea a lui riservata per la pubblicazione </description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,12 +24,7 @@
 		<dependency>
 			<groupId>mx.randalf.digest</groupId>
 			<artifactId>RandalfDigest</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-			<version>1.5.0-b01</version>
+			<version>1.0.1</version>
 		</dependency>
 	</dependencies>
 	<repositories>

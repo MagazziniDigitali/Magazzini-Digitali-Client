@@ -196,6 +196,9 @@ public class ClientMDRsync extends ClientMD{
 
 	@Override
 	protected void check(ReadInfoOutput checkMD) throws ClientMDException {
+		log.info("StatoOggettoDigitale: "+checkMD
+				.getOggettoDigitale()
+				.getStatoOggettoDigitale());
 		if (checkMD
 				.getOggettoDigitale()
 				.getStatoOggettoDigitale()

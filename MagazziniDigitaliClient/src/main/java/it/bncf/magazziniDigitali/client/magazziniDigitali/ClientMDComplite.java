@@ -39,9 +39,11 @@ public class ClientMDComplite extends ClientMD {
 
 	@Override
 	protected void check(ReadInfoOutput checkMD) throws ClientMDException {
+		log.info("NomeFile: "+checkMD.getOggettoDigitale().getNomeFile()+" StatoOggettoDigitale: "+checkMD.getOggettoDigitale().getStatoOggettoDigitale());
 		if (checkMD.getOggettoDigitale().getStatoOggettoDigitale()
 				.equals(StatoOggettoDigitale_type.ARCHIVIATO)) {
 			try {
+				log.info("deleteLocalFile: "+Configuration.getValue("md.deleteLocalFile"));
 				if (Configuration.getValue("md.deleteLocalFile")
 						.equalsIgnoreCase("true")) {
 					// Il file risulta essere stato

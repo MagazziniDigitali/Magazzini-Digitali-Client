@@ -10,6 +10,7 @@ import it.depositolegale.www.readInfoInput.ReadInfoInputIstituto;
 import it.depositolegale.www.readInfoInput.ReadInfoInputOggettoDigitale;
 import it.depositolegale.www.readInfoOutput.ReadInfoOutput;
 import it.depositolegale.www.webservice_checkMD.CheckMDPortTypeProxy;
+import it.depositolegale.www.webservice_initSendMD.InitSendMDPortTypeProxy;
 
 import java.rmi.RemoteException;
 import java.util.GregorianCalendar;
@@ -18,19 +19,19 @@ import java.util.GregorianCalendar;
  * @author massi
  *
  */
-public class CheckMD {
+public class initSendMD {
 
 	/**
 	 * 
 	 */
-	public CheckMD() {
+	public initSendMD() {
 	}
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		CheckMDPortTypeProxy proxy = null;
+		InitSendMDPortTypeProxy proxy = null;
 		ReadInfoInput input = null;
 		ReadInfoOutput output = null;
 		ReadInfoInputIstituto istituto = null;
@@ -45,11 +46,11 @@ public class CheckMD {
 
 		try {
 			if (args.length==2){
-				url = "http://"+args[0]+"/MagazziniDigitaliServices/services/CheckMDPort?wsdl";
+				url = "http://"+args[0]+"/MagazziniDigitaliServices/services/InitSendMDPort?wsdl";
 				hash=args[1];
 
-				System.out.println("checkMD: "+url+" sha1: "+hash);
-				proxy = new CheckMDPortTypeProxy(url);
+				System.out.println("initSendMD: "+url+" sha1: "+hash);
+				proxy = new InitSendMDPortTypeProxy(url);
 	
 				input = new ReadInfoInput();
 	
@@ -70,7 +71,7 @@ public class CheckMD {
 				oggettoDigitale.setDigest(digest);
 				oggettoDigitale.setUltimaModifica(lastModified);
 				input.setOggettoDigitale(oggettoDigitale);
-				output = proxy.checkMDOperation(input);
+				output = proxy.initSendMDOperation(input);
 				if (output != null){
 					if (output.getIstituto() != null){
 						System.out.println("output.getIstituto().getId: "+output.getIstituto().getId());
