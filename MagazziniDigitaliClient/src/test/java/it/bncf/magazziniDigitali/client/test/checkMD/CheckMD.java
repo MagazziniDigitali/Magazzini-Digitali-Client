@@ -38,8 +38,8 @@ public class CheckMD {
 		Digest[] digest = null;
 		String url = null;
 		String hash = null;
-		String idIstituto = "IBNF1";
-		String pwdIstituto = "222222";
+		String idIstituto = "ASP1";
+		String pwdIstituto = "NXaUV1FeeAvX";
 		GregorianCalendar lastModified = new GregorianCalendar();
 		String nomeFile="pippo.tar.gz";
 

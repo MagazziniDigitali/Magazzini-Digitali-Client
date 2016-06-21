@@ -3,17 +3,17 @@
 <properties version="1.0">
 
     <!-- Percorsi locali in cui vengono registrati la lista dei file da elaborare (Obbligatori almeno 1 percorso)-->
-    <entry key="pathExcel(0)">/Users/massi/mnt/excel</entry>
+    <entry key="pathExcel(0)">/Users/massi/tmp/bncf/MagazziniDigitaliTest/Datini/excel</entry>
 
     <!-- Percorsi locali in cui verranno registrati gli oggetti Digitali da inviare al Magazzino digitale (Obbligatori almeno 1 persorso)-->
-    <entry key="pathDescriptati(0)">/Users/massi/mnt/Storage</entry>
+    <entry key="pathDescriptati(0)">/Users/massi/tmp/bncf/MagazziniDigitaliTest/Datini/Storage</entry>
 
     <!-- Estensioni dei file da inviare al Magazzino digitale (Obbligatori almeno 1 persorso)-->
     <entry key="file.extension(0)">tar.gz</entry>
     <entry key="file.extension(1)">tgz</entry>
 
     <!-- Url di connessione per l'invio dell'oggetto al Magazzini Digitali con il protocolli Rsync (Obbligatorio) -->
-    <entry key="md.sendRsync">massi@teca.bncf.dmz.tix:/home/massi/tempMD</entry>
+    <entry key="md.sendRsync">massi@teca.bncf.dmz.tix:/home/massi/tempMD/ASP1</entry>
     <!-- entry key="md.sendRsync">rsync://IBNF1@193.43.104.153/IBNF1</entry -->
     <entry key="md.sendRsyncPwd">222222</entry>
     <entry key="md.sendRsync.path">/opt/local/bin/rsync</entry>
@@ -31,12 +31,12 @@
     <entry key="md.wsdlEndSendMD">http://md-test.bncf.lan:8080/MagazziniDigitaliServices/services/EndSendMDPort?wsdl</entry>
     <entry key="md.wsdlConfirmDelMD">http://md-test.bncf.lan:8080/MagazziniDigitaliServices/services/ConfirmDelMDPort?wsdl</entry>
     
-    <entry key="istituto.id">IBNF1</entry>
-    <entry key="istituto.password">222222</entry>
+    <entry key="istituto.id">ASP1</entry>
+    <entry key="istituto.password">NXaUV1FeeAvX</entry>
     
     <entry key="md.deleteLocalFile">false</entry>
 
-    <entry key="md.coda">true</entry>
+    <entry key="md.coda">false</entry>
     <entry key="db.service">127.0.0.1:8080</entry>
     <entry key="db.userName">75F219B8-874D-4A29-BCAD-23B2D71AFD5C</entry>
     <entry key="db.pwdName">A18BA602-16E7-4525-99FB-BB110222C4CC</entry>

@@ -9,7 +9,6 @@ import it.depositolegale.www.readInfoInput.ReadInfoInput;
 import it.depositolegale.www.readInfoInput.ReadInfoInputIstituto;
 import it.depositolegale.www.readInfoInput.ReadInfoInputOggettoDigitale;
 import it.depositolegale.www.readInfoOutput.ReadInfoOutput;
-import it.depositolegale.www.webservice_checkMD.CheckMDPortTypeProxy;
 import it.depositolegale.www.webservice_initSendMD.InitSendMDPortTypeProxy;
 
 import java.rmi.RemoteException;

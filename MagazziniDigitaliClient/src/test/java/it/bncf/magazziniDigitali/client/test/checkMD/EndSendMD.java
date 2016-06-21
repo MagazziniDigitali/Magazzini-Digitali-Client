@@ -7,15 +7,7 @@ import it.depositolegale.www.endSend.EndSend;
 import it.depositolegale.www.endSend.EndSendReadInfoOutput;
 import it.depositolegale.www.endSend.EndSendReadInfoOutputIstituto;
 import it.depositolegale.www.endSend.EndSendReadInfoOutputOggettoDigitale;
-import it.depositolegale.www.oggettiDigitali.Digest;
-import it.depositolegale.www.oggettiDigitali.Digest_type;
-import it.depositolegale.www.readInfoInput.ReadInfoInput;
-import it.depositolegale.www.readInfoInput.ReadInfoInputIstituto;
-import it.depositolegale.www.readInfoInput.ReadInfoInputOggettoDigitale;
-import it.depositolegale.www.readInfoOutput.ReadInfoOutput;
-import it.depositolegale.www.webservice_checkMD.CheckMDPortTypeProxy;
 import it.depositolegale.www.webservice_endSendMD.EndSendMDPortTypeProxy;
-import it.depositolegale.www.webservice_initSendMD.InitSendMDPortTypeProxy;
 
 import java.rmi.RemoteException;
 import java.util.GregorianCalendar;
@@ -40,10 +32,10 @@ public class EndSendMD {
 		EndSend endSend = null;
 		EndSendReadInfoOutput readInfoOutput = null;
 		
-		ReadInfoOutput output = null;
+//		ReadInfoOutput output = null;
 		EndSendReadInfoOutputIstituto istituto = null;
 		EndSendReadInfoOutputOggettoDigitale oggettoDigitale = null;
-		Digest[] digest = null;
+//		Digest[] digest = null;
 		String url = null;
 		String idOggettoDigitale = null;
 		String idIstituto = "IBNF1";
@@ -86,34 +78,34 @@ public class EndSendMD {
 				
 				
 				proxy.endSendMDOperation(endSend);
-				if (output != null){
-					if (output.getIstituto() != null){
-						System.out.println("output.getIstituto().getId: "+output.getIstituto().getId());
-						System.out.println("output.getIstituto().getNome: "+output.getIstituto().getNome());
-						System.out.println("output.getIstituto().getPassword: "+output.getIstituto().getPassword());
-						if(output.getIstituto().getStatoIstituto()!= null){
-							System.out.println("output.getIstituto().getStatoIstituto().getValue: "+output.getIstituto().getStatoIstituto().getValue());
-						} else {
-							System.out.println("output.getIstituto().getStatoIstituto == null");
-						}
-					} else {
-						System.out.println("output.getIstituto == null");
-					}
-					if (output.getOggettoDigitale()!=null){
-						System.out.println("output.getOggettoDigitale().getId: "+output.getOggettoDigitale().getId());
-						System.out.println("output.getOggettoDigitale().getNomeFile: "+output.getOggettoDigitale().getNomeFile());
-						if (output.getOggettoDigitale().getStatoOggettoDigitale()!=null){
-							System.out.println("output.getOggettoDigitale().getStatoOggettoDigitale().getValue: "+output.getOggettoDigitale().getStatoOggettoDigitale().getValue());
-						} else {
-							System.out.println("output.getOggettoDigitale().getStatoOggettoDigitale == null");
-						}
-						System.out.println("output.getOggettoDigitale().getUltimaModifica: "+output.getOggettoDigitale().getUltimaModifica());
-					} else {
-						System.out.println("output.getOggettoDigitale == null");
-					}
-				} else {
-					System.out.println("output == null");
-				}
+//				if (output != null){
+//					if (output.getIstituto() != null){
+//						System.out.println("output.getIstituto().getId: "+output.getIstituto().getId());
+//						System.out.println("output.getIstituto().getNome: "+output.getIstituto().getNome());
+//						System.out.println("output.getIstituto().getPassword: "+output.getIstituto().getPassword());
+//						if(output.getIstituto().getStatoIstituto()!= null){
+//							System.out.println("output.getIstituto().getStatoIstituto().getValue: "+output.getIstituto().getStatoIstituto().getValue());
+//						} else {
+//							System.out.println("output.getIstituto().getStatoIstituto == null");
+//						}
+//					} else {
+//						System.out.println("output.getIstituto == null");
+//					}
+//					if (output.getOggettoDigitale()!=null){
+//						System.out.println("output.getOggettoDigitale().getId: "+output.getOggettoDigitale().getId());
+//						System.out.println("output.getOggettoDigitale().getNomeFile: "+output.getOggettoDigitale().getNomeFile());
+//						if (output.getOggettoDigitale().getStatoOggettoDigitale()!=null){
+//							System.out.println("output.getOggettoDigitale().getStatoOggettoDigitale().getValue: "+output.getOggettoDigitale().getStatoOggettoDigitale().getValue());
+//						} else {
+//							System.out.println("output.getOggettoDigitale().getStatoOggettoDigitale == null");
+//						}
+//						System.out.println("output.getOggettoDigitale().getUltimaModifica: "+output.getOggettoDigitale().getUltimaModifica());
+//					} else {
+//						System.out.println("output.getOggettoDigitale == null");
+//					}
+//				} else {
+//					System.out.println("output == null");
+//				}
 			}
 		} catch (RemoteException e) {
 			System.out.println(e.getMessage());
