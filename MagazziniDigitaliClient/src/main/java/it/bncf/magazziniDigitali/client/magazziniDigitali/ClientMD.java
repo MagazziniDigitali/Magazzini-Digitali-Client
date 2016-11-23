@@ -3,15 +3,6 @@
  */
 package it.bncf.magazziniDigitali.client.magazziniDigitali;
 
-import it.depositolegale.www.istituto.StatoIstituto_type;
-import it.depositolegale.www.oggettiDigitali.Digest;
-import it.depositolegale.www.oggettiDigitali.Digest_type;
-import it.depositolegale.www.readInfoInput.ReadInfoInput;
-import it.depositolegale.www.readInfoInput.ReadInfoInputIstituto;
-import it.depositolegale.www.readInfoInput.ReadInfoInputOggettoDigitale;
-import it.depositolegale.www.readInfoOutput.ReadInfoOutput;
-import it.depositolegale.www.webservice_checkMD.CheckMDPortTypeProxy;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,11 +10,19 @@ import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
 import java.util.GregorianCalendar;
 
-import mx.randalf.configuration.Configuration;
-import mx.randalf.configuration.exception.ConfigurationException;
-import mx.randalf.digest.SHA1;
-
 import org.apache.log4j.Logger;
+
+import it.bncf.magazziniDigitali.configuration.IMDConfiguration;
+import it.bncf.magazziniDigitali.configuration.exception.MDConfigurationException;
+import it.depositolegale.software.ConverterReadInfoInputSoftware;
+import it.depositolegale.www.oggettiDigitali.Digest;
+import it.depositolegale.www.oggettiDigitali.Digest_type;
+import it.depositolegale.www.readInfoInput.ReadInfoInput;
+import it.depositolegale.www.readInfoInput.ReadInfoInputOggettoDigitale;
+import it.depositolegale.www.readInfoOutput.ReadInfoOutput;
+import it.depositolegale.www.software.Software;
+import it.depositolegale.www.webservice_checkMD.CheckMDPortTypeProxy;
+import mx.randalf.digest.SHA1;
 
 /**
  * Questo metodo viene utilizzato per la gestione del colloquio con Magazzini
@@ -96,12 +95,12 @@ abstract class ClientMD {
 	 * @throws ClientMDException
 	 * 
 	 */
-	public void execute() throws ClientMDException {
+	public void execute(IMDConfiguration<Software> configuration) throws ClientMDException {
 		ReadInfoOutput checkMD = null;
 		boolean errori = false;
 
 		// Richiesto all'interffacci MD lo stato dell'oggetto che devo inviare
-		checkMD = checkMD();
+		checkMD = checkMD(configuration);
 
 		if (checkMD != null) {
 			if (checkMD.getErrori() != null && checkMD.getErrori().length > 0) {
@@ -124,15 +123,15 @@ abstract class ClientMD {
 				}
 			}
 			if (!errori) {
-				if (checkMD.getIstituto() != null) {
-					if (checkMD.getIstituto().getStatoIstituto() != null) {
-						if (checkMD.getIstituto().getStatoIstituto()
-								.equals(StatoIstituto_type.VALIDO)) {
+//				if (checkMD.getIstituto() != null) {
+//					if (checkMD.getIstituto().getStatoIstituto() != null) {
+//						if (checkMD.getIstituto().getStatoIstituto()
+//								.equals(StatoIstituto_type.VALIDO)) {
 							if (checkMD.getOggettoDigitale() != null) {
 								if (checkMD.getOggettoDigitale()
 										.getStatoOggettoDigitale() != null) {
 									
-									check(checkMD);
+									check(checkMD, configuration);
 									
 								} else {
 									throw new ClientMDException(
@@ -142,18 +141,18 @@ abstract class ClientMD {
 								throw new ClientMDException(
 										"Non risultano le informazioni dell'oggetto digitale");
 							}
-						} else {
-							throw new ClientMDException(
-									"Stato dell'istituto non presente");
-						}
-					} else {
-						throw new ClientMDException(
-								"Stato dell'istituto ["+checkMD.getIstituto().getStatoIstituto()+"]");
-					}
-				} else {
-					throw new ClientMDException(
-							"Non risultano le informazioni dell'istituto");
-				}
+//						} else {
+//							throw new ClientMDException(
+//									"Stato dell'istituto non presente");
+//						}
+//					} else {
+//						throw new ClientMDException(
+//								"Stato dell'istituto ["+checkMD.getIstituto().getStatoIstituto()+"]");
+//					}
+//				} else {
+//					throw new ClientMDException(
+//							"Non risultano le informazioni dell'istituto");
+//				}
 			}
 		} else {
 			throw new ClientMDException(
@@ -161,7 +160,7 @@ abstract class ClientMD {
 		}
 	}
 
-	protected abstract void check(ReadInfoOutput checkMD) throws ClientMDException;
+	protected abstract void check(ReadInfoOutput checkMD, IMDConfiguration<Software> configuration) throws ClientMDException;
 
 	/**
 	 * Metodo utilizzato per la trasformazione del traccoato ReadInfoOutput in ReadInfoInput
@@ -172,10 +171,15 @@ abstract class ClientMD {
 	protected ReadInfoInput readInfoOutputToInput(ReadInfoOutput output){
 		ReadInfoInput intput = null;
 		intput = new ReadInfoInput();
-		intput.setIstituto(new ReadInfoInputIstituto(output
-				.getIstituto().getId(), output.getIstituto().getNome(), output
-				.getIstituto().getPassword(), output.getIstituto()
-				.getStatoIstituto()));
+		ConverterReadInfoInputSoftware converterReadInfoInputSoftware = null;
+		
+		converterReadInfoInputSoftware = new ConverterReadInfoInputSoftware();
+		
+		intput.setSoftware(converterReadInfoInputSoftware.convert(output.getSoftware()));
+//		intput.setIstituto(new ReadInfoInputIstituto(output
+//				.getIstituto().getId(), output.getIstituto().getNome(), output
+//				.getIstituto().getPassword(), output.getIstituto()
+//				.getStatoIstituto()));
 		intput.setOggettoDigitale(new ReadInfoInputOggettoDigitale(
 				output.getOggettoDigitale().getId(), output
 						.getOggettoDigitale().getNomeFile(), output
@@ -191,27 +195,36 @@ abstract class ClientMD {
 	 * @return Esito della verifica
 	 * @throws ClientMDException
 	 */
-	private ReadInfoOutput checkMD() throws ClientMDException {
+	private ReadInfoOutput checkMD(IMDConfiguration<Software> configuration) throws ClientMDException {
 		CheckMDPortTypeProxy proxy = null;
 		ReadInfoInput input = null;
 		ReadInfoOutput output = null;
-		ReadInfoInputIstituto istituto = null;
+//		ReadInfoInputIstituto istituto = null;
 		ReadInfoInputOggettoDigitale oggettoDigitale = null;
 		Digest[] digest = null;
+		String wsdlCheckMD = null;
+		ConverterReadInfoInputSoftware converterReadInfoInputSoftware = null;
 
 		try {
-			log.info("checkMD: "+Configuration.getValue("md.wsdlCheckMD")+" sha1: "+hash);
-			proxy = new CheckMDPortTypeProxy(
-					Configuration.getValue("md.wsdlCheckMD"));
+			wsdlCheckMD = configuration.getSoftwareConfigString("wsdlCheckMD");
+			//Configuration.getValue("md.wsdlCheckMD")
+			log.info("checkMD: "+wsdlCheckMD+" sha1: "+hash);
+			proxy = new CheckMDPortTypeProxy(wsdlCheckMD);
 
 			input = new ReadInfoInput();
 
-			log.debug("istituto.id: "+Configuration.getValue("istituto.id"));
-			log.debug("istituto.password: "+Configuration.getValue("istituto.password"));
-			istituto = new ReadInfoInputIstituto();
-			istituto.setId(Configuration.getValue("istituto.id"));
-			istituto.setPassword(Configuration.getValue("istituto.password"));
-			input.setIstituto(istituto);
+//			log.debug("istituto.id: "+
+//						configuration.getMDSoftware().getId());
+////			Configuration.getValue("istituto.id"));
+//			log.debug("istituto.password: "+
+//					configuration.getMDSoftware().getPassword());
+//					Configuration.getValue("istituto.password"));
+			converterReadInfoInputSoftware = new ConverterReadInfoInputSoftware();
+			input.setSoftware(converterReadInfoInputSoftware.convert(configuration.getSoftware()));
+//			istituto = new ReadInfoInputIstituto();
+//			istituto.setId(	.getValue("istituto.id"));
+//			istituto.setPassword(Configuration.getValue("istituto.password"));
+//			input.setIstituto(istituto);
 
 			log.debug("digest: "+digest);
 			log.debug("lastModified: "+lastModified);
@@ -225,7 +238,7 @@ abstract class ClientMD {
 			oggettoDigitale.setUltimaModifica(lastModified);
 			input.setOggettoDigitale(oggettoDigitale);
 			output = proxy.checkMDOperation(input);
-		} catch (ConfigurationException e) {
+		} catch (MDConfigurationException e) {
 			log.error(e.getMessage(), e);
 			throw new ClientMDException(e.getMessage(), e);
 		} catch (RemoteException e) {

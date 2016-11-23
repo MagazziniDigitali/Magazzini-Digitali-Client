@@ -4,6 +4,8 @@
 package it.bncf.magazziniDigitali.client.thread;
 
 import it.bncf.magazziniDigitali.client.magazziniDigitali.ClientMDException;
+import it.bncf.magazziniDigitali.configuration.IMDConfiguration;
+import it.depositolegale.www.software.Software;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -41,14 +43,16 @@ public abstract class MDCheck extends Thread {
 	protected String fileExt = ".txt";
 
 	private boolean testMode;
+	private IMDConfiguration<Software> configuration = null;
 
 	/**
 	 * @param arg0
 	 * @param arg1
 	 */
-	public MDCheck(Runnable target, String name, boolean testMode) {
+	public MDCheck(Runnable target, String name, boolean testMode, IMDConfiguration<Software> configuration) {
 		super(target, name);
 		this.testMode = testMode;
+		this.configuration = configuration;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -59,6 +63,7 @@ public abstract class MDCheck extends Thread {
 		boolean sender = false;
 
 		try {
+			
 			pathInput = (Vector<String>) Configuration.getValues("pathExcel");
 			pathDescriptati = (Vector<String>) Configuration
 					.getValues("pathDescriptati");
@@ -66,7 +71,7 @@ public abstract class MDCheck extends Thread {
 				for (int x = 0; x < pathInput.size(); x++) {
 					log.info(getName()+" Analizzo la cartella [" + pathInput.get(x) + "]");
 					sender = checkExcel(new File(pathInput.get(x)), new File(
-							pathDescriptati.get(x)), testMode);
+							pathDescriptati.get(x)), testMode, configuration);
 					if (testMode && sender) {
 						break;
 					}
@@ -77,6 +82,7 @@ public abstract class MDCheck extends Thread {
 			}
 		} catch (ConfigurationException e) {
 			log.error(e.getMessage(), e);
+			throw new RuntimeException(e.getMessage(), e);
 		}
 	}
 
@@ -86,7 +92,7 @@ public abstract class MDCheck extends Thread {
 	 * @param pathInput
 	 */
 	private boolean checkExcel(File pathExcel, File pathDescriptati,
-			boolean testMode) {
+			boolean testMode, IMDConfiguration<Software> configuration) {
 		File[] fl = null;
 		File f = null;
 		File fElab = null;
@@ -143,7 +149,7 @@ public abstract class MDCheck extends Thread {
 								try {
 									log.info(getName()+" Elaboro il file ["
 											+ fileTarGz.getAbsolutePath() + "]");
-									if (!analize(fileTarGz)) {
+									if (!analize(fileTarGz, configuration)) {
 										completato = false;
 									}
 									sender = true;
@@ -249,7 +255,7 @@ public abstract class MDCheck extends Thread {
 	}
 
 	protected abstract File genFileTarGz(File pathDescriptati, String fileName);
-	protected abstract boolean analize(File fileTarGz)
+	protected abstract boolean analize(File fileTarGz, IMDConfiguration<Software> configuration)
 			throws NoSuchAlgorithmException, FileNotFoundException,
 			IOException, ClientMDException;
 

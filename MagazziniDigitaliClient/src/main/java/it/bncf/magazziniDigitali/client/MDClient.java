@@ -3,13 +3,18 @@
  */
 package it.bncf.magazziniDigitali.client;
 
+import it.bncf.magazziniDigitali.client.exception.MDClientException;
 import it.bncf.magazziniDigitali.client.thread.MDCheckComplite;
 import it.bncf.magazziniDigitali.client.thread.MDCheckRsync;
+import it.bncf.magazziniDigitali.configuration.IMDConfiguration;
+import it.bncf.magazziniDigitali.configuration.exception.MDConfigurationException;
+import it.depositolegale.configuration.MDConfiguration;
+import it.depositolegale.www.software.Software;
 
+import java.io.BufferedReader;
 import java.io.File;
-
-import mx.randalf.configuration.Configuration;
-import mx.randalf.configuration.exception.ConfigurationException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import org.apache.log4j.Logger;
 
@@ -65,7 +70,7 @@ public class MDClient {
 				}
 			}
 			mdClient.start(pathProperties, testMode);
-		} catch (ConfigurationException e) {
+		} catch (MDClientException e) {
 			e.printStackTrace();
 		}
 	}
@@ -76,37 +81,49 @@ public class MDClient {
 	 * @param pathProperties Path relativa alla posizione dei files di configurazione dell'applicazione
 	 * @throws ConfigurationException 
 	 */
-	public void start(String pathProperties, boolean testMode) throws ConfigurationException{
+	public void start(String pathProperties, boolean testMode) throws MDClientException{
+		IMDConfiguration<Software> configuration = null;
+		BufferedReader br = null;
+		InputStreamReader isr = null;
+		String sysPassword = null;
+		
 		try {
+			
+			System.out.println("Indicare la password per la connessione con MD");
+			
+			isr = new InputStreamReader(System.in);
+			br = new BufferedReader(isr);
+			sysPassword = br.readLine();
+
+			configuration = new MDConfiguration("TD", "file:///"+pathProperties, sysPassword);
 			if ( testMode){
 				System.out.println("Inizio elaborazione in Modalità di Test");
 			}
-			if (!Configuration.isInizialize()){
-				Configuration.init(pathProperties);
+//			if (!Configuration.isInizialize()){
+//				Configuration.init(pathProperties);
+//			}
+			mdCheckRsync = new MDCheckRsync(Thread.currentThread(), "RSync", testMode, configuration);
+			if (testMode){
+				mdCheckRsync.run();
+			} else {
+				mdCheckRsync.start();
 			}
-			if (Configuration.getValue("md.coda")== null ||Configuration.getValue("md.coda").equalsIgnoreCase("false")){
-				mdCheckRsync = new MDCheckRsync(Thread.currentThread(), "RSync", testMode);
-				if (testMode){
-					mdCheckRsync.run();
-				} else {
-					mdCheckRsync.start();
-				}
-				Thread.sleep(10000);
-				mdCheckComplite = new MDCheckComplite(Thread.currentThread(), "Complete", testMode);
-				if (testMode){
-					mdCheckComplite.run();
-				} else {
-					mdCheckComplite.start();
-				}
-			} else if (Configuration.getValue("md.coda").equalsIgnoreCase("true")){
-				
+			Thread.sleep(10000);
+			mdCheckComplite = new MDCheckComplite(Thread.currentThread(), "Complete", testMode, configuration);
+			if (testMode){
+				mdCheckComplite.run();
+			} else {
+				mdCheckComplite.start();
 			}
-		} catch (ConfigurationException e) {
-			log.error(e);
-			throw e;
 		} catch (InterruptedException e) {
 			log.error(e);
-			throw new ConfigurationException(e.getMessage(), e);
+			throw new MDClientException(e.getMessage(), e);
+		} catch (IOException e) {
+			log.error(e);
+			throw new MDClientException(e.getMessage(), e);
+		} catch (MDConfigurationException e) {
+			log.error(e);
+			throw new MDClientException(e.getMessage(), e);
 		} finally {
 			if ( testMode){
 				System.out.println("Fine elaborazione in Modalità di Test");

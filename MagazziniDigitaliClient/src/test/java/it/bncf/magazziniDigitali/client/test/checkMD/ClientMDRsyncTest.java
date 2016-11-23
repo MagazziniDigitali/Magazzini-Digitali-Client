@@ -18,7 +18,6 @@ public class ClientMDRsyncTest {
 	public static Logger log = Logger.getLogger(ClientMDRsyncTest.class);
 
 	public ClientMDRsyncTest() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public static void main(String[] args){
@@ -63,14 +62,20 @@ public class ClientMDRsyncTest {
 			} else {
 				fileInput = fSend.getAbsolutePath();
 			}
-			cmd = new String[] { Configuration.getValue("md.sendRsync.path"), 
+			cmd = new String[] { 
+//					mdConfiguration.getSoftwareConfigString("rSync.path"),
+//					Configuration.getValue("md.sendRsync.path"), 
 					"-av", 
 					"--progress",
 					fileInput,
 					Configuration.getValue("md.sendRsync") };
 
 			System.out.println();
-			System.out.println("Rsync: "+Configuration.getValue("md.sendRsync.path") +" "+
+			System.out.println("Rsync: "+
+//					mdConfiguration.getSoftwareConfigString("rSync.path")
+//					Configuration.getValue("md.sendRsync.path") 
+//					+
+					" "+
 					"-av --progress "+fileInput+" "+Configuration.getValue("md.sendRsync"));
 			System.out.println();
 			proc = rt.exec(cmd, new String[]{"RSYNC_PASSWORD="+Configuration.getValue("md.sendRsyncPwd")});

@@ -3,16 +3,19 @@
  */
 package it.bncf.magazziniDigitali.client.test.checkMD;
 
+import java.rmi.RemoteException;
+import java.util.GregorianCalendar;
+
+import it.bncf.magazziniDigitali.configuration.IMDConfiguration;
+import it.depositolegale.configuration.MDConfiguration;
+import it.depositolegale.software.ConverterReadInfoInputSoftware;
 import it.depositolegale.www.oggettiDigitali.Digest;
 import it.depositolegale.www.oggettiDigitali.Digest_type;
 import it.depositolegale.www.readInfoInput.ReadInfoInput;
-import it.depositolegale.www.readInfoInput.ReadInfoInputIstituto;
 import it.depositolegale.www.readInfoInput.ReadInfoInputOggettoDigitale;
 import it.depositolegale.www.readInfoOutput.ReadInfoOutput;
+import it.depositolegale.www.software.Software;
 import it.depositolegale.www.webservice_initSendMD.InitSendMDPortTypeProxy;
-
-import java.rmi.RemoteException;
-import java.util.GregorianCalendar;
 
 /**
  * @author massi
@@ -30,10 +33,13 @@ public class initSendMD {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		IMDConfiguration<Software> configuration = null;
+		ConverterReadInfoInputSoftware converterReadInfoInputSoftware = null;
+
 		InitSendMDPortTypeProxy proxy = null;
 		ReadInfoInput input = null;
 		ReadInfoOutput output = null;
-		ReadInfoInputIstituto istituto = null;
+//		ReadInfoInputIstituto istituto = null;
 		ReadInfoInputOggettoDigitale oggettoDigitale = null;
 		Digest[] digest = null;
 		String url = null;
@@ -44,9 +50,14 @@ public class initSendMD {
 		String nomeFile="pippo.tar.gz";
 
 		try {
-			if (args.length==2){
-				url = "http://"+args[0]+"/MagazziniDigitaliServices/services/InitSendMDPort?wsdl";
-				hash=args[1];
+//			if (args.length==2){
+			configuration = new MDConfiguration("TD", 
+					"file:////Users/massi/Desktop/Lavoro/Sorgenti/Bncf/MagazziniDigitaliClient/MagazziniDigitaliClient/configurazione/new", 
+					"G@l@ss1@");
+
+			
+			url = configuration.getSoftwareConfigString("wsdlInitSendMD");
+			hash="1234567890";
 
 				System.out.println("initSendMD: "+url+" sha1: "+hash);
 				proxy = new InitSendMDPortTypeProxy(url);
@@ -55,10 +66,8 @@ public class initSendMD {
 	
 				System.out.println("istituto.id: "+idIstituto);
 				System.out.println("istituto.password: "+pwdIstituto);
-				istituto = new ReadInfoInputIstituto();
-				istituto.setId(idIstituto);
-				istituto.setPassword(pwdIstituto);
-				input.setIstituto(istituto);
+				converterReadInfoInputSoftware = new ConverterReadInfoInputSoftware();
+				input.setSoftware(converterReadInfoInputSoftware.convert(configuration.getSoftware()));
 	
 				System.out.println("lastModified: "+lastModified);
 				oggettoDigitale = new ReadInfoInputOggettoDigitale();
@@ -72,18 +81,18 @@ public class initSendMD {
 				input.setOggettoDigitale(oggettoDigitale);
 				output = proxy.initSendMDOperation(input);
 				if (output != null){
-					if (output.getIstituto() != null){
-						System.out.println("output.getIstituto().getId: "+output.getIstituto().getId());
-						System.out.println("output.getIstituto().getNome: "+output.getIstituto().getNome());
-						System.out.println("output.getIstituto().getPassword: "+output.getIstituto().getPassword());
-						if(output.getIstituto().getStatoIstituto()!= null){
-							System.out.println("output.getIstituto().getStatoIstituto().getValue: "+output.getIstituto().getStatoIstituto().getValue());
-						} else {
-							System.out.println("output.getIstituto().getStatoIstituto == null");
-						}
-					} else {
-						System.out.println("output.getIstituto == null");
-					}
+//					if (output.getIstituto() != null){
+//						System.out.println("output.getIstituto().getId: "+output.getIstituto().getId());
+//						System.out.println("output.getIstituto().getNome: "+output.getIstituto().getNome());
+//						System.out.println("output.getIstituto().getPassword: "+output.getIstituto().getPassword());
+//						if(output.getIstituto().getStatoIstituto()!= null){
+//							System.out.println("output.getIstituto().getStatoIstituto().getValue: "+output.getIstituto().getStatoIstituto().getValue());
+//						} else {
+//							System.out.println("output.getIstituto().getStatoIstituto == null");
+//						}
+//					} else {
+//						System.out.println("output.getIstituto == null");
+//					}
 					if (output.getOggettoDigitale()!=null){
 						System.out.println("output.getOggettoDigitale().getId: "+output.getOggettoDigitale().getId());
 						System.out.println("output.getOggettoDigitale().getNomeFile: "+output.getOggettoDigitale().getNomeFile());
@@ -99,7 +108,7 @@ public class initSendMD {
 				} else {
 					System.out.println("output == null");
 				}
-			}
+//			}
 		} catch (RemoteException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();

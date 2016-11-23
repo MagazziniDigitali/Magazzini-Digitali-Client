@@ -3,14 +3,17 @@
  */
 package it.bncf.magazziniDigitali.client.test.checkMD;
 
-import it.depositolegale.www.endSend.EndSend;
-import it.depositolegale.www.endSend.EndSendReadInfoOutput;
-import it.depositolegale.www.endSend.EndSendReadInfoOutputIstituto;
-import it.depositolegale.www.endSend.EndSendReadInfoOutputOggettoDigitale;
-import it.depositolegale.www.webservice_endSendMD.EndSendMDPortTypeProxy;
-
 import java.rmi.RemoteException;
 import java.util.GregorianCalendar;
+
+import it.bncf.magazziniDigitali.configuration.IMDConfiguration;
+import it.depositolegale.configuration.MDConfiguration;
+import it.depositolegale.software.ConverterEndSendReadInfoOutputSoftware;
+import it.depositolegale.www.endSend.EndSend;
+import it.depositolegale.www.endSend.EndSendReadInfoOutput;
+import it.depositolegale.www.endSend.EndSendReadInfoOutputOggettoDigitale;
+import it.depositolegale.www.software.Software;
+import it.depositolegale.www.webservice_endSendMD.EndSendMDPortTypeProxy;
 
 /**
  * @author massi
@@ -28,25 +31,32 @@ public class EndSendMD {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		IMDConfiguration<Software> configuration = null;
+		ConverterEndSendReadInfoOutputSoftware converterReadInfoInputSoftware = null;
+
 		EndSendMDPortTypeProxy proxy = null;
 		EndSend endSend = null;
 		EndSendReadInfoOutput readInfoOutput = null;
 		
 //		ReadInfoOutput output = null;
-		EndSendReadInfoOutputIstituto istituto = null;
+//		EndSendReadInfoOutputIstituto istituto = null;
 		EndSendReadInfoOutputOggettoDigitale oggettoDigitale = null;
 //		Digest[] digest = null;
 		String url = null;
-		String idOggettoDigitale = null;
+		String idOggettoDigitale = "ff989e7e-dd39-4054-b1ef-bb47377be3d5";
 		String idIstituto = "IBNF1";
 		String pwdIstituto = "222222";
 		GregorianCalendar lastModified = new GregorianCalendar();
 		String nomeFile="pippo.tar.gz";
 
 		try {
-			if (args.length==2){
-				url = "http://"+args[0]+"/MagazziniDigitaliServices/services/EndSendMDPort?wsdl";
-				idOggettoDigitale=args[1];
+//			if (args.length==2){
+			configuration = new MDConfiguration("TD", 
+					"file:////Users/massi/Desktop/Lavoro/Sorgenti/Bncf/MagazziniDigitaliClient/MagazziniDigitaliClient/configurazione/new", 
+					"G@l@ss1@");
+
+			
+			url = configuration.getSoftwareConfigString("wsdlEndSendMD");
 
 				System.out.println("initSendMD: "+url+" idOggettoDigitale: "+idOggettoDigitale);
 				proxy = new EndSendMDPortTypeProxy(url);
@@ -57,10 +67,8 @@ public class EndSendMD {
 				readInfoOutput = new EndSendReadInfoOutput();
 				System.out.println("istituto.id: "+idIstituto);
 				System.out.println("istituto.password: "+pwdIstituto);
-				istituto = new EndSendReadInfoOutputIstituto();
-				istituto.setId(idIstituto);
-				istituto.setPassword(pwdIstituto);
-				readInfoOutput.setIstituto(istituto);
+				converterReadInfoInputSoftware = new ConverterEndSendReadInfoOutputSoftware();
+				readInfoOutput.setSoftware(converterReadInfoInputSoftware.convert(configuration.getSoftware()));
 	
 				System.out.println("lastModified: "+lastModified);
 				oggettoDigitale = new EndSendReadInfoOutputOggettoDigitale();
@@ -106,7 +114,7 @@ public class EndSendMD {
 //				} else {
 //					System.out.println("output == null");
 //				}
-			}
+//			}
 		} catch (RemoteException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();

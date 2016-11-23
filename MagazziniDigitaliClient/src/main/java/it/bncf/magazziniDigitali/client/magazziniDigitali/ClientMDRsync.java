@@ -4,16 +4,6 @@
 package it.bncf.magazziniDigitali.client.magazziniDigitali;
 
 
-import it.depositolegale.www.endSend.EndSend;
-import it.depositolegale.www.endSend.EndSendReadInfoOutput;
-import it.depositolegale.www.endSend.EndSendReadInfoOutputIstituto;
-import it.depositolegale.www.endSend.EndSendReadInfoOutputOggettoDigitale;
-import it.depositolegale.www.oggettiDigitali.StatoOggettoDigitale_type;
-import it.depositolegale.www.readInfoOutput.Errori;
-import it.depositolegale.www.readInfoOutput.ReadInfoOutput;
-import it.depositolegale.www.webservice_endSendMD.EndSendMDPortTypeProxy;
-import it.depositolegale.www.webservice_initSendMD.InitSendMDPortTypeProxy;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,10 +14,22 @@ import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
 import java.util.GregorianCalendar;
 
+import org.apache.log4j.Logger;
+
+import it.bncf.magazziniDigitali.configuration.IMDConfiguration;
+import it.bncf.magazziniDigitali.configuration.exception.MDConfigurationException;
+import it.depositolegale.software.ConverterEndSendReadInfoOutputSoftware;
+import it.depositolegale.www.endSend.EndSend;
+import it.depositolegale.www.endSend.EndSendReadInfoOutput;
+import it.depositolegale.www.endSend.EndSendReadInfoOutputOggettoDigitale;
+import it.depositolegale.www.oggettiDigitali.StatoOggettoDigitale_type;
+import it.depositolegale.www.readInfoOutput.Errori;
+import it.depositolegale.www.readInfoOutput.ReadInfoOutput;
+import it.depositolegale.www.software.Software;
+import it.depositolegale.www.webservice_endSendMD.EndSendMDPortTypeProxy;
+import it.depositolegale.www.webservice_initSendMD.InitSendMDPortTypeProxy;
 import mx.randalf.configuration.Configuration;
 import mx.randalf.configuration.exception.ConfigurationException;
-
-import org.apache.log4j.Logger;
 
 /**
  * @author massi
@@ -52,7 +54,7 @@ public class ClientMDRsync extends ClientMD{
 	 * @see it.bncf.magazziniDigitali.client.magazziniDigitali.ClientMD#send(java.io.File,
 	 *      java.lang.String, java.util.GregorianCalendar)
 	 */
-	private void send(File fSend, String hash, GregorianCalendar lastModified)
+	private void send(File fSend, String hash, GregorianCalendar lastModified, IMDConfiguration<?> configuration)
 			throws ClientMDException {
 		Runtime rt = null;
 		Process proc = null;
@@ -75,13 +77,19 @@ public class ClientMDRsync extends ClientMD{
 			} else {
 				fileInput = fSend.getAbsolutePath();
 			}
-			cmd = new String[] { Configuration.getValue("md.sendRsync.path"), 
+			cmd = new String[] { 
+//					configuration.getSoftwareConfigString("rSync.path"),
+					Configuration.getValue("md.sendRsync.path"), 
 					"-av", 
 					"--progress",
 					fileInput,
-					Configuration.getValue("md.sendRsync") };
+					configuration.getSoftwareConfigString("sendRsync") };
+//					Configuration.getValue("md.sendRsync") };
 
-			proc = rt.exec(cmd, new String[]{"RSYNC_PASSWORD="+Configuration.getValue("md.sendRsyncPwd")});
+			proc = rt.exec(cmd, new String[]{"RSYNC_PASSWORD="+
+					configuration.getSoftwareConfigString("sendRsyncPwd")
+//					Configuration.getValue("md.sendRsyncPwd")
+					});
 
 			stderr = proc.getErrorStream();
 			isrErr = new InputStreamReader(stderr);
@@ -167,6 +175,8 @@ public class ClientMDRsync extends ClientMD{
 			throw new ClientMDException(e.getMessage(), e);
 		} catch (InterruptedException e) {
 			throw new ClientMDException(e.getMessage(), e);
+		} catch (MDConfigurationException e) {
+			throw new ClientMDException(e.getMessage(), e);
 		} finally {
 			try {
 				if (brStd!= null){
@@ -195,7 +205,7 @@ public class ClientMDRsync extends ClientMD{
 	}
 
 	@Override
-	protected void check(ReadInfoOutput checkMD) throws ClientMDException {
+	protected void check(ReadInfoOutput checkMD, IMDConfiguration<Software> configuration) throws ClientMDException {
 		log.info("StatoOggettoDigitale: "+checkMD
 				.getOggettoDigitale()
 				.getStatoOggettoDigitale());
@@ -214,11 +224,11 @@ public class ClientMDRsync extends ClientMD{
 				// L'oggetto non risulta essere inviato
 				// in Magazzini Digitali, procedo con
 				// l'invio
-				checkMD = initSendMD(checkMD);
+				checkMD = initSendMD(checkMD, configuration);
 			}
 			try {
-				send(fSend, hash, lastModified);
-				endSendMD(checkMD, true, null);
+				send(fSend, hash, lastModified, configuration);
+				endSendMD(checkMD, true, null, configuration);
 				sender=true;
 			} catch (ClientMDException e) {
 				log.error(
@@ -228,7 +238,7 @@ public class ClientMDRsync extends ClientMD{
 								+ e.getMessage()
 								+ "]", e);
 				endSendMD(checkMD, false,
-						e.getMessage());
+						e.getMessage(), configuration);
 			}
 		}
 	}
@@ -240,19 +250,21 @@ public class ClientMDRsync extends ClientMD{
 	 * @return Identificativo temporaneo associato all'oggetto
 	 * @throws ClientMDException 
 	 */
-	private ReadInfoOutput initSendMD(ReadInfoOutput input) throws ClientMDException {
+	private ReadInfoOutput initSendMD(ReadInfoOutput input, 
+			IMDConfiguration<Software> configuration) throws ClientMDException {
 		InitSendMDPortTypeProxy proxy = null;
 		ReadInfoOutput output = null;
 
 		try {
 			proxy = new InitSendMDPortTypeProxy(
-					Configuration.getValue("md.wsdlInitSendMD"));
+					configuration.getSoftwareConfigString("wsdlInitSendMD"));
+//					Configuration.getValue("md.wsdlInitSendMD"));
 
 			output = proxy.initSendMDOperation(readInfoOutputToInput(input));
 		} catch (RemoteException e) {
 			log.error(e.getMessage(), e);
 			throw new ClientMDException(e.getMessage(), e);
-		} catch (ConfigurationException e) {
+		} catch (MDConfigurationException e) {
 			log.error(e.getMessage(), e);
 			throw new ClientMDException(e.getMessage(), e);
 		}
@@ -271,23 +283,24 @@ public class ClientMDRsync extends ClientMD{
 	 *            Eventuale messaggio di errore
 	 * @throws ClientMDException 
 	 */
-	private void endSendMD(ReadInfoOutput input, boolean esito, String msgErr) throws ClientMDException {
+	private void endSendMD(ReadInfoOutput input, boolean esito, 
+			String msgErr, IMDConfiguration<Software> configuration) throws ClientMDException {
 		EndSendMDPortTypeProxy proxy = null;
 		EndSend endSend = null;
 		Errori[] errori = null;
+		ConverterEndSendReadInfoOutputSoftware converterEndSendReadInfoInputSoftware = null;
 
 		try {
 			proxy = new EndSendMDPortTypeProxy(
-					Configuration.getValue("md.wsdlEndSendMD"));
+					configuration.getSoftwareConfigString("wsdlEndSendMD"));
+//					Configuration.getValue("md.wsdlEndSendMD"));
 
 			endSend = new EndSend();
+			converterEndSendReadInfoInputSoftware = new ConverterEndSendReadInfoOutputSoftware();
+
 			endSend.setReadInfoOutput(
 					new EndSendReadInfoOutput(
-							new EndSendReadInfoOutputIstituto(
-									input.getIstituto().getId(), 
-									input.getIstituto().getNome(), 
-									input.getIstituto().getPassword(), 
-									input.getIstituto().getStatoIstituto()) , 
+							converterEndSendReadInfoInputSoftware.convert(input.getSoftware()),
 							new EndSendReadInfoOutputOggettoDigitale(
 									input.getOggettoDigitale().getId(), 
 									input.getOggettoDigitale().getNomeFile(), 
@@ -307,7 +320,7 @@ public class ClientMDRsync extends ClientMD{
 		} catch (RemoteException e) {
 			log.error(e.getMessage(), e);
 			throw new ClientMDException(e.getMessage(), e);
-		} catch (ConfigurationException e) {
+		} catch (MDConfigurationException e) {
 			log.error(e.getMessage(), e);
 			throw new ClientMDException(e.getMessage(), e);
 		}

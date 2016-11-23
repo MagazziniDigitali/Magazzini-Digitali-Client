@@ -35,4 +35,9 @@
     <appender-ref ref="STDERR"/>
   </category>
   
+  <category name="it.depositolegale">
+    <level value="INFO"/>
+    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="STDERR"/>
+  </category>
 </log4j:configuration>

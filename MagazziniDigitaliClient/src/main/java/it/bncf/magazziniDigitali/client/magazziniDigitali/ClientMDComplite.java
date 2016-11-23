@@ -3,18 +3,20 @@
  */
 package it.bncf.magazziniDigitali.client.magazziniDigitali;
 
+import it.bncf.magazziniDigitali.configuration.IMDConfiguration;
+import it.bncf.magazziniDigitali.configuration.exception.MDConfigurationException;
 import it.depositolegale.www.oggettiDigitali.StatoOggettoDigitale_type;
 import it.depositolegale.www.readInfoOutput.ReadInfoOutput;
+import it.depositolegale.www.software.Software;
 import it.depositolegale.www.webservice_confirmDelMD.ConfirmDelMDPortTypeProxy;
+import mx.randalf.configuration.Configuration;
+import mx.randalf.configuration.exception.ConfigurationException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
-
-import mx.randalf.configuration.Configuration;
-import mx.randalf.configuration.exception.ConfigurationException;
 
 import org.apache.log4j.Logger;
 
@@ -38,7 +40,7 @@ public class ClientMDComplite extends ClientMD {
 	}
 
 	@Override
-	protected void check(ReadInfoOutput checkMD) throws ClientMDException {
+	protected void check(ReadInfoOutput checkMD, IMDConfiguration<Software> configuration) throws ClientMDException {
 		log.info("NomeFile: "+checkMD.getOggettoDigitale().getNomeFile()+" StatoOggettoDigitale: "+checkMD.getOggettoDigitale().getStatoOggettoDigitale());
 		if (checkMD.getOggettoDigitale().getStatoOggettoDigitale()
 				.equals(StatoOggettoDigitale_type.ARCHIVIATO)) {
@@ -55,7 +57,7 @@ public class ClientMDComplite extends ClientMD {
 								"Riscontrato un problam nella cancellazione del file ["
 										+ fSend.getAbsolutePath() + "]");
 					}
-					confirmDelMD(checkMD);
+					confirmDelMD(checkMD, configuration);
 					completato = true;
 				}
 			} catch (ConfigurationException e) {
@@ -70,18 +72,19 @@ public class ClientMDComplite extends ClientMD {
 	 * 
 	 * @throws ClientMDException
 	 */
-	private void confirmDelMD(ReadInfoOutput input) throws ClientMDException {
+	private void confirmDelMD(ReadInfoOutput input, IMDConfiguration<Software> configuration) throws ClientMDException {
 		ConfirmDelMDPortTypeProxy proxy = null;
 
 		try {
 			proxy = new ConfirmDelMDPortTypeProxy(
-					Configuration.getValue("md.wsdlConfirmDelMD"));
+					configuration.getSoftwareConfigString("wsdlConfirmDelMD"));
+//					Configuration.getValue("md.wsdlConfirmDelMD"));
 
 			proxy.confirmDelMDOperation(readInfoOutputToInput(input));
 		} catch (RemoteException e) {
 			log.error(e.getMessage(), e);
 			throw new ClientMDException(e.getMessage(), e);
-		} catch (ConfigurationException e) {
+		} catch (MDConfigurationException e) {
 			log.error(e.getMessage(), e);
 			throw new ClientMDException(e.getMessage(), e);
 		}
