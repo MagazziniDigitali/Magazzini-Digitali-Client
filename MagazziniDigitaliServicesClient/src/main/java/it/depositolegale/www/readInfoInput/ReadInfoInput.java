@@ -8,7 +8,7 @@
 package it.depositolegale.www.readInfoInput;
 
 public class ReadInfoInput  implements java.io.Serializable {
-    private it.depositolegale.www.readInfoInput.ReadInfoInputIstituto istituto;
+    private it.depositolegale.www.readInfoInput.ReadInfoInputSoftware software;
 
     private it.depositolegale.www.readInfoInput.ReadInfoInputOggettoDigitale oggettoDigitale;
 
@@ -16,30 +16,30 @@ public class ReadInfoInput  implements java.io.Serializable {
     }
 
     public ReadInfoInput(
-           it.depositolegale.www.readInfoInput.ReadInfoInputIstituto istituto,
+           it.depositolegale.www.readInfoInput.ReadInfoInputSoftware software,
            it.depositolegale.www.readInfoInput.ReadInfoInputOggettoDigitale oggettoDigitale) {
-           this.istituto = istituto;
+           this.software = software;
            this.oggettoDigitale = oggettoDigitale;
     }
 
 
     /**
-     * Gets the istituto value for this ReadInfoInput.
+     * Gets the software value for this ReadInfoInput.
      * 
-     * @return istituto
+     * @return software
      */
-    public it.depositolegale.www.readInfoInput.ReadInfoInputIstituto getIstituto() {
-        return istituto;
+    public it.depositolegale.www.readInfoInput.ReadInfoInputSoftware getSoftware() {
+        return software;
     }
 
 
     /**
-     * Sets the istituto value for this ReadInfoInput.
+     * Sets the software value for this ReadInfoInput.
      * 
-     * @param istituto
+     * @param software
      */
-    public void setIstituto(it.depositolegale.www.readInfoInput.ReadInfoInputIstituto istituto) {
-        this.istituto = istituto;
+    public void setSoftware(it.depositolegale.www.readInfoInput.ReadInfoInputSoftware software) {
+        this.software = software;
     }
 
 
@@ -74,9 +74,9 @@ public class ReadInfoInput  implements java.io.Serializable {
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
-            ((this.istituto==null && other.getIstituto()==null) || 
-             (this.istituto!=null &&
-              this.istituto.equals(other.getIstituto()))) &&
+            ((this.software==null && other.getSoftware()==null) || 
+             (this.software!=null &&
+              this.software.equals(other.getSoftware()))) &&
             ((this.oggettoDigitale==null && other.getOggettoDigitale()==null) || 
              (this.oggettoDigitale!=null &&
               this.oggettoDigitale.equals(other.getOggettoDigitale())));
@@ -91,8 +91,8 @@ public class ReadInfoInput  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
-        if (getIstituto() != null) {
-            _hashCode += getIstituto().hashCode();
+        if (getSoftware() != null) {
+            _hashCode += getSoftware().hashCode();
         }
         if (getOggettoDigitale() != null) {
             _hashCode += getOggettoDigitale().hashCode();
@@ -108,9 +108,9 @@ public class ReadInfoInput  implements java.io.Serializable {
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://www.depositolegale.it/readInfoInput", ">readInfoInput"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("istituto");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/readInfoInput", "istituto"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.depositolegale.it/readInfoInput", ">>readInfoInput>istituto"));
+        elemField.setFieldName("software");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/readInfoInput", "software"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.depositolegale.it/readInfoInput", ">>readInfoInput>software"));
         elemField.setNillable(true);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
