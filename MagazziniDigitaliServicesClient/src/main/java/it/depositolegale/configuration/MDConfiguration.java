@@ -21,7 +21,6 @@ import it.bncf.magazziniDigitali.database.entity.MDNodi;
 import it.bncf.magazziniDigitali.database.entity.MDRigths;
 import it.bncf.magazziniDigitali.database.entity.MDSoftware;
 import it.depositolegale.www.login.Authentication;
-import it.depositolegale.www.nodi.Nodo;
 import it.depositolegale.www.software.Software;
 import it.depositolegale.www.software.SoftwareConfigNodo;
 import it.depositolegale.www.webservice_authenticationSoftware.AuthenticationSoftwarePortTypeProxy;
@@ -101,15 +100,17 @@ public class MDConfiguration extends IMDConfiguration<Software> {
 	 * @see it.bncf.magazziniDigitali.configuration.IMDConfiguration#readConfiguration()
 	 */
 	@Override
-	protected void readConfiguration() throws MDConfigurationException {
+	protected void readConfiguration(String ipClient) throws MDConfigurationException {
 		String url = null;
 		AuthenticationSoftwarePortTypeProxy proxy = null;
 		Authentication authentication = null;
 		SHA256Tools sha256Tools = null;
 		String password = null;
+		String msgError = "";
 		
 		try {
 			url = Configuration.getValue("software.URLAuthentication");
+			System.out.println("URL: "+url);
 			//"http://"+args[0]+"/MagazziniDigitaliServices/services/AuthenticationSoftwarePort?wsdl";
 			proxy = new AuthenticationSoftwarePortTypeProxy(url);
 
@@ -124,6 +125,13 @@ public class MDConfiguration extends IMDConfiguration<Software> {
 			}
 			authentication.setPassword(password);
 			this.software = proxy.authenticationSoftwareOperation(authentication);
+			if (this.software.getErrorMsg() != null &&
+					this.software.getErrorMsg().length>0){
+				for (int x=0;x <this.software.getErrorMsg().length; x++){
+					msgError += (x>0?"\n":"")+this.software.getErrorMsg(x).getMsgError();
+				}
+				throw new MDConfigurationException(msgError);
+			}
 		} catch (NoSuchAlgorithmException e) {
 			log.error(e.getMessage(), e);
 			throw new MDConfigurationException(e.getMessage(), e);

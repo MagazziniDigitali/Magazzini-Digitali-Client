@@ -45,7 +45,7 @@ public class MDUtenti {
 	}
 
 	/**
-	 * @see it.bncf.magazziniDigitali.configuration.IMDConfiguration#readConfiguration()
+	 * 
 	 */
 	public Utenti checkUtenti(IMDConfiguration<Software> configuration, String ipClient, String login, String loginPassword) throws MDConfigurationException {
 		String url = null;
