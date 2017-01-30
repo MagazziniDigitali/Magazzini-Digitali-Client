@@ -13,6 +13,7 @@ import mx.randalf.configuration.Configuration;
 import mx.randalf.configuration.exception.ConfigurationException;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -41,6 +42,7 @@ public class ClientMDComplite extends ClientMD {
 
 	@Override
 	protected void check(ReadInfoOutput checkMD, IMDConfiguration<Software> configuration) throws ClientMDException {
+		File folder = null;
 		log.info("NomeFile: "+checkMD.getOggettoDigitale().getNomeFile()+" StatoOggettoDigitale: "+checkMD.getOggettoDigitale().getStatoOggettoDigitale());
 		if (checkMD.getOggettoDigitale().getStatoOggettoDigitale()
 				.equals(StatoOggettoDigitale_type.ARCHIVIATO)) {
@@ -57,11 +59,52 @@ public class ClientMDComplite extends ClientMD {
 								"Riscontrato un problam nella cancellazione del file ["
 										+ fSend.getAbsolutePath() + "]");
 					}
+					folder = new File(fSend.getParentFile().getAbsolutePath()+
+							File.separator+
+							fSend.getName().replace(".tgz", ""));
+					if (folder.exists()){
+						delFolder(folder);
+					}
 					confirmDelMD(checkMD, configuration);
 					completato = true;
 				}
 			} catch (ConfigurationException e) {
 				throw new ClientMDException(e.getMessage(), e);
+			}
+		}
+	}
+
+	private void delFolder(File folder) throws ClientMDException{
+		File[] fl = null;
+		if (folder.exists() && folder.isDirectory()){
+			fl = folder.listFiles(new FileFilter() {
+				
+				@Override
+				public boolean accept(File pathname) {
+					boolean result = false;
+					if (! pathname.getName().startsWith(".")){
+						result = true;
+					}
+					return result;
+				}
+			});
+			
+			for (File newFolder: fl){
+				if (newFolder.isDirectory()){
+					delFolder(newFolder);
+				} else {
+					if (!newFolder.delete()) {
+						throw new ClientMDException(
+								"Riscontrato un problam nella cancellazione del file ["
+										+ newFolder.getAbsolutePath() + "]");
+					}
+
+				}
+			}
+			if (!folder.delete()) {
+				throw new ClientMDException(
+						"Riscontrato un problam nella cancellazione del file ["
+								+ folder.getAbsolutePath() + "]");
 			}
 		}
 	}

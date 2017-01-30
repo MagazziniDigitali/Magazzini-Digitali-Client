@@ -15,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -62,6 +63,7 @@ public class MDClient {
 						System.out.println("Indicare i seguenti parametri:");
 						System.out.println("1) Path del file di configurazione (Opzionale)");
 						System.out.println("2) --test (Opzionale) indica l'utilizzo in modalità Test");
+						System.exit(0);
 					} else if (args[x].equals("--test")){
 						testMode = true;
 					} else {
@@ -89,12 +91,17 @@ public class MDClient {
 		
 		try {
 			
-			System.out.println("Indicare la password per la connessione con MD");
 			
-			isr = new InputStreamReader(System.in);
-			br = new BufferedReader(isr);
-			sysPassword = br.readLine();
-
+			if (System.getenv("MDCLIENT_PWD") != null){
+				sysPassword = System.getenv("MDCLIENT_PWD");
+			} else {
+				System.out.println("Indicare la password per la connessione con MD");
+				
+				isr = new InputStreamReader(System.in);
+				br = new BufferedReader(isr);
+				sysPassword = br.readLine();
+			}
+			
 			configuration = new MDConfiguration("TD", "file:///"+pathProperties, sysPassword);
 			if ( testMode){
 				System.out.println("Inizio elaborazione in Modalità di Test");

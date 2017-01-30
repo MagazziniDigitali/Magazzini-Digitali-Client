@@ -26,14 +26,14 @@ public class MDCheckComplite extends MDCheck {
 	@Override
 	protected boolean analize(File fileTarGz, IMDConfiguration<Software> configuration) throws NoSuchAlgorithmException,
 			FileNotFoundException, IOException, ClientMDException {
-		ClientMDComplite clientMDRsync = null;
+		ClientMDComplite clientMDComplite = null;
 		boolean completato = false;
 
 		try {
-			clientMDRsync = new ClientMDComplite(fileTarGz);
-			clientMDRsync.execute(configuration);
-			completato = clientMDRsync.isCompletato();
-			log.info(getName()+" Completato ["+clientMDRsync.isCompletato()+"] Inviato ["+clientMDRsync.isSender()+"]");
+			clientMDComplite = new ClientMDComplite(fileTarGz);
+			clientMDComplite.execute(configuration);
+			completato = clientMDComplite.isCompletato();
+			log.info(getName()+" Completato ["+clientMDComplite.isCompletato()+"] Inviato ["+clientMDComplite.isSender()+"]");
 		} catch (NoSuchAlgorithmException e) {
 			throw e;
 		} catch (FileNotFoundException e) {
@@ -53,10 +53,25 @@ public class MDCheckComplite extends MDCheck {
 
 	@Override
 	protected File genFileTarGz(File pathDescriptati, String fileName) {
-		return new File(
+		File fOut = null;
+		
+		fOut = new File(
 				pathDescriptati.getAbsolutePath()
+				+ File.separator + fileName
+				+ ".tar.gz");
+		if (!fOut.exists()){
+			fOut = new File(
+					pathDescriptati.getAbsolutePath()
+					+ File.separator + fileName
+					+ ".tgz");
+			if (!fOut.exists()){
+				fOut = new File(
+						pathDescriptati.getAbsolutePath()
 						+ File.separator + fileName
-						+ ".tar.gz");
+						+ ".tar");
+			}
+		}
+		return fOut;
 	}
 
 }
