@@ -240,7 +240,16 @@ public abstract class MDCheck extends Thread {
 							+ "] risulta completamente elaborato");
 					if (getName().equals("RSync")){
 						try {
-							Thread.sleep(5000);
+							System.gc();
+							Thread.sleep(15000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+					if (getName().equals("Complete")){
+						try {
+							System.gc();
+							Thread.sleep(10000);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
