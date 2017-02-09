@@ -18,17 +18,18 @@ import it.depositolegale.www.software.SoftwareConfig;
 import it.depositolegale.www.test.authenticationSoftware.AuthenticationSoftwareImplement;
 import it.depositolegale.www.webservice_writeEventNBN.WriteEventNBNPortTypeProxy;
 import it.depositolegale.www.writeEventNBN.WriteEventNBN;
-import it.depositolegale.www.writeEventNBN.WriteEventNBN1;
-import it.depositolegale.www.writeEventNBN.WriteEventNBN1Software;
-import it.depositolegale.www.writeEventNBN.WriteEventNBN1SoftwareAuthentication;
-import it.depositolegale.www.writeEventNBN.WriteEventNBN1SoftwareIstituzione;
-import it.depositolegale.www.writeEventNBN.WriteEventNBN1SoftwareIstituzioneApiUtente;
-import it.depositolegale.www.writeEventNBN.WriteEventNBN1SoftwareRigth;
 import it.depositolegale.www.writeEventNBN.WriteEventNBNSoftware;
 import it.depositolegale.www.writeEventNBN.WriteEventNBNSoftwareAuthentication;
 import it.depositolegale.www.writeEventNBN.WriteEventNBNSoftwareIstituzione;
 import it.depositolegale.www.writeEventNBN.WriteEventNBNSoftwareIstituzioneApiUtente;
 import it.depositolegale.www.writeEventNBN.WriteEventNBNSoftwareRigth;
+import it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutput;
+import it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutputWriteEventNBN;
+import it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutputWriteEventNBNSoftware;
+import it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutputWriteEventNBNSoftwareAuthentication;
+import it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutputWriteEventNBNSoftwareIstituzione;
+import it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutputWriteEventNBNSoftwareIstituzioneApiUtente;
+import it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutputWriteEventNBNSoftwareRigth;
 
 /**
  * @author massi
@@ -87,7 +88,7 @@ public class WriteEventNBNTest
 
 	public void esegui(String host, String codiceNBN, String urlOriginale, Calendar dataInizioElab) {
 		WriteEventNBNPortTypeProxy proxy = null;
-		WriteEventNBN1 output = null;
+		WriteEventNBNOutput output = null;
 		String url = null;
 		Software software = null;
 
@@ -113,16 +114,24 @@ public class WriteEventNBNTest
 		}
 	}
 
-	private void print(WriteEventNBN1 output) {
-		print(output.getSoftware(),"");
-		print("CodiceNBN ", output.getCodiceNBN(), "");
-		print("UrlOriginale ", output.getUrlOriginale(), "");
-		print("DataInizioElab ", output.getDataInizioElab(), "");
+	private void print(WriteEventNBNOutput output) {
+		print(output.getWriteEventNBN(),"");
 		print("Esito ", output.getEsito().getValue(), "");
 		print(output.getErrorMsg(),"");
 	}
 
-	private void print(WriteEventNBN1Software software, String prefix) {
+	private void print(WriteEventNBNOutputWriteEventNBN output, String prefix) {
+		if (output != null) {
+			System.out.println(prefix + "WriteEventNBN");
+			prefix += "\t";
+			print(output.getSoftware(), prefix);
+			print("CodiceNBN ", output.getCodiceNBN(), "");
+			print("UrlOriginale ", output.getUrlOriginale(), "");
+			print("DataInizioElab ", output.getDataInizioElab(), "");
+		}
+	}
+
+	private void print(WriteEventNBNOutputWriteEventNBNSoftware software, String prefix) {
 		if (software != null) {
 			System.out.println(prefix + "UserInputSoftware");
 			prefix += "\t";
@@ -136,7 +145,7 @@ public class WriteEventNBNTest
 		}
 	}
 
-	private void print(WriteEventNBN1SoftwareRigth rigth, String prefix) {
+	private void print(WriteEventNBNOutputWriteEventNBNSoftwareRigth rigth, String prefix) {
 		if (rigth != null) {
 			System.out.println(prefix + "UserInputSoftwareRigth");
 			prefix += "\t";
@@ -146,7 +155,7 @@ public class WriteEventNBNTest
 		}
 	}
 
-	private void print(WriteEventNBN1SoftwareIstituzione istituzione, String prefix) {
+	private void print(WriteEventNBNOutputWriteEventNBNSoftwareIstituzione istituzione, String prefix) {
 		if (istituzione != null) {
 			System.out.println(prefix + "UserInputSoftwareIstituzione");
 			prefix += "\t";
@@ -163,7 +172,7 @@ public class WriteEventNBNTest
 		}
 	}
 
-	private void print(WriteEventNBN1SoftwareIstituzioneApiUtente apiUtente, String prefix) {
+	private void print(WriteEventNBNOutputWriteEventNBNSoftwareIstituzioneApiUtente apiUtente, String prefix) {
 		if (apiUtente != null) {
 			System.out.println(prefix + "UserInputSoftwareIstituzioneApiUtente");
 			prefix += "\t";
@@ -172,7 +181,7 @@ public class WriteEventNBNTest
 		}
 	}
 
-	private void print(WriteEventNBN1SoftwareAuthentication authentication, String prefix) {
+	private void print(WriteEventNBNOutputWriteEventNBNSoftwareAuthentication authentication, String prefix) {
 		if (authentication != null) {
 			System.out.println(prefix + "UserInputSoftwareAuthentication");
 			prefix += "\t";

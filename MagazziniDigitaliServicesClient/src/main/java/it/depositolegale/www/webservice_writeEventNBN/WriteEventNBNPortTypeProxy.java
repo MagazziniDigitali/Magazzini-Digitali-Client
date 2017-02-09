@@ -44,7 +44,7 @@ public class WriteEventNBNPortTypeProxy implements it.depositolegale.www.webserv
     return writeEventNBNPortType;
   }
   
-  public it.depositolegale.www.writeEventNBN.WriteEventNBN1 writeEventNBNOperation(it.depositolegale.www.writeEventNBN.WriteEventNBN writeEventNBN) throws java.rmi.RemoteException{
+  public it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutput writeEventNBNOperation(it.depositolegale.www.writeEventNBN.WriteEventNBN writeEventNBN) throws java.rmi.RemoteException{
     if (writeEventNBNPortType == null)
       _initWriteEventNBNPortTypeProxy();
     return writeEventNBNPortType.writeEventNBNOperation(writeEventNBN);

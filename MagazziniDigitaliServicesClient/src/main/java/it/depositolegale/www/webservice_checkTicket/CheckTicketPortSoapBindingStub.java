@@ -1,13 +1,13 @@
 /**
- * WriteEventNBNPortSoapBindingStub.java
+ * CheckTicketPortSoapBindingStub.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
 
-package it.depositolegale.www.webservice_writeEventNBN;
+package it.depositolegale.www.webservice_checkTicket;
 
-public class WriteEventNBNPortSoapBindingStub extends org.apache.axis.client.Stub implements it.depositolegale.www.webservice_writeEventNBN.WriteEventNBNPortType {
+public class CheckTicketPortSoapBindingStub extends org.apache.axis.client.Stub implements it.depositolegale.www.webservice_checkTicket.CheckTicketPortType {
     private java.util.Vector cachedSerClasses = new java.util.Vector();
     private java.util.Vector cachedSerQNames = new java.util.Vector();
     private java.util.Vector cachedSerFactories = new java.util.Vector();
@@ -24,28 +24,28 @@ public class WriteEventNBNPortSoapBindingStub extends org.apache.axis.client.Stu
         org.apache.axis.description.OperationDesc oper;
         org.apache.axis.description.ParameterDesc param;
         oper = new org.apache.axis.description.OperationDesc();
-        oper.setName("WriteEventNBNOperation");
-        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", "writeEventNBN"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", ">writeEventNBN"), it.depositolegale.www.writeEventNBN.WriteEventNBN.class, false, false);
+        oper.setName("CheckTicketOperation");
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicket", "checkTicket"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicket", ">checkTicket"), it.depositolegale.www.checkTicket.CheckTicket.class, false, false);
         oper.addParameter(param);
-        oper.setReturnType(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", ">writeEventNBNOutput"));
-        oper.setReturnClass(it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutput.class);
-        oper.setReturnQName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", "writeEventNBNOutput"));
+        oper.setReturnType(new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicketOutput", ">checkTicketOutput"));
+        oper.setReturnClass(it.depositolegale.www.checkTicketOutput.CheckTicketOutput.class);
+        oper.setReturnQName(new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicketOutput", "checkTicketOutput"));
         oper.setStyle(org.apache.axis.constants.Style.DOCUMENT);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
         _operations[0] = oper;
 
     }
 
-    public WriteEventNBNPortSoapBindingStub() throws org.apache.axis.AxisFault {
+    public CheckTicketPortSoapBindingStub() throws org.apache.axis.AxisFault {
          this(null);
     }
 
-    public WriteEventNBNPortSoapBindingStub(java.net.URL endpointURL, javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
+    public CheckTicketPortSoapBindingStub(java.net.URL endpointURL, javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
          this(service);
          super.cachedEndpoint = endpointURL;
     }
 
-    public WriteEventNBNPortSoapBindingStub(javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
+    public CheckTicketPortSoapBindingStub(javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
         if (service == null) {
             super.service = new org.apache.axis.client.Service();
         } else {
@@ -65,6 +65,104 @@ public class WriteEventNBNPortSoapBindingStub extends org.apache.axis.client.Stu
             java.lang.Class simpledf = org.apache.axis.encoding.ser.SimpleDeserializerFactory.class;
             java.lang.Class simplelistsf = org.apache.axis.encoding.ser.SimpleListSerializerFactory.class;
             java.lang.Class simplelistdf = org.apache.axis.encoding.ser.SimpleListDeserializerFactory.class;
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicketOutput", ">>>>>checkTicketOutput>checkTicket>software>istituzione>apiUtente");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.checkTicketOutput.CheckTicketOutputCheckTicketSoftwareIstituzioneApiUtente.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicketOutput", ">>>>checkTicketOutput>checkTicket>software>authentication");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.checkTicketOutput.CheckTicketOutputCheckTicketSoftwareAuthentication.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicketOutput", ">>>>checkTicketOutput>checkTicket>software>istituzione");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.checkTicketOutput.CheckTicketOutputCheckTicketSoftwareIstituzione.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicketOutput", ">>>>checkTicketOutput>checkTicket>software>rigth");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.checkTicketOutput.CheckTicketOutputCheckTicketSoftwareRigth.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicketOutput", ">>>checkTicketOutput>checkTicket>software");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.checkTicketOutput.CheckTicketOutputCheckTicketSoftware.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicketOutput", ">>checkTicketOutput>checkTicket");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.checkTicketOutput.CheckTicketOutputCheckTicket.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicketOutput", ">>checkTicketOutput>tipo");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.checkTicketOutput.CheckTicketOutputTipo.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(enumsf);
+            cachedDeserFactories.add(enumdf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicketOutput", ">checkTicketOutput");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.checkTicketOutput.CheckTicketOutput.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicket", ">>>>checkTicket>software>istituzione>apiUtente");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.checkTicket.CheckTicketSoftwareIstituzioneApiUtente.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicket", ">>>checkTicket>software>authentication");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.checkTicket.CheckTicketSoftwareAuthentication.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicket", ">>>checkTicket>software>istituzione");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.checkTicket.CheckTicketSoftwareIstituzione.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicket", ">>>checkTicket>software>rigth");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.checkTicket.CheckTicketSoftwareRigth.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicket", ">>checkTicket>software");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.checkTicket.CheckTicketSoftware.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicket", ">checkTicket");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.checkTicket.CheckTicket.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
             qName = new javax.xml.namespace.QName("http://www.depositolegale.it/errorMsg", "errorMsg");
             cachedSerQNames.add(qName);
             cls = it.depositolegale.www.errorMsg.ErrorMsg.class;
@@ -103,104 +201,6 @@ public class WriteEventNBNPortSoapBindingStub extends org.apache.axis.client.Stu
             qName = new javax.xml.namespace.QName("http://www.depositolegale.it/software", "softwareConfig");
             cachedSerQNames.add(qName);
             cls = it.depositolegale.www.software.SoftwareConfig.class;
-            cachedSerClasses.add(cls);
-            cachedSerFactories.add(beansf);
-            cachedDeserFactories.add(beandf);
-
-            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", ">>>>>writeEventNBNOutput>writeEventNBN>software>istituzione>apiUtente");
-            cachedSerQNames.add(qName);
-            cls = it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutputWriteEventNBNSoftwareIstituzioneApiUtente.class;
-            cachedSerClasses.add(cls);
-            cachedSerFactories.add(beansf);
-            cachedDeserFactories.add(beandf);
-
-            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", ">>>>writeEventNBNOutput>writeEventNBN>software>authentication");
-            cachedSerQNames.add(qName);
-            cls = it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutputWriteEventNBNSoftwareAuthentication.class;
-            cachedSerClasses.add(cls);
-            cachedSerFactories.add(beansf);
-            cachedDeserFactories.add(beandf);
-
-            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", ">>>>writeEventNBNOutput>writeEventNBN>software>istituzione");
-            cachedSerQNames.add(qName);
-            cls = it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.class;
-            cachedSerClasses.add(cls);
-            cachedSerFactories.add(beansf);
-            cachedDeserFactories.add(beandf);
-
-            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", ">>>>writeEventNBNOutput>writeEventNBN>software>rigth");
-            cachedSerQNames.add(qName);
-            cls = it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutputWriteEventNBNSoftwareRigth.class;
-            cachedSerClasses.add(cls);
-            cachedSerFactories.add(beansf);
-            cachedDeserFactories.add(beandf);
-
-            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", ">>>writeEventNBNOutput>writeEventNBN>software");
-            cachedSerQNames.add(qName);
-            cls = it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutputWriteEventNBNSoftware.class;
-            cachedSerClasses.add(cls);
-            cachedSerFactories.add(beansf);
-            cachedDeserFactories.add(beandf);
-
-            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", ">>writeEventNBNOutput>esito");
-            cachedSerQNames.add(qName);
-            cls = it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutputEsito.class;
-            cachedSerClasses.add(cls);
-            cachedSerFactories.add(enumsf);
-            cachedDeserFactories.add(enumdf);
-
-            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", ">>writeEventNBNOutput>writeEventNBN");
-            cachedSerQNames.add(qName);
-            cls = it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutputWriteEventNBN.class;
-            cachedSerClasses.add(cls);
-            cachedSerFactories.add(beansf);
-            cachedDeserFactories.add(beandf);
-
-            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", ">writeEventNBNOutput");
-            cachedSerQNames.add(qName);
-            cls = it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutput.class;
-            cachedSerClasses.add(cls);
-            cachedSerFactories.add(beansf);
-            cachedDeserFactories.add(beandf);
-
-            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", ">>>>writeEventNBN>software>istituzione>apiUtente");
-            cachedSerQNames.add(qName);
-            cls = it.depositolegale.www.writeEventNBN.WriteEventNBNSoftwareIstituzioneApiUtente.class;
-            cachedSerClasses.add(cls);
-            cachedSerFactories.add(beansf);
-            cachedDeserFactories.add(beandf);
-
-            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", ">>>writeEventNBN>software>authentication");
-            cachedSerQNames.add(qName);
-            cls = it.depositolegale.www.writeEventNBN.WriteEventNBNSoftwareAuthentication.class;
-            cachedSerClasses.add(cls);
-            cachedSerFactories.add(beansf);
-            cachedDeserFactories.add(beandf);
-
-            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", ">>>writeEventNBN>software>istituzione");
-            cachedSerQNames.add(qName);
-            cls = it.depositolegale.www.writeEventNBN.WriteEventNBNSoftwareIstituzione.class;
-            cachedSerClasses.add(cls);
-            cachedSerFactories.add(beansf);
-            cachedDeserFactories.add(beandf);
-
-            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", ">>>writeEventNBN>software>rigth");
-            cachedSerQNames.add(qName);
-            cls = it.depositolegale.www.writeEventNBN.WriteEventNBNSoftwareRigth.class;
-            cachedSerClasses.add(cls);
-            cachedSerFactories.add(beansf);
-            cachedDeserFactories.add(beandf);
-
-            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", ">>writeEventNBN>software");
-            cachedSerQNames.add(qName);
-            cls = it.depositolegale.www.writeEventNBN.WriteEventNBNSoftware.class;
-            cachedSerClasses.add(cls);
-            cachedSerFactories.add(beansf);
-            cachedDeserFactories.add(beandf);
-
-            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", ">writeEventNBN");
-            cachedSerQNames.add(qName);
-            cls = it.depositolegale.www.writeEventNBN.WriteEventNBN.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
@@ -271,7 +271,7 @@ public class WriteEventNBNPortSoapBindingStub extends org.apache.axis.client.Stu
         }
     }
 
-    public it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutput writeEventNBNOperation(it.depositolegale.www.writeEventNBN.WriteEventNBN writeEventNBN) throws java.rmi.RemoteException {
+    public it.depositolegale.www.checkTicketOutput.CheckTicketOutput checkTicketOperation(it.depositolegale.www.checkTicket.CheckTicket checkTicket) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -283,11 +283,11 @@ public class WriteEventNBNPortSoapBindingStub extends org.apache.axis.client.Stu
         _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
         _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
-        _call.setOperationName(new javax.xml.namespace.QName("", "WriteEventNBNOperation"));
+        _call.setOperationName(new javax.xml.namespace.QName("", "CheckTicketOperation"));
 
         setRequestHeaders(_call);
         setAttachments(_call);
- try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {writeEventNBN});
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {checkTicket});
 
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;
@@ -295,9 +295,9 @@ public class WriteEventNBNPortSoapBindingStub extends org.apache.axis.client.Stu
         else {
             extractAttachments(_call);
             try {
-                return (it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutput) _resp;
+                return (it.depositolegale.www.checkTicketOutput.CheckTicketOutput) _resp;
             } catch (java.lang.Exception _exception) {
-                return (it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutput) org.apache.axis.utils.JavaUtils.convert(_resp, it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutput.class);
+                return (it.depositolegale.www.checkTicketOutput.CheckTicketOutput) org.apache.axis.utils.JavaUtils.convert(_resp, it.depositolegale.www.checkTicketOutput.CheckTicketOutput.class);
             }
         }
   } catch (org.apache.axis.AxisFault axisFaultException) {

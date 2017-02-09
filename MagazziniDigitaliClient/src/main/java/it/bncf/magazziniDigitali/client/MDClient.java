@@ -3,6 +3,13 @@
  */
 package it.bncf.magazziniDigitali.client;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import org.apache.log4j.Logger;
+
 import it.bncf.magazziniDigitali.client.exception.MDClientException;
 import it.bncf.magazziniDigitali.client.thread.MDCheckComplite;
 import it.bncf.magazziniDigitali.client.thread.MDCheckRsync;
@@ -10,14 +17,6 @@ import it.bncf.magazziniDigitali.configuration.IMDConfiguration;
 import it.bncf.magazziniDigitali.configuration.exception.MDConfigurationException;
 import it.depositolegale.configuration.MDConfiguration;
 import it.depositolegale.www.software.Software;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Map;
-
-import org.apache.log4j.Logger;
 
 /**
  * Interfaccia Client per la pubblicazione del matriale su Magazzini Digitali
@@ -81,7 +80,7 @@ public class MDClient {
 	 * Metodo utilizzato per eseguire l'analisi della cartella
 	 * 
 	 * @param pathProperties Path relativa alla posizione dei files di configurazione dell'applicazione
-	 * @throws ConfigurationException 
+	 * @throws MDClientException 
 	 */
 	public void start(String pathProperties, boolean testMode) throws MDClientException{
 		IMDConfiguration<Software> configuration = null;

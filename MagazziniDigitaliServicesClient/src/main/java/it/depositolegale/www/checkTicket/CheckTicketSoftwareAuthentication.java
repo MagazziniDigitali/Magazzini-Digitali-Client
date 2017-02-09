@@ -1,21 +1,21 @@
 /**
- * WriteEventNBN1SoftwareAuthentication.java
+ * CheckTicketSoftwareAuthentication.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
 
-package it.depositolegale.www.writeEventNBN;
+package it.depositolegale.www.checkTicket;
 
-public class WriteEventNBN1SoftwareAuthentication  implements java.io.Serializable {
+public class CheckTicketSoftwareAuthentication  implements java.io.Serializable {
     private java.lang.String login;
 
     private java.lang.String password;
 
-    public WriteEventNBN1SoftwareAuthentication() {
+    public CheckTicketSoftwareAuthentication() {
     }
 
-    public WriteEventNBN1SoftwareAuthentication(
+    public CheckTicketSoftwareAuthentication(
            java.lang.String login,
            java.lang.String password) {
            this.login = login;
@@ -24,7 +24,7 @@ public class WriteEventNBN1SoftwareAuthentication  implements java.io.Serializab
 
 
     /**
-     * Gets the login value for this WriteEventNBN1SoftwareAuthentication.
+     * Gets the login value for this CheckTicketSoftwareAuthentication.
      * 
      * @return login
      */
@@ -34,7 +34,7 @@ public class WriteEventNBN1SoftwareAuthentication  implements java.io.Serializab
 
 
     /**
-     * Sets the login value for this WriteEventNBN1SoftwareAuthentication.
+     * Sets the login value for this CheckTicketSoftwareAuthentication.
      * 
      * @param login
      */
@@ -44,7 +44,7 @@ public class WriteEventNBN1SoftwareAuthentication  implements java.io.Serializab
 
 
     /**
-     * Gets the password value for this WriteEventNBN1SoftwareAuthentication.
+     * Gets the password value for this CheckTicketSoftwareAuthentication.
      * 
      * @return password
      */
@@ -54,7 +54,7 @@ public class WriteEventNBN1SoftwareAuthentication  implements java.io.Serializab
 
 
     /**
-     * Sets the password value for this WriteEventNBN1SoftwareAuthentication.
+     * Sets the password value for this CheckTicketSoftwareAuthentication.
      * 
      * @param password
      */
@@ -64,8 +64,8 @@ public class WriteEventNBN1SoftwareAuthentication  implements java.io.Serializab
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof WriteEventNBN1SoftwareAuthentication)) return false;
-        WriteEventNBN1SoftwareAuthentication other = (WriteEventNBN1SoftwareAuthentication) obj;
+        if (!(obj instanceof CheckTicketSoftwareAuthentication)) return false;
+        CheckTicketSoftwareAuthentication other = (CheckTicketSoftwareAuthentication) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -103,19 +103,19 @@ public class WriteEventNBN1SoftwareAuthentication  implements java.io.Serializab
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(WriteEventNBN1SoftwareAuthentication.class, true);
+        new org.apache.axis.description.TypeDesc(CheckTicketSoftwareAuthentication.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", ">>>writeEventNBN1>software>authentication"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicket", ">>>checkTicket>software>authentication"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("login");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", "login"));
+        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicket", "login"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("password");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", "password"));
+        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicket", "password"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

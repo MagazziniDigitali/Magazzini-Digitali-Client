@@ -1,13 +1,13 @@
 /**
- * WriteEventNBN1SoftwareIstituzione.java
+ * WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
 
-package it.depositolegale.www.writeEventNBN;
+package it.depositolegale.www.writeEventNBNOutput;
 
-public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable {
+public class WriteEventNBNOutputWriteEventNBNSoftwareIstituzione  implements java.io.Serializable {
     private java.lang.String id;
 
     private java.lang.String nome;
@@ -24,14 +24,14 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
 
     private java.lang.String[] ipAccreditati;
 
-    private it.depositolegale.www.writeEventNBN.WriteEventNBN1SoftwareIstituzioneApiUtente apiUtente;
+    private it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutputWriteEventNBNSoftwareIstituzioneApiUtente apiUtente;
 
     private java.lang.String emailBagit;
 
-    public WriteEventNBN1SoftwareIstituzione() {
+    public WriteEventNBNOutputWriteEventNBNSoftwareIstituzione() {
     }
 
-    public WriteEventNBN1SoftwareIstituzione(
+    public WriteEventNBNOutputWriteEventNBNSoftwareIstituzione(
            java.lang.String id,
            java.lang.String nome,
            java.lang.String indirizzo,
@@ -40,7 +40,7 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
            java.math.BigInteger bibliotecaDepositaria,
            java.math.BigInteger istitutoCentrale,
            java.lang.String[] ipAccreditati,
-           it.depositolegale.www.writeEventNBN.WriteEventNBN1SoftwareIstituzioneApiUtente apiUtente,
+           it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutputWriteEventNBNSoftwareIstituzioneApiUtente apiUtente,
            java.lang.String emailBagit) {
            this.id = id;
            this.nome = nome;
@@ -56,7 +56,7 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
 
 
     /**
-     * Gets the id value for this WriteEventNBN1SoftwareIstituzione.
+     * Gets the id value for this WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.
      * 
      * @return id
      */
@@ -66,7 +66,7 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
 
 
     /**
-     * Sets the id value for this WriteEventNBN1SoftwareIstituzione.
+     * Sets the id value for this WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.
      * 
      * @param id
      */
@@ -76,7 +76,7 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
 
 
     /**
-     * Gets the nome value for this WriteEventNBN1SoftwareIstituzione.
+     * Gets the nome value for this WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.
      * 
      * @return nome
      */
@@ -86,7 +86,7 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
 
 
     /**
-     * Sets the nome value for this WriteEventNBN1SoftwareIstituzione.
+     * Sets the nome value for this WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.
      * 
      * @param nome
      */
@@ -96,7 +96,7 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
 
 
     /**
-     * Gets the indirizzo value for this WriteEventNBN1SoftwareIstituzione.
+     * Gets the indirizzo value for this WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.
      * 
      * @return indirizzo
      */
@@ -106,7 +106,7 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
 
 
     /**
-     * Sets the indirizzo value for this WriteEventNBN1SoftwareIstituzione.
+     * Sets the indirizzo value for this WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.
      * 
      * @param indirizzo
      */
@@ -116,7 +116,7 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
 
 
     /**
-     * Gets the telefono value for this WriteEventNBN1SoftwareIstituzione.
+     * Gets the telefono value for this WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.
      * 
      * @return telefono
      */
@@ -126,7 +126,7 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
 
 
     /**
-     * Sets the telefono value for this WriteEventNBN1SoftwareIstituzione.
+     * Sets the telefono value for this WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.
      * 
      * @param telefono
      */
@@ -136,7 +136,7 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
 
 
     /**
-     * Gets the nomeContatto value for this WriteEventNBN1SoftwareIstituzione.
+     * Gets the nomeContatto value for this WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.
      * 
      * @return nomeContatto
      */
@@ -146,7 +146,7 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
 
 
     /**
-     * Sets the nomeContatto value for this WriteEventNBN1SoftwareIstituzione.
+     * Sets the nomeContatto value for this WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.
      * 
      * @param nomeContatto
      */
@@ -156,7 +156,7 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
 
 
     /**
-     * Gets the bibliotecaDepositaria value for this WriteEventNBN1SoftwareIstituzione.
+     * Gets the bibliotecaDepositaria value for this WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.
      * 
      * @return bibliotecaDepositaria
      */
@@ -166,7 +166,7 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
 
 
     /**
-     * Sets the bibliotecaDepositaria value for this WriteEventNBN1SoftwareIstituzione.
+     * Sets the bibliotecaDepositaria value for this WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.
      * 
      * @param bibliotecaDepositaria
      */
@@ -176,7 +176,7 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
 
 
     /**
-     * Gets the istitutoCentrale value for this WriteEventNBN1SoftwareIstituzione.
+     * Gets the istitutoCentrale value for this WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.
      * 
      * @return istitutoCentrale
      */
@@ -186,7 +186,7 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
 
 
     /**
-     * Sets the istitutoCentrale value for this WriteEventNBN1SoftwareIstituzione.
+     * Sets the istitutoCentrale value for this WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.
      * 
      * @param istitutoCentrale
      */
@@ -196,7 +196,7 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
 
 
     /**
-     * Gets the ipAccreditati value for this WriteEventNBN1SoftwareIstituzione.
+     * Gets the ipAccreditati value for this WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.
      * 
      * @return ipAccreditati
      */
@@ -206,7 +206,7 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
 
 
     /**
-     * Sets the ipAccreditati value for this WriteEventNBN1SoftwareIstituzione.
+     * Sets the ipAccreditati value for this WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.
      * 
      * @param ipAccreditati
      */
@@ -224,27 +224,27 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
 
 
     /**
-     * Gets the apiUtente value for this WriteEventNBN1SoftwareIstituzione.
+     * Gets the apiUtente value for this WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.
      * 
      * @return apiUtente
      */
-    public it.depositolegale.www.writeEventNBN.WriteEventNBN1SoftwareIstituzioneApiUtente getApiUtente() {
+    public it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutputWriteEventNBNSoftwareIstituzioneApiUtente getApiUtente() {
         return apiUtente;
     }
 
 
     /**
-     * Sets the apiUtente value for this WriteEventNBN1SoftwareIstituzione.
+     * Sets the apiUtente value for this WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.
      * 
      * @param apiUtente
      */
-    public void setApiUtente(it.depositolegale.www.writeEventNBN.WriteEventNBN1SoftwareIstituzioneApiUtente apiUtente) {
+    public void setApiUtente(it.depositolegale.www.writeEventNBNOutput.WriteEventNBNOutputWriteEventNBNSoftwareIstituzioneApiUtente apiUtente) {
         this.apiUtente = apiUtente;
     }
 
 
     /**
-     * Gets the emailBagit value for this WriteEventNBN1SoftwareIstituzione.
+     * Gets the emailBagit value for this WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.
      * 
      * @return emailBagit
      */
@@ -254,7 +254,7 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
 
 
     /**
-     * Sets the emailBagit value for this WriteEventNBN1SoftwareIstituzione.
+     * Sets the emailBagit value for this WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.
      * 
      * @param emailBagit
      */
@@ -264,8 +264,8 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof WriteEventNBN1SoftwareIstituzione)) return false;
-        WriteEventNBN1SoftwareIstituzione other = (WriteEventNBN1SoftwareIstituzione) obj;
+        if (!(obj instanceof WriteEventNBNOutputWriteEventNBNSoftwareIstituzione)) return false;
+        WriteEventNBNOutputWriteEventNBNSoftwareIstituzione other = (WriteEventNBNOutputWriteEventNBNSoftwareIstituzione) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -359,58 +359,58 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(WriteEventNBN1SoftwareIstituzione.class, true);
+        new org.apache.axis.description.TypeDesc(WriteEventNBNOutputWriteEventNBNSoftwareIstituzione.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", ">>>writeEventNBN1>software>istituzione"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", ">>>>writeEventNBNOutput>writeEventNBN>software>istituzione"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("id");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", "id"));
+        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", "id"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("nome");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", "nome"));
+        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", "nome"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("indirizzo");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", "indirizzo"));
+        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", "indirizzo"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("telefono");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", "telefono"));
+        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", "telefono"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("nomeContatto");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", "nomeContatto"));
+        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", "nomeContatto"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("bibliotecaDepositaria");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", "bibliotecaDepositaria"));
+        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", "bibliotecaDepositaria"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "integer"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("istitutoCentrale");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", "istitutoCentrale"));
+        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", "istitutoCentrale"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "integer"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("ipAccreditati");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", "ipAccreditati"));
+        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", "ipAccreditati"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
@@ -418,14 +418,14 @@ public class WriteEventNBN1SoftwareIstituzione  implements java.io.Serializable 
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("apiUtente");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", "apiUtente"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", ">>>>writeEventNBN1>software>istituzione>apiUtente"));
+        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", "apiUtente"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", ">>>>>writeEventNBNOutput>writeEventNBN>software>istituzione>apiUtente"));
         elemField.setMinOccurs(0);
         elemField.setNillable(true);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("emailBagit");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", "emailBagit"));
+        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", "emailBagit"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);

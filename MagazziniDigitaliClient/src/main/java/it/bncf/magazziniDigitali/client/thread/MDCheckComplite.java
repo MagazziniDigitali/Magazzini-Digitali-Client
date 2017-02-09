@@ -53,25 +53,42 @@ public class MDCheckComplite extends MDCheck {
 
 	@Override
 	protected File genFileTarGz(File pathDescriptati, String fileName) {
-		File fOut = null;
+		File f = null;
+		String[] exts = new String[4];
 		
-		fOut = new File(
-				pathDescriptati.getAbsolutePath()
-				+ File.separator + fileName
-				+ ".tar.gz");
-		if (!fOut.exists()){
-			fOut = new File(
+		exts[0]=".tar.gz";
+		exts[1]=".tgz";
+		exts[2]=".tar";
+		exts[3]=".warc.gz";
+
+		for (int x=0; x<exts.length; x++){
+			f = new File(
 					pathDescriptati.getAbsolutePath()
 					+ File.separator + fileName
-					+ ".tgz");
-			if (!fOut.exists()){
-				fOut = new File(
-						pathDescriptati.getAbsolutePath()
-						+ File.separator + fileName
-						+ ".tar");
+					+ exts[x]);
+			if (f.exists()){
+				break;
 			}
 		}
-		return fOut;
+//		File fOut = null;
+//		
+//		fOut = new File(
+//				pathDescriptati.getAbsolutePath()
+//				+ File.separator + fileName
+//				+ ".tar.gz");
+//		if (!fOut.exists()){
+//			fOut = new File(
+//					pathDescriptati.getAbsolutePath()
+//					+ File.separator + fileName
+//					+ ".tgz");
+//			if (!fOut.exists()){
+//				fOut = new File(
+//						pathDescriptati.getAbsolutePath()
+//						+ File.separator + fileName
+//						+ ".tar");
+//			}
+//		}
+		return f;
 	}
 
 }

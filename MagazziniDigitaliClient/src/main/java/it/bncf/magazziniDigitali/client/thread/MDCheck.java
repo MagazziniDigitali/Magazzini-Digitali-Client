@@ -63,15 +63,14 @@ public abstract class MDCheck extends Thread {
 		boolean sender = false;
 
 		try {
-			
+
 			pathInput = (Vector<String>) Configuration.getValues("pathExcel");
-			pathDescriptati = (Vector<String>) Configuration
-					.getValues("pathDescriptati");
+			pathDescriptati = (Vector<String>) Configuration.getValues("pathDescriptati");
 			while (true) {
 				for (int x = 0; x < pathInput.size(); x++) {
-					log.info(getName()+" Analizzo la cartella [" + pathInput.get(x) + "]");
-					sender = checkExcel(new File(pathInput.get(x)), new File(
-							pathDescriptati.get(x)), testMode, configuration);
+					log.info(getName() + " Analizzo la cartella [" + pathInput.get(x) + "]");
+					sender = checkExcel(new File(pathInput.get(x)), new File(pathDescriptati.get(x)), testMode,
+							configuration);
 					if (testMode && sender) {
 						break;
 					}
@@ -91,8 +90,8 @@ public abstract class MDCheck extends Thread {
 	 * 
 	 * @param pathInput
 	 */
-	private boolean checkExcel(File pathExcel, File pathDescriptati,
-			boolean testMode, IMDConfiguration<Software> configuration) {
+	private boolean checkExcel(File pathExcel, File pathDescriptati, boolean testMode,
+			IMDConfiguration<Software> configuration) {
 		File[] fl = null;
 		File f = null;
 		File fElab = null;
@@ -131,142 +130,145 @@ public abstract class MDCheck extends Thread {
 				}
 			});
 			Arrays.sort(fl);
-			for (int x = 0; x < fl.length; x++) {
-				f = fl[x];
+			if (fl.length == 0) {
+				waiting(600,600);
+			} else {
+				for (int x = 0; x < fl.length; x++) {
+					f = fl[x];
 
-				fElab = new File(f.getAbsolutePath() + ".elab");
-				if (!fElab.exists()) {
-					log.info(getName()+" Elaboro il file [" + f.getAbsolutePath() + "]");
-					try {
-						md5 = new MD5();
-						fr = new FileReader(f);
-						br = new BufferedReader(fr);
-						completato = true;
-						while ((line = br.readLine()) != null) {
-							st = line.split("\t");
-							fileTarGz = genFileTarGz(pathDescriptati, st[0]);
-							if (fileTarGz.exists()) {
-								try {
-									log.info(getName()+" Elaboro il file ["
-											+ fileTarGz.getAbsolutePath() + "]");
-									if (!analize(fileTarGz, configuration)) {
+					fElab = new File(f.getAbsolutePath() + ".elab");
+					if (!fElab.exists()) {
+						log.info(getName() + " Elaboro il file [" + f.getAbsolutePath() + "]");
+						try {
+							md5 = new MD5();
+							fr = new FileReader(f);
+							br = new BufferedReader(fr);
+							completato = true;
+							while ((line = br.readLine()) != null) {
+								st = line.split("\t");
+								fileTarGz = genFileTarGz(pathDescriptati, st[0]);
+								if (fileTarGz.exists()) {
+									try {
+										log.info(getName() + " Elaboro il file [" + fileTarGz.getAbsolutePath() + "]");
+										if (!analize(fileTarGz, configuration)) {
+											completato = false;
+										}
+										sender = true;
+										if (testMode && isSender()) {
+											testComp = true;
+											break;
+										}
+										waiting(15, 10);
+									} catch (NoSuchAlgorithmException e) {
+										log.error(getName() + " " + e.getMessage(), e);
+										completato = false;
+									} catch (FileNotFoundException e) {
+										log.error(getName() + " " + e.getMessage(), e);
+										completato = false;
+									} catch (IOException e) {
+										log.error(getName() + " " + e.getMessage(), e);
+										completato = false;
+									} catch (ClientMDException e) {
+										log.error(getName() + " " + e.getMessage(), e);
+										completato = false;
+									} catch (Exception e) {
+										log.error(getName() + " " + e.getMessage(), e);
 										completato = false;
 									}
-									sender = true;
-									if (testMode && isSender()) {
-										testComp = true;
-										break;
-									}
-									if (getName().equals("RSync")){
-										Thread.sleep(5000);
-									}
-								} catch (NoSuchAlgorithmException e) {
-									log.error(getName()+" "+e.getMessage(), e);
-									completato = false;
-								} catch (FileNotFoundException e) {
-									log.error(getName()+" "+e.getMessage(), e);
-									completato = false;
-								} catch (IOException e) {
-									log.error(getName()+" "+e.getMessage(), e);
-									completato = false;
-								} catch (ClientMDException e) {
-									log.error(getName()+" "+e.getMessage(), e);
-									completato = false;
-								} catch (Exception e) {
-									log.error(getName()+" "+e.getMessage(), e);
-									completato = false;
+								} else {
+									waiting(15, 10);
+									// if (getName().equals("RSync")){
+									// Thread.sleep(5000);
+									// }
+									// log.error(getName()+" Il file ["
+									// + fileTarGz.getAbsolutePath()
+									// + "] non esiste");
+									// completato = false;
 								}
-							} else {
-//								if (getName().equals("RSync")){
-//									Thread.sleep(5000);
-//								}
-//								log.error(getName()+" Il file ["
-//										+ fileTarGz.getAbsolutePath()
-//										+ "] non esiste");
-//								completato = false;
 							}
-						}
-						if (completato) {
-							try {
-								fw = new FileWriter(fElab);
-								bw = new BufferedWriter(fw);
-								bw.write(md5.getDigest(f)
-										+ "\t"
-										+ df.format(new Date(
-												new GregorianCalendar()
-														.getTimeInMillis())));
-							} catch (Exception e) {
-								log.error(getName()+" "+e.getMessage(), e);
-							} finally {
+							if (completato) {
 								try {
-									if (bw != null) {
-										bw.flush();
-										bw.close();
-									}
-									if (fw != null) {
-										fw.close();
-									}
+									fw = new FileWriter(fElab);
+									bw = new BufferedWriter(fw);
+									bw.write(md5.getDigest(f) + "\t"
+											+ df.format(new Date(new GregorianCalendar().getTimeInMillis())));
 								} catch (Exception e) {
-									log.error(getName()+" "+e.getMessage(), e);
+									log.error(getName() + " " + e.getMessage(), e);
+								} finally {
+									try {
+										if (bw != null) {
+											bw.flush();
+											bw.close();
+										}
+										if (fw != null) {
+											fw.close();
+										}
+									} catch (Exception e) {
+										log.error(getName() + " " + e.getMessage(), e);
+									}
 								}
-							}
 
-						}
-						if (testMode && testComp) {
-							break;
-						}
-					} catch (FileNotFoundException e) {
-						log.error(getName()+" "+e.getMessage(), e);
-					} catch (IOException e) {
-						log.error(getName()+" "+e.getMessage(), e);
-					} catch (NoSuchAlgorithmException e) {
-						log.error(getName()+" "+e.getMessage(), e);
-					} catch (Exception e) {
-						log.error(getName()+" "+e.getMessage(), e);
-					} finally {
-						try {
-							if (br != null) {
-								br.close();
 							}
-							if (fr != null) {
-								fr.close();
+							waiting(15, 10);
+							if (testMode && testComp) {
+								break;
 							}
+						} catch (FileNotFoundException e) {
+							log.error(getName() + " " + e.getMessage(), e);
 						} catch (IOException e) {
-							log.error(getName()+" "+e.getMessage(), e);
+							log.error(getName() + " " + e.getMessage(), e);
+						} catch (NoSuchAlgorithmException e) {
+							log.error(getName() + " " + e.getMessage(), e);
+						} catch (Exception e) {
+							log.error(getName() + " " + e.getMessage(), e);
+						} finally {
+							try {
+								if (br != null) {
+									br.close();
+								}
+								if (fr != null) {
+									fr.close();
+								}
+							} catch (IOException e) {
+								log.error(getName() + " " + e.getMessage(), e);
+							}
 						}
-					}
-				} else {
-					log.info(getName()+" Il file [" + f.getAbsolutePath()
-							+ "] risulta completamente elaborato");
-					if (getName().equals("RSync")){
-						try {
-							System.gc();
-							Thread.sleep(15000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-					if (getName().equals("Complete")){
-						try {
-							System.gc();
-							Thread.sleep(10000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
+					} else {
+						log.info(getName() + " Il file [" + f.getAbsolutePath() + "] risulta completamente elaborato");
+						waiting(15, 10);
 					}
 				}
 			}
 		} else {
-			log.error(getName()+" La cartella [" + pathExcel.getAbsolutePath()
-					+ "] non esiste");
+			log.error(getName() + " La cartella [" + pathExcel.getAbsolutePath() + "] non esiste");
 		}
 		return sender;
 	}
 
+	private void waiting(int rSync, int complete) {
+		if (getName().equals("RSync")) {
+			try {
+				System.gc();
+				Thread.sleep(rSync * 1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		if (getName().equals("Complete")) {
+			try {
+				System.gc();
+				Thread.sleep(complete * 1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
 	protected abstract File genFileTarGz(File pathDescriptati, String fileName);
+
 	protected abstract boolean analize(File fileTarGz, IMDConfiguration<Software> configuration)
-			throws NoSuchAlgorithmException, FileNotFoundException,
-			IOException, ClientMDException;
+			throws NoSuchAlgorithmException, FileNotFoundException, IOException, ClientMDException;
 
 	protected abstract boolean isSender();
 }

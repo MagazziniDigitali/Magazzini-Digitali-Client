@@ -1,21 +1,21 @@
 /**
- * WriteEventNBN1SoftwareIstituzioneApiUtente.java
+ * CheckTicketSoftwareIstituzioneApiUtente.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
 
-package it.depositolegale.www.writeEventNBN;
+package it.depositolegale.www.checkTicket;
 
-public class WriteEventNBN1SoftwareIstituzioneApiUtente  implements java.io.Serializable {
+public class CheckTicketSoftwareIstituzioneApiUtente  implements java.io.Serializable {
     private org.apache.axis.types.URI interfaccia;
 
     private java.lang.String libreria;
 
-    public WriteEventNBN1SoftwareIstituzioneApiUtente() {
+    public CheckTicketSoftwareIstituzioneApiUtente() {
     }
 
-    public WriteEventNBN1SoftwareIstituzioneApiUtente(
+    public CheckTicketSoftwareIstituzioneApiUtente(
            org.apache.axis.types.URI interfaccia,
            java.lang.String libreria) {
            this.interfaccia = interfaccia;
@@ -24,7 +24,7 @@ public class WriteEventNBN1SoftwareIstituzioneApiUtente  implements java.io.Seri
 
 
     /**
-     * Gets the interfaccia value for this WriteEventNBN1SoftwareIstituzioneApiUtente.
+     * Gets the interfaccia value for this CheckTicketSoftwareIstituzioneApiUtente.
      * 
      * @return interfaccia
      */
@@ -34,7 +34,7 @@ public class WriteEventNBN1SoftwareIstituzioneApiUtente  implements java.io.Seri
 
 
     /**
-     * Sets the interfaccia value for this WriteEventNBN1SoftwareIstituzioneApiUtente.
+     * Sets the interfaccia value for this CheckTicketSoftwareIstituzioneApiUtente.
      * 
      * @param interfaccia
      */
@@ -44,7 +44,7 @@ public class WriteEventNBN1SoftwareIstituzioneApiUtente  implements java.io.Seri
 
 
     /**
-     * Gets the libreria value for this WriteEventNBN1SoftwareIstituzioneApiUtente.
+     * Gets the libreria value for this CheckTicketSoftwareIstituzioneApiUtente.
      * 
      * @return libreria
      */
@@ -54,7 +54,7 @@ public class WriteEventNBN1SoftwareIstituzioneApiUtente  implements java.io.Seri
 
 
     /**
-     * Sets the libreria value for this WriteEventNBN1SoftwareIstituzioneApiUtente.
+     * Sets the libreria value for this CheckTicketSoftwareIstituzioneApiUtente.
      * 
      * @param libreria
      */
@@ -64,8 +64,8 @@ public class WriteEventNBN1SoftwareIstituzioneApiUtente  implements java.io.Seri
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof WriteEventNBN1SoftwareIstituzioneApiUtente)) return false;
-        WriteEventNBN1SoftwareIstituzioneApiUtente other = (WriteEventNBN1SoftwareIstituzioneApiUtente) obj;
+        if (!(obj instanceof CheckTicketSoftwareIstituzioneApiUtente)) return false;
+        CheckTicketSoftwareIstituzioneApiUtente other = (CheckTicketSoftwareIstituzioneApiUtente) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -103,19 +103,19 @@ public class WriteEventNBN1SoftwareIstituzioneApiUtente  implements java.io.Seri
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(WriteEventNBN1SoftwareIstituzioneApiUtente.class, true);
+        new org.apache.axis.description.TypeDesc(CheckTicketSoftwareIstituzioneApiUtente.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", ">>>>writeEventNBN1>software>istituzione>apiUtente"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicket", ">>>>checkTicket>software>istituzione>apiUtente"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("interfaccia");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", "Interfaccia"));
+        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicket", "Interfaccia"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "anyURI"));
         elemField.setNillable(true);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("libreria");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", "libreria"));
+        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicket", "libreria"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

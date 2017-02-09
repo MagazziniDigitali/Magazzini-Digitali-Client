@@ -1,23 +1,23 @@
 /**
- * WriteEventNBN1SoftwareRigth.java
+ * CheckTicketOutputCheckTicketSoftwareRigth.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
 
-package it.depositolegale.www.writeEventNBN;
+package it.depositolegale.www.checkTicketOutput;
 
-public class WriteEventNBN1SoftwareRigth  implements java.io.Serializable {
+public class CheckTicketOutputCheckTicketSoftwareRigth  implements java.io.Serializable {
     private java.lang.String id;
 
     private java.lang.String nome;
 
     private it.depositolegale.www.rigths.RightType_type type;
 
-    public WriteEventNBN1SoftwareRigth() {
+    public CheckTicketOutputCheckTicketSoftwareRigth() {
     }
 
-    public WriteEventNBN1SoftwareRigth(
+    public CheckTicketOutputCheckTicketSoftwareRigth(
            java.lang.String id,
            java.lang.String nome,
            it.depositolegale.www.rigths.RightType_type type) {
@@ -28,7 +28,7 @@ public class WriteEventNBN1SoftwareRigth  implements java.io.Serializable {
 
 
     /**
-     * Gets the id value for this WriteEventNBN1SoftwareRigth.
+     * Gets the id value for this CheckTicketOutputCheckTicketSoftwareRigth.
      * 
      * @return id
      */
@@ -38,7 +38,7 @@ public class WriteEventNBN1SoftwareRigth  implements java.io.Serializable {
 
 
     /**
-     * Sets the id value for this WriteEventNBN1SoftwareRigth.
+     * Sets the id value for this CheckTicketOutputCheckTicketSoftwareRigth.
      * 
      * @param id
      */
@@ -48,7 +48,7 @@ public class WriteEventNBN1SoftwareRigth  implements java.io.Serializable {
 
 
     /**
-     * Gets the nome value for this WriteEventNBN1SoftwareRigth.
+     * Gets the nome value for this CheckTicketOutputCheckTicketSoftwareRigth.
      * 
      * @return nome
      */
@@ -58,7 +58,7 @@ public class WriteEventNBN1SoftwareRigth  implements java.io.Serializable {
 
 
     /**
-     * Sets the nome value for this WriteEventNBN1SoftwareRigth.
+     * Sets the nome value for this CheckTicketOutputCheckTicketSoftwareRigth.
      * 
      * @param nome
      */
@@ -68,7 +68,7 @@ public class WriteEventNBN1SoftwareRigth  implements java.io.Serializable {
 
 
     /**
-     * Gets the type value for this WriteEventNBN1SoftwareRigth.
+     * Gets the type value for this CheckTicketOutputCheckTicketSoftwareRigth.
      * 
      * @return type
      */
@@ -78,7 +78,7 @@ public class WriteEventNBN1SoftwareRigth  implements java.io.Serializable {
 
 
     /**
-     * Sets the type value for this WriteEventNBN1SoftwareRigth.
+     * Sets the type value for this CheckTicketOutputCheckTicketSoftwareRigth.
      * 
      * @param type
      */
@@ -88,8 +88,8 @@ public class WriteEventNBN1SoftwareRigth  implements java.io.Serializable {
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof WriteEventNBN1SoftwareRigth)) return false;
-        WriteEventNBN1SoftwareRigth other = (WriteEventNBN1SoftwareRigth) obj;
+        if (!(obj instanceof CheckTicketOutputCheckTicketSoftwareRigth)) return false;
+        CheckTicketOutputCheckTicketSoftwareRigth other = (CheckTicketOutputCheckTicketSoftwareRigth) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -133,25 +133,25 @@ public class WriteEventNBN1SoftwareRigth  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(WriteEventNBN1SoftwareRigth.class, true);
+        new org.apache.axis.description.TypeDesc(CheckTicketOutputCheckTicketSoftwareRigth.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", ">>>writeEventNBN1>software>rigth"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicketOutput", ">>>>checkTicketOutput>checkTicket>software>rigth"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("id");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", "id"));
+        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicketOutput", "id"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("nome");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", "nome"));
+        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicketOutput", "nome"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("type");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", "type"));
+        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/checkTicketOutput", "type"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.depositolegale.it/rigths", "rightType_type"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

@@ -1,35 +1,35 @@
 /**
- * WriteEventNBNEsito.java
+ * WriteEventNBNOutputEsito.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
 
-package it.depositolegale.www.writeEventNBN;
+package it.depositolegale.www.writeEventNBNOutput;
 
-public class WriteEventNBNEsito implements java.io.Serializable {
+public class WriteEventNBNOutputEsito implements java.io.Serializable {
     private java.lang.String _value_;
     private static java.util.HashMap _table_ = new java.util.HashMap();
 
     // Constructor
-    protected WriteEventNBNEsito(java.lang.String value) {
+    protected WriteEventNBNOutputEsito(java.lang.String value) {
         _value_ = value;
         _table_.put(_value_,this);
     }
 
     public static final java.lang.String _OK = "OK";
     public static final java.lang.String _KO = "KO";
-    public static final WriteEventNBNEsito OK = new WriteEventNBNEsito(_OK);
-    public static final WriteEventNBNEsito KO = new WriteEventNBNEsito(_KO);
+    public static final WriteEventNBNOutputEsito OK = new WriteEventNBNOutputEsito(_OK);
+    public static final WriteEventNBNOutputEsito KO = new WriteEventNBNOutputEsito(_KO);
     public java.lang.String getValue() { return _value_;}
-    public static WriteEventNBNEsito fromValue(java.lang.String value)
+    public static WriteEventNBNOutputEsito fromValue(java.lang.String value)
           throws java.lang.IllegalArgumentException {
-        WriteEventNBNEsito enumeration = (WriteEventNBNEsito)
+        WriteEventNBNOutputEsito enumeration = (WriteEventNBNOutputEsito)
             _table_.get(value);
         if (enumeration==null) throw new java.lang.IllegalArgumentException();
         return enumeration;
     }
-    public static WriteEventNBNEsito fromString(java.lang.String value)
+    public static WriteEventNBNOutputEsito fromString(java.lang.String value)
           throws java.lang.IllegalArgumentException {
         return fromValue(value);
     }
@@ -55,10 +55,10 @@ public class WriteEventNBNEsito implements java.io.Serializable {
     }
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(WriteEventNBNEsito.class);
+        new org.apache.axis.description.TypeDesc(WriteEventNBNOutputEsito.class);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBN", ">>writeEventNBN>esito"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://www.depositolegale.it/writeEventNBNOutput", ">>writeEventNBNOutput>esito"));
     }
     /**
      * Return type metadata object

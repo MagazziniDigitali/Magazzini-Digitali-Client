@@ -65,22 +65,35 @@ public class MDCheckRsync extends MDCheck {
 
 	@Override
 	protected File genFileTarGz(File pathDescriptati, String fileName) {
-		File f = new File(
-				pathDescriptati.getAbsolutePath()
-				+ File.separator + fileName
-				+ ".tar.gz");
-		if (!f.exists()){
+		File f = null;
+		String[] exts = new String[4];
+		
+		exts[0]=".tar.gz";
+		exts[1]=".tgz";
+		exts[2]=".tar";
+		exts[3]=".warc.gz";
+
+		for (int x=0; x<exts.length; x++){
 			f = new File(
 					pathDescriptati.getAbsolutePath()
 					+ File.separator + fileName
-					+ ".tgz");
-			if (!f.exists()){
-				f = new File(
-						pathDescriptati.getAbsolutePath()
-						+ File.separator + fileName
-						+ ".tar");
+					+ exts[x]);
+			if (f.exists()){
+				break;
 			}
 		}
+//		if (!f.exists()){
+//			f = new File(
+//					pathDescriptati.getAbsolutePath()
+//					+ File.separator + fileName
+//					+ ".tgz");
+//			if (!f.exists()){
+//				f = new File(
+//						pathDescriptati.getAbsolutePath()
+//						+ File.separator + fileName
+//						+ ".tar");
+//			}
+//		}
 //		log.info("File da cercare: "+f.getAbsolutePath());
 		return f;
 	}
