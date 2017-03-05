@@ -158,7 +158,6 @@ public abstract class MDCheck extends Thread {
 											testComp = true;
 											break;
 										}
-										waiting(15, 10);
 									} catch (NoSuchAlgorithmException e) {
 										log.error(getName() + " " + e.getMessage(), e);
 										completato = false;
@@ -175,15 +174,6 @@ public abstract class MDCheck extends Thread {
 										log.error(getName() + " " + e.getMessage(), e);
 										completato = false;
 									}
-								} else {
-									waiting(15, 10);
-									// if (getName().equals("RSync")){
-									// Thread.sleep(5000);
-									// }
-									// log.error(getName()+" Il file ["
-									// + fileTarGz.getAbsolutePath()
-									// + "] non esiste");
-									// completato = false;
 								}
 							}
 							if (completato) {
@@ -209,7 +199,7 @@ public abstract class MDCheck extends Thread {
 								}
 
 							}
-							waiting(15, 10);
+							waiting(300, 300);
 							if (testMode && testComp) {
 								break;
 							}

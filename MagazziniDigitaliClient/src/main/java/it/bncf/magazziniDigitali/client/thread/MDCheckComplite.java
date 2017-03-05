@@ -70,24 +70,6 @@ public class MDCheckComplite extends MDCheck {
 				break;
 			}
 		}
-//		File fOut = null;
-//		
-//		fOut = new File(
-//				pathDescriptati.getAbsolutePath()
-//				+ File.separator + fileName
-//				+ ".tar.gz");
-//		if (!fOut.exists()){
-//			fOut = new File(
-//					pathDescriptati.getAbsolutePath()
-//					+ File.separator + fileName
-//					+ ".tgz");
-//			if (!fOut.exists()){
-//				fOut = new File(
-//						pathDescriptati.getAbsolutePath()
-//						+ File.separator + fileName
-//						+ ".tar");
-//			}
-//		}
 		return f;
 	}
 
