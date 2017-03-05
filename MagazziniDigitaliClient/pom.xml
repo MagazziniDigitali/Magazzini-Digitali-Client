@@ -2,8 +2,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>it.bncf.magazziniDigitali.client</groupId>
-	<artifactId>MagazziniDigitgaliClient</artifactId>
-	<version>2.0.7</version>
+	<artifactId>MagazziniDigitaliClient</artifactId>
+	<version>2.0.8</version>
 	<description>Interfaccia Client relativa all'istituto o ente il quale pubblicherà il materiale nell'area temporanea a lui riservata per la pubblicazione </description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -34,14 +34,14 @@
 		</repository>
 	</repositories>
 	<build>
-		<finalName>MagazziniDigitaliClient</finalName>
+		<!-- finalName>MagazziniDigitaliClient</finalName -->
 		<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>it.bncf.magazziniDigitali.demoni.quartz.MDDemoniQuartz</mainClass>
+							<mainClass>it.bncf.magazziniDigitali.client.MDClient</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
@@ -73,13 +73,13 @@
 			</plugin>
 			-->
 			<!-- Maven compiler plugin -->
-			<plugin>
+			<!-- plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
-			</plugin>
+			</plugin -->
 		</plugins>
 		<resources>
 			<resource>
