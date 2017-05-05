@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>it.bncf.magazziniDigitali.client</groupId>
 	<artifactId>MagazziniDigitaliClient</artifactId>
-	<version>2.0.8</version>
+	<version>2.0.9</version>
 	<description>Interfaccia Client relativa all'istituto o ente il quale pubblicherà il materiale nell'area temporanea a lui riservata per la pubblicazione </description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -14,12 +14,12 @@
 		<dependency>
 			<groupId>it.bncf.magazziniDigitali.services.client</groupId>
 			<artifactId>MagazziniDigitaliServicesClient</artifactId>
-			<version>2.0.2</version>
+			<version>2.0.10</version>
 		</dependency>
 		<dependency>
 			<groupId>mx.randalf.configuration</groupId>
 			<artifactId>RandalfConfiguration</artifactId>
-			<version>1.0.2</version>
+			<version>1.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>mx.randalf.digest</groupId>
