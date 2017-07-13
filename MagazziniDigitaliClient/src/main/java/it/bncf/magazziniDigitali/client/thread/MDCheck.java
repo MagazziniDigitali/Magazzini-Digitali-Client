@@ -3,10 +3,6 @@
  */
 package it.bncf.magazziniDigitali.client.thread;
 
-import it.bncf.magazziniDigitali.client.magazziniDigitali.ClientMDException;
-import it.bncf.magazziniDigitali.configuration.IMDConfiguration;
-import it.depositolegale.www.software.Software;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,11 +19,14 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
+
+import it.bncf.magazziniDigitali.client.magazziniDigitali.ClientMDException;
+import it.bncf.magazziniDigitali.configuration.IMDConfiguration;
+import it.depositolegale.www.software.Software;
 import mx.randalf.configuration.Configuration;
 import mx.randalf.configuration.exception.ConfigurationException;
 import mx.randalf.digest.MD5;
-
-import org.apache.log4j.Logger;
 
 /**
  * @author massi
@@ -61,6 +60,7 @@ public abstract class MDCheck extends Thread {
 		Vector<String> pathInput = null;
 		Vector<String> pathDescriptati = null;
 		boolean sender = false;
+		File pathElab =  null;
 
 		try {
 
@@ -69,8 +69,10 @@ public abstract class MDCheck extends Thread {
 			while (true) {
 				for (int x = 0; x < pathInput.size(); x++) {
 					log.info(getName() + " Analizzo la cartella [" + pathInput.get(x) + "]");
-					sender = checkExcel(new File(pathInput.get(x)), new File(pathDescriptati.get(x)), testMode,
+					pathElab = new File(pathInput.get(x));
+					sender = checkExcel(pathElab, new File(pathDescriptati.get(x)), testMode,
 							configuration);
+					postElab(pathElab);
 					if (testMode && sender) {
 						break;
 					}
@@ -84,6 +86,8 @@ public abstract class MDCheck extends Thread {
 			throw new RuntimeException(e.getMessage(), e);
 		}
 	}
+
+	protected abstract void postElab(File pathElab);
 
 	/**
 	 * Metodo utilizzato per testare il contenuto di una cartella
@@ -117,7 +121,7 @@ public abstract class MDCheck extends Thread {
 					File fElab = null;
 
 					// Verifico che il file/cartella non sia di tipo nascosto
-					if (!f.getName().startsWith(".") && !f.isHidden()) {
+					if (!f.getName().startsWith(".") && !f.isHidden() && f.isFile()) {
 						// controllo se è una cartella
 						if (f.getName().toLowerCase().endsWith(fileExt)) {
 							fElab = new File(f.getAbsolutePath() + ".elab");
@@ -199,7 +203,7 @@ public abstract class MDCheck extends Thread {
 								}
 
 							}
-							waiting(300, 300);
+							waiting(30, 30);
 							if (testMode && testComp) {
 								break;
 							}

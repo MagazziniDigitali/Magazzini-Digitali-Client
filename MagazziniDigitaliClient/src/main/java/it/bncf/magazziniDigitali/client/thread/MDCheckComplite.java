@@ -3,6 +3,7 @@ package it.bncf.magazziniDigitali.client.thread;
 import it.bncf.magazziniDigitali.client.magazziniDigitali.ClientMDComplite;
 import it.bncf.magazziniDigitali.client.magazziniDigitali.ClientMDException;
 import it.bncf.magazziniDigitali.configuration.IMDConfiguration;
+import it.bncf.magazziniDigitali.utils.folder.FolderSyncElab;
 import it.depositolegale.www.software.Software;
 
 import java.io.File;
@@ -71,6 +72,14 @@ public class MDCheckComplite extends MDCheck {
 			}
 		}
 		return f;
+	}
+
+	@Override
+	protected void postElab(File pathElab) {
+		FolderSyncElab folderSyncElab = null;
+
+		folderSyncElab = new FolderSyncElab(pathElab);
+		folderSyncElab.syncElab();
 	}
 
 }

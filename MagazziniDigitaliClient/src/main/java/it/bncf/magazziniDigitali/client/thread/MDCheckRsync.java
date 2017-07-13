@@ -85,4 +85,10 @@ public class MDCheckRsync extends MDCheck {
 		return f;
 	}
 
+	@Override
+	protected void postElab(File pathElab) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
