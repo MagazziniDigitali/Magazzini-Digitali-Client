@@ -7,6 +7,8 @@ import java.io.File;
 import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
 
+import org.apache.commons.httpclient.protocol.DefaultProtocolSocketFactory;
+import org.apache.commons.httpclient.protocol.Protocol;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.quartz.SchedulerException;
@@ -111,6 +113,10 @@ public class MDConfiguration extends IMDConfiguration<Software> {
 		try {
 			url = Configuration.getValue("software.URLAuthentication");
 			System.out.println("URL: "+url);
+			if (url.toLowerCase().startsWith("https")){
+				Protocol.registerProtocol("https", 
+						new Protocol("https", new DefaultProtocolSocketFactory(), 443));
+			}
 			//"http://"+args[0]+"/MagazziniDigitaliServices/services/AuthenticationSoftwarePort?wsdl";
 			proxy = new AuthenticationSoftwarePortTypeProxy(url);
 

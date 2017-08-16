@@ -6,6 +6,8 @@ package it.depositolegale.utenti;
 import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
 
+import org.apache.commons.httpclient.protocol.DefaultProtocolSocketFactory;
+import org.apache.commons.httpclient.protocol.Protocol;
 import org.apache.log4j.Logger;
 
 import it.bncf.magazziniDigitali.configuration.IMDConfiguration;
@@ -58,6 +60,10 @@ public class MDUtenti {
 		
 		try {
 			url = Configuration.getValue("utenti.URLAuthentication");
+			if (url.toLowerCase().trim().startsWith("https")){
+				Protocol.registerProtocol("https", 
+						new Protocol("https", new DefaultProtocolSocketFactory(), 443));
+			}
 			//"http://"+args[0]+"/MagazziniDigitaliServices/services/AuthenticationSoftwarePort?wsdl";
 			proxy = new AuthenticationUtentiPortTypeProxy(url);
 

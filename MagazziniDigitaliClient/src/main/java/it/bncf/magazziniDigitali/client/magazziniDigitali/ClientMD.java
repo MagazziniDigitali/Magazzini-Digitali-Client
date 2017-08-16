@@ -10,6 +10,8 @@ import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
 import java.util.GregorianCalendar;
 
+import org.apache.commons.httpclient.protocol.DefaultProtocolSocketFactory;
+import org.apache.commons.httpclient.protocol.Protocol;
 import org.apache.log4j.Logger;
 
 import it.bncf.magazziniDigitali.configuration.IMDConfiguration;
@@ -207,6 +209,10 @@ abstract class ClientMD {
 
 		try {
 			wsdlCheckMD = configuration.getSoftwareConfigString("wsdlCheckMD");
+			if (wsdlCheckMD.toLowerCase().trim().startsWith("https")){
+				Protocol.registerProtocol("https", 
+						new Protocol("https", new DefaultProtocolSocketFactory(), 443));
+			}
 			//Configuration.getValue("md.wsdlCheckMD")
 			log.info("checkMD: "+wsdlCheckMD+" sha1: "+hash);
 			proxy = new CheckMDPortTypeProxy(wsdlCheckMD);

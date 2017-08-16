@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
 
+import org.apache.commons.httpclient.protocol.DefaultProtocolSocketFactory;
+import org.apache.commons.httpclient.protocol.Protocol;
 import org.apache.log4j.Logger;
 
 /**
@@ -117,10 +119,15 @@ public class ClientMDComplite extends ClientMD {
 	 */
 	private void confirmDelMD(ReadInfoOutput input, IMDConfiguration<Software> configuration) throws ClientMDException {
 		ConfirmDelMDPortTypeProxy proxy = null;
+		String wsdlCheckMD = null;
 
 		try {
-			proxy = new ConfirmDelMDPortTypeProxy(
-					configuration.getSoftwareConfigString("wsdlConfirmDelMD"));
+			wsdlCheckMD = configuration.getSoftwareConfigString("wsdlConfirmDelMD");
+			if (wsdlCheckMD.toLowerCase().trim().startsWith("https")){
+				Protocol.registerProtocol("https", 
+						new Protocol("https", new DefaultProtocolSocketFactory(), 443));
+			}
+			proxy = new ConfirmDelMDPortTypeProxy(wsdlCheckMD);
 //					Configuration.getValue("md.wsdlConfirmDelMD"));
 
 			proxy.confirmDelMDOperation(readInfoOutputToInput(input));

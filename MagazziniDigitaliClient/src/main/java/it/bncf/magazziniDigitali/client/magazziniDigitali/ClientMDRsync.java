@@ -14,6 +14,8 @@ import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
 import java.util.GregorianCalendar;
 
+import org.apache.commons.httpclient.protocol.DefaultProtocolSocketFactory;
+import org.apache.commons.httpclient.protocol.Protocol;
 import org.apache.log4j.Logger;
 
 import it.bncf.magazziniDigitali.configuration.IMDConfiguration;
@@ -254,10 +256,15 @@ public class ClientMDRsync extends ClientMD{
 			IMDConfiguration<Software> configuration) throws ClientMDException {
 		InitSendMDPortTypeProxy proxy = null;
 		ReadInfoOutput output = null;
+		String wsdlCheckMD = null;
 
 		try {
-			proxy = new InitSendMDPortTypeProxy(
-					configuration.getSoftwareConfigString("wsdlInitSendMD"));
+			wsdlCheckMD = configuration.getSoftwareConfigString("wsdlInitSendMD");
+			if (wsdlCheckMD.toLowerCase().trim().startsWith("https")){
+				Protocol.registerProtocol("https", 
+						new Protocol("https", new DefaultProtocolSocketFactory(), 443));
+			}
+			proxy = new InitSendMDPortTypeProxy(wsdlCheckMD);
 //					Configuration.getValue("md.wsdlInitSendMD"));
 
 			output = proxy.initSendMDOperation(readInfoOutputToInput(input));
@@ -288,11 +295,16 @@ public class ClientMDRsync extends ClientMD{
 		EndSendMDPortTypeProxy proxy = null;
 		EndSend endSend = null;
 		Errori[] errori = null;
+		String wsdlCheckMD = null;
 		ConverterEndSendReadInfoOutputSoftware converterEndSendReadInfoInputSoftware = null;
 
 		try {
-			proxy = new EndSendMDPortTypeProxy(
-					configuration.getSoftwareConfigString("wsdlEndSendMD"));
+			wsdlCheckMD = configuration.getSoftwareConfigString("wsdlEndSendMD");
+			if (wsdlCheckMD.toLowerCase().trim().startsWith("https")){
+				Protocol.registerProtocol("https", 
+						new Protocol("https", new DefaultProtocolSocketFactory(), 443));
+			}
+			proxy = new EndSendMDPortTypeProxy(wsdlCheckMD);
 //					Configuration.getValue("md.wsdlEndSendMD"));
 
 			endSend = new EndSend();

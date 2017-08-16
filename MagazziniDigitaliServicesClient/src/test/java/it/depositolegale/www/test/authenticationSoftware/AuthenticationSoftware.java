@@ -6,6 +6,9 @@ package it.depositolegale.www.test.authenticationSoftware;
 import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
 
+import org.apache.commons.httpclient.protocol.DefaultProtocolSocketFactory;
+import org.apache.commons.httpclient.protocol.Protocol;
+
 import it.depositolegale.www.login.Authentication;
 import it.depositolegale.www.software.Software;
 import it.depositolegale.www.test.software.PrintSoftware;
@@ -72,7 +75,9 @@ public class AuthenticationSoftware extends PrintSoftware {
 		Software software = null;
 
 		try {
-			url = "http://"+host+"/MagazziniDigitaliServices/services/AuthenticationSoftwarePort?wsdl";
+			Protocol.registerProtocol("https", 
+					new Protocol("https", new DefaultProtocolSocketFactory(), 443));
+			url = "https://"+host+"/MagazziniDigitaliServices/services/AuthenticationSoftwarePort?wsdl";
 			System.out.println("URL: "+url);
 			proxy = new AuthenticationSoftwarePortTypeProxy(url);
 
