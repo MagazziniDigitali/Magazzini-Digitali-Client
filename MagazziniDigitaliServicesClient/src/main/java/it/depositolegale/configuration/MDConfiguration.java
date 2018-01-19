@@ -112,7 +112,7 @@ public class MDConfiguration extends IMDConfiguration<Software> {
 		
 		try {
 			url = Configuration.getValue("software.URLAuthentication");
-			System.out.println("URL: "+url);
+//			System.out.println("URL: "+url);
 			if (url.toLowerCase().startsWith("https")){
 				Protocol.registerProtocol("https", 
 						new Protocol("https", new DefaultProtocolSocketFactory(), 443));
