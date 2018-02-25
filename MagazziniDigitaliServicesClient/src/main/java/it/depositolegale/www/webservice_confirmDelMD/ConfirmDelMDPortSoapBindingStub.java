@@ -63,9 +63,16 @@ public class ConfirmDelMDPortSoapBindingStub extends org.apache.axis.client.Stub
             java.lang.Class simpledf = org.apache.axis.encoding.ser.SimpleDeserializerFactory.class;
             java.lang.Class simplelistsf = org.apache.axis.encoding.ser.SimpleListSerializerFactory.class;
             java.lang.Class simplelistdf = org.apache.axis.encoding.ser.SimpleListDeserializerFactory.class;
-            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/istituto", "statoIstituto_type");
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/errorMsg", "errorMsg");
             cachedSerQNames.add(qName);
-            cls = it.depositolegale.www.istituto.StatoIstituto_type.class;
+            cls = it.depositolegale.www.errorMsg.ErrorMsg.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/errorMsg", "errorType_type");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.errorMsg.ErrorType_type.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(enumsf);
             cachedDeserFactories.add(enumdf);
@@ -91,9 +98,30 @@ public class ConfirmDelMDPortSoapBindingStub extends org.apache.axis.client.Stub
             cachedSerFactories.add(enumsf);
             cachedDeserFactories.add(enumdf);
 
-            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/readInfoInput", ">>readInfoInput>istituto");
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/readInfoInput", ">>>>readInfoInput>software>istituzione>apiUtente");
             cachedSerQNames.add(qName);
-            cls = it.depositolegale.www.readInfoInput.ReadInfoInputIstituto.class;
+            cls = it.depositolegale.www.readInfoInput.ReadInfoInputSoftwareIstituzioneApiUtente.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/readInfoInput", ">>>readInfoInput>software>authentication");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.readInfoInput.ReadInfoInputSoftwareAuthentication.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/readInfoInput", ">>>readInfoInput>software>istituzione");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.readInfoInput.ReadInfoInputSoftwareIstituzione.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/readInfoInput", ">>>readInfoInput>software>rigth");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.readInfoInput.ReadInfoInputSoftwareRigth.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
@@ -105,9 +133,65 @@ public class ConfirmDelMDPortSoapBindingStub extends org.apache.axis.client.Stub
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
 
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/readInfoInput", ">>readInfoInput>software");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.readInfoInput.ReadInfoInputSoftware.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
             qName = new javax.xml.namespace.QName("http://www.depositolegale.it/readInfoInput", ">readInfoInput");
             cachedSerQNames.add(qName);
             cls = it.depositolegale.www.readInfoInput.ReadInfoInput.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/rigths", "rightType_type");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.rigths.RightType_type.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(enumsf);
+            cachedDeserFactories.add(enumdf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/software", ">>>softwareConfig>nodo>storage>rsync");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.software.SoftwareConfigNodoStorageRsync.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/software", ">>>softwareConfig>nodo>storage>s3");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.software.SoftwareConfigNodoStorageS3.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/software", ">>>softwareConfig>nodo>storage>tipo");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.software.SoftwareConfigNodoStorageTipo.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(enumsf);
+            cachedDeserFactories.add(enumdf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/software", ">>softwareConfig>nodo>storage");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.software.SoftwareConfigNodoStorage.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/software", ">softwareConfig>nodo");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.software.SoftwareConfigNodo.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/software", "softwareConfig");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.software.SoftwareConfig.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);

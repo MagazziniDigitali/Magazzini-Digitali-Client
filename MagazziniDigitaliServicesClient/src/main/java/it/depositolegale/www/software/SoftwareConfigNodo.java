@@ -14,9 +14,7 @@ public class SoftwareConfigNodo  implements java.io.Serializable {
 
     private java.lang.String descrizioni;
 
-    private it.depositolegale.www.software.SoftwareConfigNodoRsync rsync;
-
-    private org.apache.axis.types.URI urlCheckStorage;
+    private it.depositolegale.www.software.SoftwareConfigNodoStorage storage;
 
     public SoftwareConfigNodo() {
     }
@@ -25,13 +23,11 @@ public class SoftwareConfigNodo  implements java.io.Serializable {
            java.lang.String id,
            java.lang.String nome,
            java.lang.String descrizioni,
-           it.depositolegale.www.software.SoftwareConfigNodoRsync rsync,
-           org.apache.axis.types.URI urlCheckStorage) {
+           it.depositolegale.www.software.SoftwareConfigNodoStorage storage) {
            this.id = id;
            this.nome = nome;
            this.descrizioni = descrizioni;
-           this.rsync = rsync;
-           this.urlCheckStorage = urlCheckStorage;
+           this.storage = storage;
     }
 
 
@@ -96,42 +92,22 @@ public class SoftwareConfigNodo  implements java.io.Serializable {
 
 
     /**
-     * Gets the rsync value for this SoftwareConfigNodo.
+     * Gets the storage value for this SoftwareConfigNodo.
      * 
-     * @return rsync
+     * @return storage
      */
-    public it.depositolegale.www.software.SoftwareConfigNodoRsync getRsync() {
-        return rsync;
+    public it.depositolegale.www.software.SoftwareConfigNodoStorage getStorage() {
+        return storage;
     }
 
 
     /**
-     * Sets the rsync value for this SoftwareConfigNodo.
+     * Sets the storage value for this SoftwareConfigNodo.
      * 
-     * @param rsync
+     * @param storage
      */
-    public void setRsync(it.depositolegale.www.software.SoftwareConfigNodoRsync rsync) {
-        this.rsync = rsync;
-    }
-
-
-    /**
-     * Gets the urlCheckStorage value for this SoftwareConfigNodo.
-     * 
-     * @return urlCheckStorage
-     */
-    public org.apache.axis.types.URI getUrlCheckStorage() {
-        return urlCheckStorage;
-    }
-
-
-    /**
-     * Sets the urlCheckStorage value for this SoftwareConfigNodo.
-     * 
-     * @param urlCheckStorage
-     */
-    public void setUrlCheckStorage(org.apache.axis.types.URI urlCheckStorage) {
-        this.urlCheckStorage = urlCheckStorage;
+    public void setStorage(it.depositolegale.www.software.SoftwareConfigNodoStorage storage) {
+        this.storage = storage;
     }
 
     private java.lang.Object __equalsCalc = null;
@@ -155,12 +131,9 @@ public class SoftwareConfigNodo  implements java.io.Serializable {
             ((this.descrizioni==null && other.getDescrizioni()==null) || 
              (this.descrizioni!=null &&
               this.descrizioni.equals(other.getDescrizioni()))) &&
-            ((this.rsync==null && other.getRsync()==null) || 
-             (this.rsync!=null &&
-              this.rsync.equals(other.getRsync()))) &&
-            ((this.urlCheckStorage==null && other.getUrlCheckStorage()==null) || 
-             (this.urlCheckStorage!=null &&
-              this.urlCheckStorage.equals(other.getUrlCheckStorage())));
+            ((this.storage==null && other.getStorage()==null) || 
+             (this.storage!=null &&
+              this.storage.equals(other.getStorage())));
         __equalsCalc = null;
         return _equals;
     }
@@ -181,11 +154,8 @@ public class SoftwareConfigNodo  implements java.io.Serializable {
         if (getDescrizioni() != null) {
             _hashCode += getDescrizioni().hashCode();
         }
-        if (getRsync() != null) {
-            _hashCode += getRsync().hashCode();
-        }
-        if (getUrlCheckStorage() != null) {
-            _hashCode += getUrlCheckStorage().hashCode();
+        if (getStorage() != null) {
+            _hashCode += getStorage().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -216,17 +186,10 @@ public class SoftwareConfigNodo  implements java.io.Serializable {
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("rsync");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/software", "rsync"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.depositolegale.it/software", ">>softwareConfig>nodo>rsync"));
+        elemField.setFieldName("storage");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/software", "storage"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.depositolegale.it/software", ">>softwareConfig>nodo>storage"));
         elemField.setNillable(true);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("urlCheckStorage");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://www.depositolegale.it/software", "urlCheckStorage"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "anyURI"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
 

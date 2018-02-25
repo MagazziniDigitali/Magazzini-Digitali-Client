@@ -105,9 +105,6 @@ public class MDClient {
 			if ( testMode){
 				System.out.println("Inizio elaborazione in Modalità di Test");
 			}
-//			if (!Configuration.isInizialize()){
-//				Configuration.init(pathProperties);
-//			}
 			mdCheckRsync = new MDCheckRsync(Thread.currentThread(), "RSync", testMode, configuration);
 			if (testMode){
 				mdCheckRsync.run();
@@ -122,13 +119,13 @@ public class MDClient {
 				mdCheckComplite.start();
 			}
 		} catch (InterruptedException e) {
-			log.error(e);
+			log.error(e.getMessage(),e);
 			throw new MDClientException(e.getMessage(), e);
 		} catch (IOException e) {
-			log.error(e);
+			log.error(e.getMessage(),e);
 			throw new MDClientException(e.getMessage(), e);
 		} catch (MDConfigurationException e) {
-			log.error(e);
+			log.error(e.getMessage(),e);
 			throw new MDClientException(e.getMessage(), e);
 		} finally {
 			if ( testMode){
@@ -136,69 +133,4 @@ public class MDClient {
 			}
 		}
 	}
-
-	/**
-	 * Metodo utilizzato per testare il contenuto di una cartella
-	 * 
-	 * @param pathInput
-	private void checkFolder(File pathInput){
-		File[] fl = null;
-		File f = null;
-		ClientMDRsync clientMDRsync = null;
-
-		if (pathInput.exists()){
-			fl = pathInput.listFiles(new FileFilter() {
-				
-				@SuppressWarnings("unchecked")
-				@Override
-				public boolean accept(File f) {
-					boolean ris = false;
-					Vector<String> st = null;
-					
-					// Verifico che il file/cartella non sia di tipo nascosto
-					if (!f.getName().startsWith(".") && !f.isHidden()){
-						// controllo se è una cartella
-						if (f.isDirectory()){
-							ris = true;
-						} else {
-							try {
-								st = (Vector<String>) Configuration.getValues("file.extension");
-								for (int x=0; x<st.size(); x++){
-									if (f.getName().toLowerCase().endsWith(st.get(x).toLowerCase())){
-										ris= true;
-										break;
-									}
-								}
-							} catch (ConfigurationException e) {
-								log.error(e);
-							}
-						}
-					}
-					return ris;
-				}
-			});
-			for (int x=0; x<fl.length; x++){
-				f = fl[x];
-				if (f.isDirectory()){
-					checkFolder(f);
-				} else {
-					try {
-						clientMDRsync = new ClientMDRsync(f);
-						clientMDRsync.execute();
-					} catch (NoSuchAlgorithmException e) {
-						log.error(e.getMessage(), e);
-					} catch (FileNotFoundException e) {
-						log.error(e.getMessage(), e);
-					} catch (IOException e) {
-						log.error(e.getMessage(), e);
-					} catch (ClientMDException e) {
-						log.error(e.getMessage(), e);
-					}
-				}
-			}
-		} else {
-			log.error("La cartella ["+pathInput.getAbsolutePath()+"] non esiste");
-		}
-	}
-	 */
 }

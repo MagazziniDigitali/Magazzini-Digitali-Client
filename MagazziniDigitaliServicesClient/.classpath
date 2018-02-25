@@ -39,5 +39,7 @@
 	<classpathentry kind="lib" path="/Users/massi/Desktop/Lavoro/Software/eclipse/Eclipse 4.5 (Mars - GWT - Maven Hibernate).app/Contents/Eclipse/plugins/javax.xml.soap_1.2.0.v201005080501/lib/saaj.jar"/>
 	<classpathentry kind="lib" path="/Users/massi/Desktop/Lavoro/Software/eclipse/Eclipse 4.5 (Mars - GWT - Maven Hibernate).app/Contents/Eclipse/plugins/javax.wsdl_1.6.2.v201012040545.jar"/>
 	<classpathentry kind="lib" path="/Users/massi/Desktop/Lavoro/Software/eclipse/Eclipse 4.5 (Mars - GWT - Maven Hibernate).app/Contents/Eclipse/plugins/org.apache.commons.logging_1.1.1.v201101211721.jar"/>
+	<classpathentry kind="lib" path="/Users/massi/.p2/pool/plugins/javax.wsdl_1.6.2.v201012040545.jar"/>
+	<classpathentry kind="lib" path="/Users/massi/.p2/pool/plugins/org.apache.commons.logging_1.1.1.v201101211721.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

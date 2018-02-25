@@ -68,7 +68,7 @@ public class MDConfiguration extends IMDConfiguration<Software> {
 					if (f.exists()){
 						quartzMaster = new QuartzMaster(false, f.getAbsolutePath());
 					} else {
-						log.error("Ilf file ["+f.getAbsolutePath()+"] non esiste");
+						log.error("\n"+"Ilf file ["+f.getAbsolutePath()+"] non esiste");
 					}
 				}
 			}
@@ -112,7 +112,6 @@ public class MDConfiguration extends IMDConfiguration<Software> {
 		
 		try {
 			url = Configuration.getValue("software.URLAuthentication");
-//			System.out.println("URL: "+url);
 			if (url.toLowerCase().startsWith("https")){
 				Protocol.registerProtocol("https", 
 						new Protocol("https", new DefaultProtocolSocketFactory(), 443));

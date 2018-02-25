@@ -1,43 +1,37 @@
 /**
- * Digest_type.java
+ * DocumentiDocumentoDigestsInstance.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
 
-package it.depositolegale.www.oggettiDigitali;
+package it.depositolegale.www.storage;
 
-public class Digest_type implements java.io.Serializable {
+public class DocumentiDocumentoDigestsInstance implements java.io.Serializable {
     private java.lang.String _value_;
     private static java.util.HashMap _table_ = new java.util.HashMap();
 
     // Constructor
-    protected Digest_type(java.lang.String value) {
+    protected DocumentiDocumentoDigestsInstance(java.lang.String value) {
         _value_ = value;
         _table_.put(_value_,this);
     }
 
-    public static final java.lang.String _value1 = "SHA256";
-    public static final java.lang.String _value2 = "SHA1";
-    public static final java.lang.String _value3 = "MD5";
-    public static final java.lang.String _value4 = "MD5-64Base";
-    public static final java.lang.String _value5 = "SHA1-64Base";
-    public static final java.lang.String _value6 = "SHA256-64Base";
-    public static final Digest_type value1 = new Digest_type(_value1);
-    public static final Digest_type value2 = new Digest_type(_value2);
-    public static final Digest_type value3 = new Digest_type(_value3);
-    public static final Digest_type value4 = new Digest_type(_value4);
-    public static final Digest_type value5 = new Digest_type(_value5);
-    public static final Digest_type value6 = new Digest_type(_value6);
+    public static final java.lang.String _SHA1 = "SHA1";
+    public static final java.lang.String _SHA256 = "SHA256";
+    public static final java.lang.String _MD5 = "MD5";
+    public static final DocumentiDocumentoDigestsInstance SHA1 = new DocumentiDocumentoDigestsInstance(_SHA1);
+    public static final DocumentiDocumentoDigestsInstance SHA256 = new DocumentiDocumentoDigestsInstance(_SHA256);
+    public static final DocumentiDocumentoDigestsInstance MD5 = new DocumentiDocumentoDigestsInstance(_MD5);
     public java.lang.String getValue() { return _value_;}
-    public static Digest_type fromValue(java.lang.String value)
+    public static DocumentiDocumentoDigestsInstance fromValue(java.lang.String value)
           throws java.lang.IllegalArgumentException {
-        Digest_type enumeration = (Digest_type)
+        DocumentiDocumentoDigestsInstance enumeration = (DocumentiDocumentoDigestsInstance)
             _table_.get(value);
         if (enumeration==null) throw new java.lang.IllegalArgumentException();
         return enumeration;
     }
-    public static Digest_type fromString(java.lang.String value)
+    public static DocumentiDocumentoDigestsInstance fromString(java.lang.String value)
           throws java.lang.IllegalArgumentException {
         return fromValue(value);
     }
@@ -63,10 +57,10 @@ public class Digest_type implements java.io.Serializable {
     }
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(Digest_type.class);
+        new org.apache.axis.description.TypeDesc(DocumentiDocumentoDigestsInstance.class);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://www.depositolegale.it/oggettiDigitali", "digest_type"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://www.depositolegale.it/storage", ">>>>documenti>documento>digests>instance"));
     }
     /**
      * Return type metadata object

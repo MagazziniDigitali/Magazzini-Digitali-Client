@@ -45,7 +45,7 @@ public class MDCheckRsync extends MDCheck {
 			clientMDRsync = new ClientMDRsync(fileTarGz);
 			clientMDRsync.execute(configuration);
 			sender = clientMDRsync.isSender();
-			log.info(getName()+" Completato ["+clientMDRsync.isCompletato()+"] Inviato ["+clientMDRsync.isSender()+"]");
+			log.info("\n"+getName()+" Completato ["+clientMDRsync.isCompletato()+"] Inviato ["+clientMDRsync.isSender()+"]");
 		} catch (NoSuchAlgorithmException e) {
 			throw e;
 		} catch (FileNotFoundException e) {

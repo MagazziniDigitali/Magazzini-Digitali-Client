@@ -56,7 +56,7 @@ public class ClientMDRsync extends ClientMD{
 	 * @see it.bncf.magazziniDigitali.client.magazziniDigitali.ClientMD#send(java.io.File,
 	 *      java.lang.String, java.util.GregorianCalendar)
 	 */
-	private void send(File fSend, String hash, GregorianCalendar lastModified, IMDConfiguration<?> configuration)
+	private void send(File fSend, GregorianCalendar lastModified, IMDConfiguration<?> configuration)
 			throws ClientMDException {
 		Runtime rt = null;
 		Process proc = null;
@@ -72,7 +72,7 @@ public class ClientMDRsync extends ClientMD{
 		String fileInput = null;
 
 		try {
-			log.info("Invio file: "+fSend.getAbsolutePath());
+			log.info("\n"+"Invio file: "+fSend.getAbsolutePath());
 			rt = Runtime.getRuntime();
 			if (File.separator.equals("\\")){
 				fileInput = "/cygdrive/"+fSend.getAbsolutePath().replace(":", "").replace("\\", "/");
@@ -102,11 +102,11 @@ public class ClientMDRsync extends ClientMD{
 			brStd = new BufferedReader(isrStd);
 
 			while ((val = brStd.readLine()) != null) {
-				log.debug(val);
+				log.debug("\n"+val);
 			}
 
 			while ((val = brErr.readLine()) != null) {
-				log.error(val);
+				log.error("\n"+val);
 			}
 
 			exitVal = proc.waitFor();
@@ -199,7 +199,7 @@ public class ClientMDRsync extends ClientMD{
 				if (stderr != null){
 					stderr.close();
 				}
-				log.info("File: "+fSend.getAbsolutePath()+" inviato");
+				log.info("\n"+"File: "+fSend.getAbsolutePath()+" inviato");
 			} catch (IOException e) {
 				throw new ClientMDException(e.getMessage(), e);
 			}
@@ -208,7 +208,7 @@ public class ClientMDRsync extends ClientMD{
 
 	@Override
 	protected void check(ReadInfoOutput checkMD, IMDConfiguration<Software> configuration) throws ClientMDException {
-		log.info("StatoOggettoDigitale: "+checkMD
+		log.info("\n"+"StatoOggettoDigitale: "+checkMD
 				.getOggettoDigitale()
 				.getStatoOggettoDigitale());
 		if (checkMD
@@ -229,7 +229,7 @@ public class ClientMDRsync extends ClientMD{
 				checkMD = initSendMD(checkMD, configuration);
 			}
 			try {
-				send(fSend, hash, lastModified, configuration);
+				send(fSend, lastModified, configuration);
 				endSendMD(checkMD, true, null, configuration);
 				sender=true;
 			} catch (ClientMDException e) {

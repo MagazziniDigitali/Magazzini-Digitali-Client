@@ -45,11 +45,11 @@ public class ClientMDComplite extends ClientMD {
 	@Override
 	protected void check(ReadInfoOutput checkMD, IMDConfiguration<Software> configuration) throws ClientMDException {
 		File folder = null;
-		log.info("NomeFile: "+checkMD.getOggettoDigitale().getNomeFile()+" StatoOggettoDigitale: "+checkMD.getOggettoDigitale().getStatoOggettoDigitale());
+		log.info("\n"+"NomeFile: "+checkMD.getOggettoDigitale().getNomeFile()+" StatoOggettoDigitale: "+checkMD.getOggettoDigitale().getStatoOggettoDigitale());
 		if (checkMD.getOggettoDigitale().getStatoOggettoDigitale()
 				.equals(StatoOggettoDigitale_type.ARCHIVIATO)) {
 			try {
-				log.info("deleteLocalFile: "+Configuration.getValue("md.deleteLocalFile"));
+				log.info("\n"+"deleteLocalFile: "+Configuration.getValue("md.deleteLocalFile"));
 				if (Configuration.getValue("md.deleteLocalFile")
 						.equalsIgnoreCase("true")) {
 					// Il file risulta essere stato
@@ -68,8 +68,8 @@ public class ClientMDComplite extends ClientMD {
 						delFolder(folder);
 					}
 					confirmDelMD(checkMD, configuration);
-					completato = true;
 				}
+				completato = true;
 			} catch (ConfigurationException e) {
 				throw new ClientMDException(e.getMessage(), e);
 			}

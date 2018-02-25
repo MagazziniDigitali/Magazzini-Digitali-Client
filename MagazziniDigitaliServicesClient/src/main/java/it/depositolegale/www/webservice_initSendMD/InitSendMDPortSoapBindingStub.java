@@ -226,9 +226,30 @@ public class InitSendMDPortSoapBindingStub extends org.apache.axis.client.Stub i
             cachedSerFactories.add(enumsf);
             cachedDeserFactories.add(enumdf);
 
-            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/software", ">>softwareConfig>nodo>rsync");
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/software", ">>>softwareConfig>nodo>storage>rsync");
             cachedSerQNames.add(qName);
-            cls = it.depositolegale.www.software.SoftwareConfigNodoRsync.class;
+            cls = it.depositolegale.www.software.SoftwareConfigNodoStorageRsync.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/software", ">>>softwareConfig>nodo>storage>s3");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.software.SoftwareConfigNodoStorageS3.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/software", ">>>softwareConfig>nodo>storage>tipo");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.software.SoftwareConfigNodoStorageTipo.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(enumsf);
+            cachedDeserFactories.add(enumdf);
+
+            qName = new javax.xml.namespace.QName("http://www.depositolegale.it/software", ">>softwareConfig>nodo>storage");
+            cachedSerQNames.add(qName);
+            cls = it.depositolegale.www.software.SoftwareConfigNodoStorage.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);

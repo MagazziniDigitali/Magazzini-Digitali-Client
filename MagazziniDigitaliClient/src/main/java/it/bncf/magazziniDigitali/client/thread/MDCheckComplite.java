@@ -34,7 +34,7 @@ public class MDCheckComplite extends MDCheck {
 			clientMDComplite = new ClientMDComplite(fileTarGz);
 			clientMDComplite.execute(configuration);
 			completato = clientMDComplite.isCompletato();
-			log.info(getName()+" Completato ["+clientMDComplite.isCompletato()+"] Inviato ["+clientMDComplite.isSender()+"]");
+			log.info("\n"+getName()+" Completato ["+clientMDComplite.isCompletato()+"] Inviato ["+clientMDComplite.isSender()+"]");
 		} catch (NoSuchAlgorithmException e) {
 			throw e;
 		} catch (FileNotFoundException e) {

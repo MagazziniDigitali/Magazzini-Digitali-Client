@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
 import java.util.GregorianCalendar;
+import java.util.Vector;
 
 import org.apache.commons.httpclient.protocol.DefaultProtocolSocketFactory;
 import org.apache.commons.httpclient.protocol.Protocol;
@@ -24,7 +25,9 @@ import it.depositolegale.www.readInfoInput.ReadInfoInputOggettoDigitale;
 import it.depositolegale.www.readInfoOutput.ReadInfoOutput;
 import it.depositolegale.www.software.Software;
 import it.depositolegale.www.webservice_checkMD.CheckMDPortTypeProxy;
+import mx.randalf.digest.MD5;
 import mx.randalf.digest.SHA1;
+import mx.randalf.digest.SHA256;
 
 /**
  * Questo metodo viene utilizzato per la gestione del colloquio con Magazzini
@@ -48,7 +51,7 @@ abstract class ClientMD {
 	/**
 	 * Variabile utilizzata per indicare il valore hash del file da inviare
 	 */
-	protected String hash = null;
+	protected Vector<Digest> digests = null;
 
 	/**
 	 * Variabile utilizzata per indicare l'ultima data di modifica del file
@@ -73,12 +76,26 @@ abstract class ClientMD {
 	 */
 	public ClientMD(File f) throws NoSuchAlgorithmException,
 			FileNotFoundException, IOException {
-		SHA1 digest = null;
+		MD5 md5 = null;
+		SHA1 sha1 = null;
+//		SHA256 sha256 = null;
 
 		try {
 			fSend = f;
-			digest = new SHA1();
-			hash = digest.getDigest(f);
+			digests = new Vector<Digest>();
+
+			md5 = new MD5(f);
+			digests.add(new Digest(Digest_type.value3, md5.getDigest()));
+			digests.add(new Digest(Digest_type.value4, md5.getDigest64Base()));
+
+			sha1 = new SHA1(f);
+			digests.add(new Digest(Digest_type.value2, sha1.getDigest()));
+			digests.add(new Digest(Digest_type.value5, sha1.getDigest64Base()));
+
+//			sha256 = new SHA256(f);
+//			digests.add(new Digest(Digest_type.value1, sha256.getDigest()));
+//			digests.add(new Digest(Digest_type.value6, sha256.getDigest64Base()));
+			
 			lastModified = new GregorianCalendar();
 			lastModified.setTimeInMillis(f.lastModified());
 		} catch (NoSuchAlgorithmException e) {
@@ -107,54 +124,38 @@ abstract class ClientMD {
 		if (checkMD != null) {
 			if (checkMD.getErrori() != null && checkMD.getErrori().length > 0) {
 				for (int x = 0; x < checkMD.getErrori().length; x++) {
-					log.error(checkMD.getErrori()[x].getId() + " - "
+					log.error("\n"+checkMD.getErrori()[x].getId() + " - "
 							+ checkMD.getErrori()[x].getMessaggio());
 				}
 			}
 			if (checkMD.getWarning() != null && checkMD.getWarning().length > 0) {
 				for (int x = 0; x < checkMD.getWarning().length; x++) {
-					log.warn(checkMD.getWarning()[x].getId() + " - "
+					log.warn("\n"+checkMD.getWarning()[x].getId() + " - "
 							+ checkMD.getWarning()[x].getMessaggio());
 				}
 			}
 			if (checkMD.getInfo() != null && checkMD.getInfo().length > 0) {
 				errori = true;
 				for (int x = 0; x < checkMD.getInfo().length; x++) {
-					log.info(checkMD.getInfo()[x].getId() + " - "
+					log.info("\n"+checkMD.getInfo()[x].getId() + " - "
 							+ checkMD.getInfo()[x].getMessaggio());
 				}
 			}
 			if (!errori) {
-//				if (checkMD.getIstituto() != null) {
-//					if (checkMD.getIstituto().getStatoIstituto() != null) {
-//						if (checkMD.getIstituto().getStatoIstituto()
-//								.equals(StatoIstituto_type.VALIDO)) {
-							if (checkMD.getOggettoDigitale() != null) {
-								if (checkMD.getOggettoDigitale()
-										.getStatoOggettoDigitale() != null) {
-									
-									check(checkMD, configuration);
-									
-								} else {
-									throw new ClientMDException(
-											"Non risultano validato l'oggetto Digitale");
-								}
-							} else {
-								throw new ClientMDException(
-										"Non risultano le informazioni dell'oggetto digitale");
-							}
-//						} else {
-//							throw new ClientMDException(
-//									"Stato dell'istituto non presente");
-//						}
-//					} else {
-//						throw new ClientMDException(
-//								"Stato dell'istituto ["+checkMD.getIstituto().getStatoIstituto()+"]");
-//					}
-//				} else {
-//					throw new ClientMDException(
-//							"Non risultano le informazioni dell'istituto");
-//				}
+				if (checkMD.getOggettoDigitale() != null) {
+					if (checkMD.getOggettoDigitale()
+							.getStatoOggettoDigitale() != null) {
+						
+						check(checkMD, configuration);
+						
+					} else {
+						throw new ClientMDException(
+								"Non risultano validato l'oggetto Digitale");
+					}
+				} else {
+					throw new ClientMDException(
+							"Non risultano le informazioni dell'oggetto digitale");
+				}
 			}
 		} else {
 			throw new ClientMDException(
@@ -203,7 +204,6 @@ abstract class ClientMD {
 		ReadInfoOutput output = null;
 //		ReadInfoInputIstituto istituto = null;
 		ReadInfoInputOggettoDigitale oggettoDigitale = null;
-		Digest[] digest = null;
 		String wsdlCheckMD = null;
 		ConverterReadInfoInputSoftware converterReadInfoInputSoftware = null;
 
@@ -214,33 +214,19 @@ abstract class ClientMD {
 						new Protocol("https", new DefaultProtocolSocketFactory(), 443));
 			}
 			//Configuration.getValue("md.wsdlCheckMD")
-			log.info("checkMD: "+wsdlCheckMD+" sha1: "+hash);
+			log.info("\n"+"checkMD: "+wsdlCheckMD);
 			proxy = new CheckMDPortTypeProxy(wsdlCheckMD);
 
 			input = new ReadInfoInput();
 
-//			log.debug("istituto.id: "+
-//						configuration.getMDSoftware().getId());
-////			Configuration.getValue("istituto.id"));
-//			log.debug("istituto.password: "+
-//					configuration.getMDSoftware().getPassword());
-//					Configuration.getValue("istituto.password"));
 			converterReadInfoInputSoftware = new ConverterReadInfoInputSoftware();
 			input.setSoftware(converterReadInfoInputSoftware.convert(configuration.getSoftware()));
-//			istituto = new ReadInfoInputIstituto();
-//			istituto.setId(	.getValue("istituto.id"));
-//			istituto.setPassword(Configuration.getValue("istituto.password"));
-//			input.setIstituto(istituto);
 
-			log.debug("digest: "+digest);
-			log.debug("lastModified: "+lastModified);
+			log.debug("\n"+"digest: "+digests);
+			log.debug("\n"+"lastModified: "+lastModified);
 			oggettoDigitale = new ReadInfoInputOggettoDigitale();
 			oggettoDigitale.setNomeFile(fSend.getName());
-			digest = new Digest[1];
-			digest[0] = new Digest();
-			digest[0].setDigestType(Digest_type.SHA1);
-			digest[0].setDigestValue(hash);
-			oggettoDigitale.setDigest(digest);
+			oggettoDigitale.setDigest(digests.toArray(new Digest[digests.size()]));
 			oggettoDigitale.setUltimaModifica(lastModified);
 			input.setOggettoDigitale(oggettoDigitale);
 			output = proxy.checkMDOperation(input);

@@ -7,7 +7,6 @@ import it.depositolegale.www.software.Software;
 import it.depositolegale.www.software.SoftwareAuthentication;
 import it.depositolegale.www.software.SoftwareConfig;
 import it.depositolegale.www.software.SoftwareConfigNodo;
-import it.depositolegale.www.software.SoftwareConfigNodoRsync;
 import it.depositolegale.www.software.SoftwareIstituzione;
 import it.depositolegale.www.software.SoftwareIstituzioneApiUtente;
 import it.depositolegale.www.test.errorMsg.PrintErrorMsg;
@@ -77,19 +76,19 @@ public class PrintSoftware extends PrintErrorMsg {
 			print("ID", nodo.getId(), prefix);
 			print("Nome", nodo.getNome(), prefix);
 			print("Descrizioni", nodo.getDescrizioni(), prefix);
-			print(nodo.getRsync(), prefix);
-			print("UrlCheckStorage", nodo.getUrlCheckStorage(), prefix);
+//			print(nodo.getRsync(), prefix);
+//			print("UrlCheckStorage", nodo.getUrlCheckStorage(), prefix);
 		}
 	}
-
-	private void print(SoftwareConfigNodoRsync rsync, String prefix) {
-		if (rsync != null) {
-			System.out.println(prefix + "SoftwareConfigNodoRsync");
-			prefix += "\t";
-			print("Indirizzo", rsync.getIndirizzo(), prefix);
-			print("Password", rsync.getPassword(), prefix);
-		}
-	}
+//
+//	private void print(SoftwareConfigNodoRsync rsync, String prefix) {
+//		if (rsync != null) {
+//			System.out.println(prefix + "SoftwareConfigNodoRsync");
+//			prefix += "\t";
+//			print("Indirizzo", rsync.getIndirizzo(), prefix);
+//			print("Password", rsync.getPassword(), prefix);
+//		}
+//	}
 
 	protected void print(SoftwareIstituzione istituzione, String prefix) {
 		if (istituzione != null) {

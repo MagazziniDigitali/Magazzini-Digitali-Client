@@ -93,7 +93,7 @@ public class ClientMDRsyncTest {
 			}
 
 			while ((val = brErr.readLine()) != null) {
-				log.error(val);
+				log.error("\n"+val);
 			}
 
 			exitVal = proc.waitFor();

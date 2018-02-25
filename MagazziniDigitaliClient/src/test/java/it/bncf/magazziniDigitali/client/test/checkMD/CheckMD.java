@@ -74,7 +74,7 @@ public class CheckMD {
 				oggettoDigitale.setNomeFile(nomeFile);
 				digest = new Digest[1];
 				digest[0] = new Digest();
-				digest[0].setDigestType(Digest_type.SHA1);
+				digest[0].setDigestType(Digest_type.value2);
 				digest[0].setDigestValue(hash);
 				oggettoDigitale.setDigest(digest);
 				oggettoDigitale.setUltimaModifica(lastModified);

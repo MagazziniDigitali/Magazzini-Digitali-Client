@@ -68,7 +68,7 @@ public abstract class MDCheck extends Thread {
 			pathDescriptati = (Vector<String>) Configuration.getValues("pathDescriptati");
 			while (true) {
 				for (int x = 0; x < pathInput.size(); x++) {
-					log.info(getName() + " Analizzo la cartella [" + pathInput.get(x) + "]");
+					log.info("\n"+getName() + " Analizzo la cartella [" + pathInput.get(x) + "]");
 					pathElab = new File(pathInput.get(x));
 					sender = checkExcel(pathElab, new File(pathDescriptati.get(x)), testMode,
 							configuration);
@@ -142,9 +142,8 @@ public abstract class MDCheck extends Thread {
 
 					fElab = new File(f.getAbsolutePath() + ".elab");
 					if (!fElab.exists()) {
-						log.info(getName() + " Elaboro il file [" + f.getAbsolutePath() + "]");
+						log.info("\n"+getName() + " Elaboro il file [" + f.getAbsolutePath() + "]");
 						try {
-							md5 = new MD5();
 							fr = new FileReader(f);
 							br = new BufferedReader(fr);
 							completato = true;
@@ -153,7 +152,7 @@ public abstract class MDCheck extends Thread {
 								fileTarGz = genFileTarGz(pathDescriptati, st[0]);
 								if (fileTarGz.exists()) {
 									try {
-										log.info(getName() + " Elaboro il file [" + fileTarGz.getAbsolutePath() + "]");
+										log.info("\n"+getName() + " Elaboro il file [" + fileTarGz.getAbsolutePath() + "]");
 										if (!analize(fileTarGz, configuration)) {
 											completato = false;
 										}
@@ -184,7 +183,8 @@ public abstract class MDCheck extends Thread {
 								try {
 									fw = new FileWriter(fElab);
 									bw = new BufferedWriter(fw);
-									bw.write(md5.getDigest(f) + "\t"
+									md5 = new MD5(f);
+									bw.write(md5.getDigest() + "\t"
 											+ df.format(new Date(new GregorianCalendar().getTimeInMillis())));
 								} catch (Exception e) {
 									log.error(getName() + " " + e.getMessage(), e);
@@ -211,8 +211,8 @@ public abstract class MDCheck extends Thread {
 							log.error(getName() + " " + e.getMessage(), e);
 						} catch (IOException e) {
 							log.error(getName() + " " + e.getMessage(), e);
-						} catch (NoSuchAlgorithmException e) {
-							log.error(getName() + " " + e.getMessage(), e);
+//						} catch (NoSuchAlgorithmException e) {
+//							log.error(getName() + " " + e.getMessage(), e);
 						} catch (Exception e) {
 							log.error(getName() + " " + e.getMessage(), e);
 						} finally {
@@ -228,13 +228,13 @@ public abstract class MDCheck extends Thread {
 							}
 						}
 					} else {
-						log.info(getName() + " Il file [" + f.getAbsolutePath() + "] risulta completamente elaborato");
+						log.info("\n"+getName() + " Il file [" + f.getAbsolutePath() + "] risulta completamente elaborato");
 						waiting(15, 10);
 					}
 				}
 			}
 		} else {
-			log.error(getName() + " La cartella [" + pathExcel.getAbsolutePath() + "] non esiste");
+			log.error("\n"+getName() + " La cartella [" + pathExcel.getAbsolutePath() + "] non esiste");
 		}
 		return sender;
 	}

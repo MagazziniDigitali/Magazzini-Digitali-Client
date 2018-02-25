@@ -67,7 +67,7 @@ public class AuthenticationIstituzione {
 					System.out.println("\tPassword: "+utenti.getAuthenticationUtenti().getAuthentication().getPassword());
 					if (utenti.getErrorMsg()!= null && utenti.getErrorMsg().length>0){
 						for (int x=0; x<utenti.getErrorMsg().length; x++){
-							System.err.println(utenti.getErrorMsg()[x].getErrorType().getValue()+" -> "+utenti.getErrorMsg()[x].getMsgError());
+							System.out.println(utenti.getErrorMsg()[x].getErrorType().getValue()+" -> "+utenti.getErrorMsg()[x].getMsgError());
 						}
 					} else {
 						System.out.println("Istituzione:");
