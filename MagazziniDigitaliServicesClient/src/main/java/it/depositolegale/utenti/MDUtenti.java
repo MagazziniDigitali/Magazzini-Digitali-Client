@@ -8,7 +8,8 @@ import java.security.NoSuchAlgorithmException;
 
 import org.apache.commons.httpclient.protocol.DefaultProtocolSocketFactory;
 import org.apache.commons.httpclient.protocol.Protocol;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import it.bncf.magazziniDigitali.configuration.IMDConfiguration;
 import it.bncf.magazziniDigitali.configuration.exception.MDConfigurationException;
@@ -34,7 +35,7 @@ public class MDUtenti {
 	/**
 	 * Variabile utilizzata per loggare l'applicazione
 	 */
-	private static Logger log = Logger.getLogger(MDUtenti.class);
+	private static Logger log = LogManager.getLogger(MDUtenti.class);
 
 	/**
 	 * Costruttore

@@ -9,7 +9,8 @@ import java.security.NoSuchAlgorithmException;
 
 import org.apache.commons.httpclient.protocol.DefaultProtocolSocketFactory;
 import org.apache.commons.httpclient.protocol.Protocol;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger.TriggerState;
@@ -44,7 +45,7 @@ public class MDConfiguration extends IMDConfiguration<Software> {
 	/**
 	 * Variabile utilizzata per loggare l'applicazione
 	 */
-	private static Logger log = Logger.getLogger(MDConfiguration.class);
+	private static Logger log = LogManager.getLogger(MDConfiguration.class);
 
 	private QuartzMaster quartzMaster = null;
 
