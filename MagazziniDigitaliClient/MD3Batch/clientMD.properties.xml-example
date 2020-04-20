@@ -7,13 +7,13 @@
     <entry key="software.URLAuthentication">http://<url del server Serivces>:<porta del server Services>/MagazziniDigitaliServices/services/AuthenticationSoftwarePort?wsdl</entry>
 
     <!-- Login del Software -->
-    <entry key="software.TD.login">TD_MD</entry>
+    <entry key="software.TD.login"><Login del software assegnato all'istituto></entry>
 
     <!-- Percorsi locali in cui vengono registrati la lista dei file da elaborare (Obbligatori almeno 1 percorso)-->
-    <entry key="pathExcel(0)">/mnt/materiale/coda</entry>
+    <entry key="pathExcel(0)"><path coda></entry>
     
     <!-- Percorsi locali in cui verranno registrati gli oggetti Digitali da inviare al Magazzino digitale (Obbligatori almeno 1 persorso)-->
-    <entry key="pathDescriptati(0)">/mnt/materiale/upLoad</entry>
+    <entry key="pathDescriptati(0)"><pathbStorage Upload></entry>
 
     <!-- Path e nome del client rsync (es. /usr/bin/rsync) -->
     <entry key="md.sendRsync.path"><file Ryns></entry>
