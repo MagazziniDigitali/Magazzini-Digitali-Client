@@ -8,7 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import it.bncf.magazziniDigitali.client.exception.MDClientException;
 import it.bncf.magazziniDigitali.client.thread.MDCheckComplite;
@@ -29,7 +30,7 @@ public class MDClient {
 	/**
 	 * Variabile utilizzata per loggare l'applicazione
 	 */
-	private Logger log = Logger.getLogger(MDClient.class);
+	private Logger log = LogManager.getLogger(MDClient.class);
 
 	private MDCheckComplite mdCheckComplite;
 	private MDCheckRsync mdCheckRsync;

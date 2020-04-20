@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>it.bncf.magazziniDigitali.services.client</groupId>
 	<artifactId>MagazziniDigitaliServicesClient</artifactId>
-	<version>3.0.0</version>
+	<version>3.0.1</version>
 	<description>Libreria utilizzata per la gestione dell'interfaccie client per il colloquio con i servizi per il Magazzino Digitale </description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -35,7 +35,7 @@
 		<dependency>
 			<groupId>it.bncf.magazziniDigitali.utils</groupId>
 			<artifactId>MagazziniDigitaliUtils</artifactId>
-			<version>3.0.0</version>
+			<version>3.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>mx.randalf.quartz</groupId>

@@ -3,7 +3,6 @@
  */
 package it.bncf.magazziniDigitali.client.magazziniDigitali;
 
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,7 +15,8 @@ import java.util.GregorianCalendar;
 
 import org.apache.commons.httpclient.protocol.DefaultProtocolSocketFactory;
 import org.apache.commons.httpclient.protocol.Protocol;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import it.bncf.magazziniDigitali.configuration.IMDConfiguration;
 import it.bncf.magazziniDigitali.configuration.exception.MDConfigurationException;
@@ -34,12 +34,15 @@ import mx.randalf.configuration.Configuration;
 import mx.randalf.configuration.exception.ConfigurationException;
 
 /**
+ * Questa classe esegue le verifiche del materiale da inviare e se ce ne fosse
+ * la necessità provvede al trasferimento sul server via Rsync
+ * 
  * @author massi
  * 
  */
-public class ClientMDRsync extends ClientMD{
+public class ClientMDRsync extends ClientMD {
 
-	private Logger log = Logger.getLogger(ClientMDRsync.class);
+	private Logger log = LogManager.getLogger(ClientMDRsync.class);
 
 	/**
 	 * @param f
@@ -47,14 +50,17 @@ public class ClientMDRsync extends ClientMD{
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public ClientMDRsync(File f) throws NoSuchAlgorithmException,
-			FileNotFoundException, IOException {
+	public ClientMDRsync(File f) throws NoSuchAlgorithmException, FileNotFoundException, IOException {
 		super(f);
 	}
 
 	/**
-	 * @see it.bncf.magazziniDigitali.client.magazziniDigitali.ClientMD#send(java.io.File,
-	 *      java.lang.String, java.util.GregorianCalendar)
+	 * Metodo utilizzato per inviare il file verso MD
+	 * 
+	 * @param fSend         File da inviare
+	 * @param lastModified  Data ultima modifica del file
+	 * @param configuration Configurazione del client
+	 * @throws ClientMDException
 	 */
 	private void send(File fSend, GregorianCalendar lastModified, IMDConfiguration<?> configuration)
 			throws ClientMDException {
@@ -72,26 +78,18 @@ public class ClientMDRsync extends ClientMD{
 		String fileInput = null;
 
 		try {
-			log.info("\n"+"Invio file: "+fSend.getAbsolutePath());
+			log.info("\n" + "Invio file: " + fSend.getAbsolutePath());
 			rt = Runtime.getRuntime();
-			if (File.separator.equals("\\")){
-				fileInput = "/cygdrive/"+fSend.getAbsolutePath().replace(":", "").replace("\\", "/");
+			if (File.separator.equals("\\")) {
+				fileInput = "/cygdrive/" + fSend.getAbsolutePath().replace(":", "").replace("\\", "/");
 			} else {
 				fileInput = fSend.getAbsolutePath();
 			}
-			cmd = new String[] { 
-//					configuration.getSoftwareConfigString("rSync.path"),
-					Configuration.getValue("md.sendRsync.path"), 
-					"-av", 
-					"--progress",
-					fileInput,
+			cmd = new String[] { Configuration.getValue("md.sendRsync.path"), "-av", "--progress", fileInput,
 					configuration.getSoftwareConfigString("sendRsync") };
-//					Configuration.getValue("md.sendRsync") };
 
-			proc = rt.exec(cmd, new String[]{"RSYNC_PASSWORD="+
-					configuration.getSoftwareConfigString("sendRsyncPwd")
-//					Configuration.getValue("md.sendRsyncPwd")
-					});
+			proc = rt.exec(cmd,
+					new String[] { "RSYNC_PASSWORD=" + configuration.getSoftwareConfigString("sendRsyncPwd") });
 
 			stderr = proc.getErrorStream();
 			isrErr = new InputStreamReader(stderr);
@@ -102,11 +100,11 @@ public class ClientMDRsync extends ClientMD{
 			brStd = new BufferedReader(isrStd);
 
 			while ((val = brStd.readLine()) != null) {
-				log.debug("\n"+val);
+				log.debug("\n" + val);
 			}
 
 			while ((val = brErr.readLine()) != null) {
-				log.error("\n"+val);
+				log.error("\n" + val);
 			}
 
 			exitVal = proc.waitFor();
@@ -119,55 +117,42 @@ public class ClientMDRsync extends ClientMD{
 			case 2:
 				throw new ClientMDException("Protocollo di incompatibilità");
 			case 3:
-				throw new ClientMDException(
-						"Errori di selezione dei file di input / output, dirs");
+				throw new ClientMDException("Errori di selezione dei file di input / output, dirs");
 			case 4:
 				throw new ClientMDException(
 						"L'azione richiesta non è supportata: un tentativo è stato fatto per manipolare file a 64 bit su una piattaforma che non li può sostenere, o un'opzione stato precisato che è supportato dal client e non dal server.");
 			case 5:
-				throw new ClientMDException(
-						"Errore durante l'avvio del protocollo client-server");
+				throw new ClientMDException("Errore durante l'avvio del protocollo client-server");
 			case 6:
-				throw new ClientMDException(
-						"Daemon in grado di aggiungere al log-file");
+				throw new ClientMDException("Daemon in grado di aggiungere al log-file");
 			case 10:
 				throw new ClientMDException("Errore in socket I/O");
 			case 11:
 				throw new ClientMDException("Errore in file I/O");
 			case 12:
-				throw new ClientMDException(
-						"Errore nei rsync flusso di dati del protocollo");
+				throw new ClientMDException("Errore nei rsync flusso di dati del protocollo");
 			case 13:
-				throw new ClientMDException(
-						"Errori con diagnostica del programma");
+				throw new ClientMDException("Errori con diagnostica del programma");
 			case 14:
 				throw new ClientMDException("Errore nel codice IPC");
 			case 20:
 				throw new ClientMDException("Ricevuto SIGUSR1 o SIGINT");
 			case 21:
-				throw new ClientMDException(
-						"Qualche errore restituito da waitpid()");
+				throw new ClientMDException("Qualche errore restituito da waitpid()");
 			case 22:
-				throw new ClientMDException(
-						"Buffer di memoria centrale che ripartisce errore");
+				throw new ClientMDException("Buffer di memoria centrale che ripartisce errore");
 			case 23:
-				throw new ClientMDException(
-						"Trasferimento parziale a causa di un errore");
+				throw new ClientMDException("Trasferimento parziale a causa di un errore");
 			case 24:
-				throw new ClientMDException(
-						"Trasferimento parziale a causa di file di origine scomparsi");
+				throw new ClientMDException("Trasferimento parziale a causa di file di origine scomparsi");
 			case 25:
-				throw new ClientMDException(
-						"Il limite --max-delete a fermato eliminazioni");
+				throw new ClientMDException("Il limite --max-delete a fermato eliminazioni");
 			case 30:
-				throw new ClientMDException(
-						"Timeout nei dati di invio / ricezione");
+				throw new ClientMDException("Timeout nei dati di invio / ricezione");
 			case 255:
-				throw new ClientMDException(
-						"Autorizzazione negata, riprova.");
+				throw new ClientMDException("Autorizzazione negata, riprova.");
 			default:
-				throw new ClientMDException(
-						"Errore generico ["+exitVal+"]");
+				throw new ClientMDException("Errore generico [" + exitVal + "]");
 			}
 		} catch (ClientMDException e) {
 			throw e;
@@ -181,66 +166,66 @@ public class ClientMDRsync extends ClientMD{
 			throw new ClientMDException(e.getMessage(), e);
 		} finally {
 			try {
-				if (brStd!= null){
+				if (brStd != null) {
 					brStd.close();
 				}
-				if (isrStd != null){
+				if (isrStd != null) {
 					isrStd.close();
 				}
-				if (stdout != null){
+				if (stdout != null) {
 					stdout.close();
 				}
-				if (brErr != null){
+				if (brErr != null) {
 					brErr.close();
 				}
-				if (isrErr != null){
+				if (isrErr != null) {
 					isrErr.close();
 				}
-				if (stderr != null){
+				if (stderr != null) {
 					stderr.close();
 				}
-				log.info("\n"+"File: "+fSend.getAbsolutePath()+" inviato");
+				log.info("\n" + "File: " + fSend.getAbsolutePath() + " inviato");
 			} catch (IOException e) {
 				throw new ClientMDException(e.getMessage(), e);
 			}
 		}
 	}
 
+	/**
+	 * 
+	 */
 	@Override
 	protected void check(ReadInfoOutput checkMD, IMDConfiguration<Software> configuration) throws ClientMDException {
-		log.info("\n"+"StatoOggettoDigitale: "+checkMD
-				.getOggettoDigitale()
-				.getStatoOggettoDigitale());
-		if (checkMD
-				.getOggettoDigitale()
-				.getStatoOggettoDigitale()
-				.equals(StatoOggettoDigitale_type.INITTRASF) ||
-				checkMD
-				.getOggettoDigitale()
-				.getStatoOggettoDigitale()
-				.equals(StatoOggettoDigitale_type.NONPRESENTE)) {
-			if (checkMD
-					.getOggettoDigitale()
-					.getStatoOggettoDigitale()
-					.equals(StatoOggettoDigitale_type.NONPRESENTE)) {
-				// L'oggetto non risulta essere inviato
-				// in Magazzini Digitali, procedo con
-				// l'invio
+		Boolean removeSource = null;
+
+		try {
+			removeSource = configuration.getSoftwareConfigBoolean("removeSource");
+		} catch (MDConfigurationException e) {
+		}
+		if (removeSource== null) {
+			removeSource = true;
+		}
+
+		log.info("\n" + "StatoOggettoDigitale: " + checkMD.getOggettoDigitale().getStatoOggettoDigitale());
+		if (checkMD.getOggettoDigitale().getStatoOggettoDigitale().equals(StatoOggettoDigitale_type.INITTRASF)
+				|| checkMD.getOggettoDigitale().getStatoOggettoDigitale()
+						.equals(StatoOggettoDigitale_type.NONPRESENTE)) {
+			if (checkMD.getOggettoDigitale().getStatoOggettoDigitale().equals(StatoOggettoDigitale_type.NONPRESENTE)) {
+				// TODO: L'oggetto non risulta essere inviato
+				// in Magazzini Digitali, procedo con la notifica ad MD
+				// dell'inizio dell'attività in modo che venga creato il record nella tabella
+				// MDFilesTmp
 				checkMD = initSendMD(checkMD, configuration);
 			}
 			try {
-				send(fSend, lastModified, configuration);
+				if (removeSource) {
+					send(fSend, lastModified, configuration);
+				}
 				endSendMD(checkMD, true, null, configuration);
-				sender=true;
+				sender = true;
 			} catch (ClientMDException e) {
-				log.error(
-						"File ["
-								+ fSend.getAbsolutePath()
-								+ "] Msg ["
-								+ e.getMessage()
-								+ "]", e);
-				endSendMD(checkMD, false,
-						e.getMessage(), configuration);
+				log.error("File [" + fSend.getAbsolutePath() + "] Msg [" + e.getMessage() + "]", e);
+				endSendMD(checkMD, false, e.getMessage(), configuration);
 			}
 		}
 	}
@@ -250,22 +235,20 @@ public class ClientMDRsync extends ClientMD{
 	 * oggetto digitale
 	 * 
 	 * @return Identificativo temporaneo associato all'oggetto
-	 * @throws ClientMDException 
+	 * @throws ClientMDException
 	 */
-	private ReadInfoOutput initSendMD(ReadInfoOutput input, 
-			IMDConfiguration<Software> configuration) throws ClientMDException {
+	private ReadInfoOutput initSendMD(ReadInfoOutput input, IMDConfiguration<Software> configuration)
+			throws ClientMDException {
 		InitSendMDPortTypeProxy proxy = null;
 		ReadInfoOutput output = null;
 		String wsdlCheckMD = null;
 
 		try {
 			wsdlCheckMD = configuration.getSoftwareConfigString("wsdlInitSendMD");
-			if (wsdlCheckMD.toLowerCase().trim().startsWith("https")){
-				Protocol.registerProtocol("https", 
-						new Protocol("https", new DefaultProtocolSocketFactory(), 443));
+			if (wsdlCheckMD.toLowerCase().trim().startsWith("https")) {
+				Protocol.registerProtocol("https", new Protocol("https", new DefaultProtocolSocketFactory(), 443));
 			}
 			proxy = new InitSendMDPortTypeProxy(wsdlCheckMD);
-//					Configuration.getValue("md.wsdlInitSendMD"));
 
 			output = proxy.initSendMDOperation(readInfoOutputToInput(input));
 		} catch (RemoteException e) {
@@ -282,16 +265,13 @@ public class ClientMDRsync extends ClientMD{
 	 * Metodo utulizzato per indicare a MD la fine del file della procedura di
 	 * pubblicazione
 	 * 
-	 * @param input
-	 *            Informazioni relative agli oggetti digitali
-	 * @param esito
-	 *            Esito dell'invio
-	 * @param msgErr
-	 *            Eventuale messaggio di errore
-	 * @throws ClientMDException 
+	 * @param input  Informazioni relative agli oggetti digitali
+	 * @param esito  Esito dell'invio
+	 * @param msgErr Eventuale messaggio di errore
+	 * @throws ClientMDException
 	 */
-	private void endSendMD(ReadInfoOutput input, boolean esito, 
-			String msgErr, IMDConfiguration<Software> configuration) throws ClientMDException {
+	private void endSendMD(ReadInfoOutput input, boolean esito, String msgErr, IMDConfiguration<Software> configuration)
+			throws ClientMDException {
 		EndSendMDPortTypeProxy proxy = null;
 		EndSend endSend = null;
 		Errori[] errori = null;
@@ -300,32 +280,25 @@ public class ClientMDRsync extends ClientMD{
 
 		try {
 			wsdlCheckMD = configuration.getSoftwareConfigString("wsdlEndSendMD");
-			if (wsdlCheckMD.toLowerCase().trim().startsWith("https")){
-				Protocol.registerProtocol("https", 
-						new Protocol("https", new DefaultProtocolSocketFactory(), 443));
+			if (wsdlCheckMD.toLowerCase().trim().startsWith("https")) {
+				Protocol.registerProtocol("https", new Protocol("https", new DefaultProtocolSocketFactory(), 443));
 			}
 			proxy = new EndSendMDPortTypeProxy(wsdlCheckMD);
-//					Configuration.getValue("md.wsdlEndSendMD"));
 
 			endSend = new EndSend();
 			converterEndSendReadInfoInputSoftware = new ConverterEndSendReadInfoOutputSoftware();
 
 			endSend.setReadInfoOutput(
-					new EndSendReadInfoOutput(
-							converterEndSendReadInfoInputSoftware.convert(input.getSoftware()),
-							new EndSendReadInfoOutputOggettoDigitale(
-									input.getOggettoDigitale().getId(), 
-									input.getOggettoDigitale().getNomeFile(), 
-									input.getOggettoDigitale().getDigest(), 
-									input.getOggettoDigitale().getUltimaModifica(), 
-									input.getOggettoDigitale().getStatoOggettoDigitale()), 
-							input.getErrori(), 
-							input.getWarning(), 
-							input.getInfo()));
+					new EndSendReadInfoOutput(converterEndSendReadInfoInputSoftware.convert(input.getSoftware()),
+							new EndSendReadInfoOutputOggettoDigitale(input.getOggettoDigitale().getId(),
+									input.getOggettoDigitale().getNomeFile(), input.getOggettoDigitale().getDigest(),
+									input.getOggettoDigitale().getUltimaModifica(),
+									input.getOggettoDigitale().getStatoOggettoDigitale()),
+							input.getErrori(), input.getWarning(), input.getInfo()));
 			endSend.setEsito(esito);
-			if (msgErr!= null){
+			if (msgErr != null) {
 				errori = new Errori[1];
-				errori[0]= new Errori(null, msgErr);
+				errori[0] = new Errori(null, msgErr);
 				endSend.setErrori(errori);
 			}
 			proxy.endSendMDOperation(endSend);

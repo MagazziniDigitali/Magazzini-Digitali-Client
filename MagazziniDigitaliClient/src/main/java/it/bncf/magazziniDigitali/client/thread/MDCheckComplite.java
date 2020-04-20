@@ -11,14 +11,15 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class MDCheckComplite extends MDCheck {
 
 	/**
 	 * Variabile utilizzata per loggare l'applicazione
 	 */
-	private Logger log = Logger.getLogger(MDCheckComplite.class);
+	private Logger log = LogManager.getLogger(MDCheckComplite.class);
 
 	public MDCheckComplite(Runnable target, String name, boolean testMode, IMDConfiguration<Software> configuration) {
 		super(target, name, testMode, configuration);
@@ -52,27 +53,6 @@ public class MDCheckComplite extends MDCheck {
 		return true;
 	}
 
-	@Override
-	protected File genFileTarGz(File pathDescriptati, String fileName) {
-		File f = null;
-		String[] exts = new String[4];
-		
-		exts[0]=".tar.gz";
-		exts[1]=".tgz";
-		exts[2]=".tar";
-		exts[3]=".warc.gz";
-
-		for (int x=0; x<exts.length; x++){
-			f = new File(
-					pathDescriptati.getAbsolutePath()
-					+ File.separator + fileName
-					+ exts[x]);
-			if (f.exists()){
-				break;
-			}
-		}
-		return f;
-	}
 
 	@Override
 	protected void postElab(File pathElab) {

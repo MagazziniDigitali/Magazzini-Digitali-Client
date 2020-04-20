@@ -8,14 +8,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import mx.randalf.configuration.Configuration;
 import mx.randalf.configuration.exception.ConfigurationException;
 
-import org.apache.log4j.Logger;
-
 public class ClientMDRsyncTest {
 
-	public static Logger log = Logger.getLogger(ClientMDRsyncTest.class);
+	public static Logger log = LogManager.getLogger(ClientMDRsyncTest.class);
 
 	public ClientMDRsyncTest() {
 	}

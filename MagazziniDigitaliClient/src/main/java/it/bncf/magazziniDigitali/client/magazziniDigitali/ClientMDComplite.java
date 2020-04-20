@@ -21,15 +21,22 @@ import java.security.NoSuchAlgorithmException;
 
 import org.apache.commons.httpclient.protocol.DefaultProtocolSocketFactory;
 import org.apache.commons.httpclient.protocol.Protocol;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
+ * Questa classe utilizzata per verificare lo stato del materiale e nel caso in cui risulti
+ * Archiviato verrà cancellato dal disco locale
+ * 
  * @author massi
  * 
  */
 public class ClientMDComplite extends ClientMD {
 
-	private Logger log = Logger.getLogger(ClientMDComplite.class);
+	/**
+	 * Log delle attività
+	 */
+	private Logger log = LogManager.getLogger(ClientMDComplite.class);
 
 	/**
 	 * @param f
@@ -45,6 +52,15 @@ public class ClientMDComplite extends ClientMD {
 	@Override
 	protected void check(ReadInfoOutput checkMD, IMDConfiguration<Software> configuration) throws ClientMDException {
 		File folder = null;
+		Boolean removeSource = null;
+
+		try {
+			removeSource = configuration.getSoftwareConfigBoolean("removeSource");
+		} catch (MDConfigurationException e) {
+		}
+		if (removeSource== null) {
+			removeSource = true;
+		}
 		log.info("\n"+"NomeFile: "+checkMD.getOggettoDigitale().getNomeFile()+" StatoOggettoDigitale: "+checkMD.getOggettoDigitale().getStatoOggettoDigitale());
 		if (checkMD.getOggettoDigitale().getStatoOggettoDigitale()
 				.equals(StatoOggettoDigitale_type.ARCHIVIATO)) {
@@ -56,16 +72,18 @@ public class ClientMDComplite extends ClientMD {
 					// archiviato correttamente su MD,
 					// procedo con la cancellazione sul
 					// disco locale
-					if (!fSend.delete()) {
-						throw new ClientMDException(
-								"Riscontrato un problam nella cancellazione del file ["
-										+ fSend.getAbsolutePath() + "]");
-					}
-					folder = new File(fSend.getParentFile().getAbsolutePath()+
-							File.separator+
-							fSend.getName().replace(".tgz", ""));
-					if (folder.exists()){
-						delFolder(folder);
+					if (removeSource) {
+						if (!fSend.delete()) {
+							throw new ClientMDException(
+									"Riscontrato un problam nella cancellazione del file ["
+											+ fSend.getAbsolutePath() + "]");
+						}
+						folder = new File(fSend.getParentFile().getAbsolutePath()+
+								File.separator+
+								fSend.getName().replace(".tgz", ""));
+						if (folder.exists()){
+							delFolder(folder);
+						}
 					}
 					confirmDelMD(checkMD, configuration);
 				}
@@ -128,7 +146,6 @@ public class ClientMDComplite extends ClientMD {
 						new Protocol("https", new DefaultProtocolSocketFactory(), 443));
 			}
 			proxy = new ConfirmDelMDPortTypeProxy(wsdlCheckMD);
-//					Configuration.getValue("md.wsdlConfirmDelMD"));
 
 			proxy.confirmDelMDOperation(readInfoOutputToInput(input));
 		} catch (RemoteException e) {

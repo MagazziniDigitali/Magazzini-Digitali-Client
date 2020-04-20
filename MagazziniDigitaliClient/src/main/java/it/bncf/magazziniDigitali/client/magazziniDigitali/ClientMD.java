@@ -13,7 +13,8 @@ import java.util.Vector;
 
 import org.apache.commons.httpclient.protocol.DefaultProtocolSocketFactory;
 import org.apache.commons.httpclient.protocol.Protocol;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import it.bncf.magazziniDigitali.configuration.IMDConfiguration;
 import it.bncf.magazziniDigitali.configuration.exception.MDConfigurationException;
@@ -41,7 +42,7 @@ abstract class ClientMD {
 	/**
 	 * Variabile utilizzata per loggare l'applicazione
 	 */
-	private Logger log = Logger.getLogger(ClientMD.class);
+	private Logger log = LogManager.getLogger(ClientMD.class);
 
 	/**
 	 * Variabile utilizzata per indicare il file da inviare
@@ -78,7 +79,7 @@ abstract class ClientMD {
 			FileNotFoundException, IOException {
 		MD5 md5 = null;
 		SHA1 sha1 = null;
-//		SHA256 sha256 = null;
+		SHA256 sha256 = null;
 
 		try {
 			fSend = f;
@@ -92,9 +93,9 @@ abstract class ClientMD {
 			digests.add(new Digest(Digest_type.value2, sha1.getDigest()));
 			digests.add(new Digest(Digest_type.value5, sha1.getDigest64Base()));
 
-//			sha256 = new SHA256(f);
-//			digests.add(new Digest(Digest_type.value1, sha256.getDigest()));
-//			digests.add(new Digest(Digest_type.value6, sha256.getDigest64Base()));
+			sha256 = new SHA256(f);
+			digests.add(new Digest(Digest_type.value1, sha256.getDigest()));
+			digests.add(new Digest(Digest_type.value6, sha256.getDigest64Base()));
 			
 			lastModified = new GregorianCalendar();
 			lastModified.setTimeInMillis(f.lastModified());
@@ -163,6 +164,14 @@ abstract class ClientMD {
 		}
 	}
 
+	/**
+	 * Metodo utilizzato per verificare l'esito della richiesta di stato avanzamento lavori 
+	 * del materiale a MD
+	 * 
+	 * @param checkMD Esito della richiesta
+	 * @param configuration
+	 * @throws ClientMDException
+	 */
 	protected abstract void check(ReadInfoOutput checkMD, IMDConfiguration<Software> configuration) throws ClientMDException;
 
 	/**

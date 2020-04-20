@@ -19,10 +19,12 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Vector;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import it.bncf.magazziniDigitali.client.magazziniDigitali.ClientMDException;
 import it.bncf.magazziniDigitali.configuration.IMDConfiguration;
+import it.bncf.magazziniDigitali.configuration.exception.MDConfigurationException;
 import it.depositolegale.www.software.Software;
 import mx.randalf.configuration.Configuration;
 import mx.randalf.configuration.exception.ConfigurationException;
@@ -37,7 +39,7 @@ public abstract class MDCheck extends Thread {
 	/**
 	 * Variabile utilizzata per loggare l'applicazione
 	 */
-	private Logger log = Logger.getLogger(MDCheck.class);
+	private Logger log = LogManager.getLogger(MDCheck.class);
 
 	protected String fileExt = ".txt";
 
@@ -60,7 +62,7 @@ public abstract class MDCheck extends Thread {
 		Vector<String> pathInput = null;
 		Vector<String> pathDescriptati = null;
 		boolean sender = false;
-		File pathElab =  null;
+		File pathElab = null;
 
 		try {
 
@@ -68,10 +70,9 @@ public abstract class MDCheck extends Thread {
 			pathDescriptati = (Vector<String>) Configuration.getValues("pathDescriptati");
 			while (true) {
 				for (int x = 0; x < pathInput.size(); x++) {
-					log.info("\n"+getName() + " Analizzo la cartella [" + pathInput.get(x) + "]");
+					log.info("\n" + getName() + " Analizzo la cartella [" + pathInput.get(x) + "]");
 					pathElab = new File(pathInput.get(x));
-					sender = checkExcel(pathElab, new File(pathDescriptati.get(x)), testMode,
-							configuration);
+					sender = checkExcel(pathElab, new File(pathDescriptati.get(x)), testMode, configuration);
 					postElab(pathElab);
 					if (testMode && sender) {
 						break;
@@ -135,48 +136,54 @@ public abstract class MDCheck extends Thread {
 			});
 			Arrays.sort(fl);
 			if (fl.length == 0) {
-				waiting(600,600);
+				waiting(600, 600);
 			} else {
 				for (int x = 0; x < fl.length; x++) {
 					f = fl[x];
 
 					fElab = new File(f.getAbsolutePath() + ".elab");
 					if (!fElab.exists()) {
-						log.info("\n"+getName() + " Elaboro il file [" + f.getAbsolutePath() + "]");
+						log.info("\n" + getName() + " Elaboro il file [" + f.getAbsolutePath() + "]");
 						try {
 							fr = new FileReader(f);
 							br = new BufferedReader(fr);
 							completato = true;
 							while ((line = br.readLine()) != null) {
 								st = line.split("\t");
-								fileTarGz = genFileTarGz(pathDescriptati, st[0]);
-								if (fileTarGz.exists()) {
-									try {
-										log.info("\n"+getName() + " Elaboro il file [" + fileTarGz.getAbsolutePath() + "]");
-										if (!analize(fileTarGz, configuration)) {
+
+								try {
+									fileTarGz = genFileTarGz(pathDescriptati, st[0], configuration);
+									if (fileTarGz != null && fileTarGz.exists()) {
+										try {
+											log.info("\n" + getName() + " Elaboro il file ["
+													+ fileTarGz.getAbsolutePath() + "]");
+											if (!analize(fileTarGz, configuration)) {
+												completato = false;
+											}
+											sender = true;
+											if (testMode && isSender()) {
+												testComp = true;
+												break;
+											}
+										} catch (NoSuchAlgorithmException e) {
+											log.error(getName() + " " + e.getMessage(), e);
+											completato = false;
+										} catch (FileNotFoundException e) {
+											log.error(getName() + " " + e.getMessage(), e);
+											completato = false;
+										} catch (IOException e) {
+											log.error(getName() + " " + e.getMessage(), e);
+											completato = false;
+										} catch (ClientMDException e) {
+											log.error(getName() + " " + e.getMessage(), e);
+											completato = false;
+										} catch (Exception e) {
+											log.error(getName() + " " + e.getMessage(), e);
 											completato = false;
 										}
-										sender = true;
-										if (testMode && isSender()) {
-											testComp = true;
-											break;
-										}
-									} catch (NoSuchAlgorithmException e) {
-										log.error(getName() + " " + e.getMessage(), e);
-										completato = false;
-									} catch (FileNotFoundException e) {
-										log.error(getName() + " " + e.getMessage(), e);
-										completato = false;
-									} catch (IOException e) {
-										log.error(getName() + " " + e.getMessage(), e);
-										completato = false;
-									} catch (ClientMDException e) {
-										log.error(getName() + " " + e.getMessage(), e);
-										completato = false;
-									} catch (Exception e) {
-										log.error(getName() + " " + e.getMessage(), e);
-										completato = false;
 									}
+								} catch (MDCheckException e1) {
+									log.error(e1.getMessage(), e1);
 								}
 							}
 							if (completato) {
@@ -228,13 +235,14 @@ public abstract class MDCheck extends Thread {
 							}
 						}
 					} else {
-						log.info("\n"+getName() + " Il file [" + f.getAbsolutePath() + "] risulta completamente elaborato");
+						log.info("\n" + getName() + " Il file [" + f.getAbsolutePath()
+								+ "] risulta completamente elaborato");
 						waiting(15, 10);
 					}
 				}
 			}
 		} else {
-			log.error("\n"+getName() + " La cartella [" + pathExcel.getAbsolutePath() + "] non esiste");
+			log.error("\n" + getName() + " La cartella [" + pathExcel.getAbsolutePath() + "] non esiste");
 		}
 		return sender;
 	}
@@ -259,7 +267,58 @@ public abstract class MDCheck extends Thread {
 
 	}
 
-	protected abstract File genFileTarGz(File pathDescriptati, String fileName);
+	/**
+	 * Metodo utilizzato per individuare il file per il trasferimento
+	 * 
+	 * @param pathDescriptati Path in cui si trovano i files da trasferire
+	 * @param fileName        Nome del file da trasferire
+	 * @param configuration   configurazione del programma centralizzato
+	 * @return
+	 */
+	private File genFileTarGz(File pathDescriptati, String fileName, IMDConfiguration<Software> configuration)
+			throws MDCheckException {
+		File f = null;
+		String extFilesUpload = null;
+		String[] exts = null;
+		String name = null;
+		boolean trovato = false;
+
+		try {
+			extFilesUpload = configuration.getSoftwareConfigString("extFilesUpload");
+
+			if (extFilesUpload != null) {
+				exts = extFilesUpload.split(",");
+
+				f = new File(pathDescriptati.getAbsolutePath() + File.separator + fileName);
+				if (!f.exists()) {
+					for (int x = 0; x < exts.length; x++) {
+						f = new File(pathDescriptati.getAbsolutePath() + File.separator + fileName + "." + exts[x]);
+						if (f.exists()) {
+							break;
+						}
+					}
+				} else {
+					name = f.getName();
+					for (int x = 0; x < exts.length; x++) {
+						if (name.endsWith("." + exts[x])) {
+							trovato = true;
+							break;
+						}
+					}
+					if (!trovato) {
+						throw new MDCheckException("Il file [" + f.getAbsolutePath()
+								+ "] non risulta della tipologia supportata [" + extFilesUpload + "]");
+					}
+				}
+			}
+		} catch (MDConfigurationException e) {
+			log.error(e.getMessage(), e);
+		} catch (MDCheckException e) {
+			throw e;
+		}
+
+		return f;
+	}
 
 	protected abstract boolean analize(File fileTarGz, IMDConfiguration<Software> configuration)
 			throws NoSuchAlgorithmException, FileNotFoundException, IOException, ClientMDException;
