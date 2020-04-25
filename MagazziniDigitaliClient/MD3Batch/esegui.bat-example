@@ -1,0 +1,18 @@
+@echo off
+
+
+JAVA_HOME=<path relativa alla posizione del framework java>
+JAVA_BIN=%JAVA_HOME%\bin
+MD_HOME=<path in cui è stato installato il programma client MD>
+MD_CONF=<path in cui è stato installato il programma client MD>/MD3Batch
+MD_LOGS=%MD_HOME%\logs
+
+set MDCLIENT_PWD=<password client>
+
+IF NOT EXIST %MD_LOGS% mkdir %MD_LOGS%
+
+cd %MD_HOME%
+
+$JAVA_BIN/java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8200 -Dmail.smtp.starttls.enable=true -Dlog4j.configurationFile=file://%MD_CONF%/log4j2.xml -jar ./MagazziniDigitaliClient.jar "%MD_CONF%/clientMD.properties.xml" >%MD_LOGS%/clientMD.out 2>&1
+
+
