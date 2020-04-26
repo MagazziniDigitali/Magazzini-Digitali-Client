@@ -86,11 +86,11 @@
                       <fileset dir="${basedir}/target" includes="MagazziniDigitaliClient.jar" />
                     </copy>
                     <copy todir="${basedir}/distribution" overwrite="true" flatten="true">
-                      <fileset dir="${basedir}/MD3Batch" includes="esegui.sh-example" />
+                      <fileset dir="${basedir}/MD3Batch" includes="esegui.*" />
                     </copy>
                     <copy todir="${basedir}/distribution/MD3Batch" overwrite="true" flatten="true">
                       <fileset dir="${basedir}/MD3Batch" includes="*-example" >
-                        <exclude name="esegui.sh-example"/>
+                        <exclude name="esegui.*"/>
                       </fileset>
                     </copy>
                   </target>
