@@ -7,6 +7,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,6 +52,7 @@ public class MDClient {
 		MDClient mdClient = null;
 		String pathProperties = "."+File.separator;
 		boolean testMode = false;
+		boolean demonMode = false;
 		
 		try {
 			mdClient = new MDClient();
@@ -63,15 +67,21 @@ public class MDClient {
 						System.out.println("Indicare i seguenti parametri:");
 						System.out.println("1) Path del file di configurazione (Opzionale)");
 						System.out.println("2) --test (Opzionale) indica l'utilizzo in modalità Test");
+						System.out.println("   --demon (Opzionale) indica l'utilizzo della modalità Demone");
 						System.exit(0);
 					} else if (args[x].equals("--test")){
 						testMode = true;
+					} else if (args[x].equals("--demon")){
+						demonMode = true;
 					} else {
 						pathProperties=args[x];
 					}
 				}
 			}
-			mdClient.start(pathProperties, testMode);
+			if (testMode && demonMode) {
+				System.out.println("Non è possibile usare la modalità test e Demone contemporaneamente");
+			}
+			mdClient.start(pathProperties, testMode, demonMode);
 		} catch (MDClientException e) {
 			e.printStackTrace();
 		}
@@ -83,7 +93,7 @@ public class MDClient {
 	 * @param pathProperties Path relativa alla posizione dei files di configurazione dell'applicazione
 	 * @throws MDClientException 
 	 */
-	public void start(String pathProperties, boolean testMode) throws MDClientException{
+	public void start(String pathProperties, boolean testMode, boolean demonMode) throws MDClientException{
 		IMDConfiguration<Software> configuration = null;
 		BufferedReader br = null;
 		InputStreamReader isr = null;
@@ -101,23 +111,42 @@ public class MDClient {
 				br = new BufferedReader(isr);
 				sysPassword = br.readLine();
 			}
-			
-			configuration = new MDConfiguration("TD", "file:///"+pathProperties, sysPassword);
+
 			if ( testMode){
-				System.out.println("Inizio elaborazione in Modalità di Test");
-			}
-			mdCheckRsync = new MDCheckRsync(Thread.currentThread(), "RSync", testMode, configuration);
-			if (testMode){
-				mdCheckRsync.run();
+				System.out.println(printDateTime()+"Inizio elaborazione in Modalità di Test");
+			} else if ( demonMode){
+				System.out.println(printDateTime()+"Inizio elaborazione in Modalità di Demone");
 			} else {
+				System.out.println(printDateTime()+"Inizio elaborazione in Modalità Singola");
+			}
+			
+			if (!demonMode) {
+				System.out.println(printDateTime()+"\tInzio attività di trasferimento dati ");
+			}
+			configuration = new MDConfiguration("TD", "file:///"+pathProperties, sysPassword);
+			mdCheckRsync = new MDCheckRsync(Thread.currentThread(), "RSync", testMode, demonMode, configuration);
+			if (demonMode) {
 				mdCheckRsync.start();
-			}
-			Thread.sleep(10000);
-			mdCheckComplite = new MDCheckComplite(Thread.currentThread(), "Complete", testMode, configuration);
-			if (testMode){
-				mdCheckComplite.run();
 			} else {
+				mdCheckRsync.run();
+			}
+			if (!demonMode) {
+				System.out.println(printDateTime()+"\tFine attività di trasferimento dati ");
+			}
+			if (demonMode) {
+				Thread.sleep(10000);
+			}
+			if (!demonMode) {
+				System.out.println(printDateTime()+"\tInzio attività di verifica materiale trasferito");
+			}
+			mdCheckComplite = new MDCheckComplite(Thread.currentThread(), "Complete", testMode, demonMode, configuration);
+			if (demonMode){
 				mdCheckComplite.start();
+			} else {
+				mdCheckComplite.run();
+			}
+			if (!demonMode) {
+				System.out.println(printDateTime()+"\tFine attività di verifica materiale trasferito");
 			}
 		} catch (InterruptedException e) {
 			log.error(e.getMessage(),e);
@@ -130,8 +159,23 @@ public class MDClient {
 			throw new MDClientException(e.getMessage(), e);
 		} finally {
 			if ( testMode){
-				System.out.println("Fine elaborazione in Modalità di Test");
+				System.out.println(printDateTime()+"Fine elaborazione in Modalità di Test");
+			} else if ( demonMode){
+				System.out.println(printDateTime()+"Fine elaborazione in Modalità di Demone");
+			} else {
+				System.out.println(printDateTime()+"Fine elaborazione in Modalità Singola");
 			}
 		}
+	}
+
+	private String printDateTime() {
+		String result = "";
+		GregorianCalendar gc = null;
+		SimpleDateFormat sdf = null;
+		
+		gc = new GregorianCalendar();
+		sdf = new SimpleDateFormat("dd-MMMM-yyyy HH:mm:ss.SSS zzzz", Locale.ITALIAN);
+		result ="["+sdf.format(gc.getTime())+"]";
+		return result+"\t";
 	}
 }

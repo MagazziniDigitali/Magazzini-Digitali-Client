@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>it.bncf.magazziniDigitali.client</groupId>
   <artifactId>MagazziniDigitaliClient</artifactId>
-  <version>3.0.0</version>
+  <version>3.0.1</version>
   <description>Interfaccia Client relativa all'istituto o ente il quale pubblicherà il materiale nell'area temporanea a lui riservata per la pubblicazione </description>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

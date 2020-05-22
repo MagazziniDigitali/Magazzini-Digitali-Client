@@ -44,15 +44,19 @@ public abstract class MDCheck extends Thread {
 	protected String fileExt = ".txt";
 
 	private boolean testMode;
+
+	private boolean demonMode;
+
 	private IMDConfiguration<Software> configuration = null;
 
 	/**
 	 * @param arg0
 	 * @param arg1
 	 */
-	public MDCheck(Runnable target, String name, boolean testMode, IMDConfiguration<Software> configuration) {
+	public MDCheck(Runnable target, String name, boolean testMode, boolean demonMode, IMDConfiguration<Software> configuration) {
 		super(target, name);
 		this.testMode = testMode;
+		this.demonMode = demonMode;
 		this.configuration = configuration;
 	}
 
@@ -78,7 +82,8 @@ public abstract class MDCheck extends Thread {
 						break;
 					}
 				}
-				if (testMode) {
+				
+				if (testMode || !demonMode) {
 					break;
 				}
 			}
@@ -136,7 +141,11 @@ public abstract class MDCheck extends Thread {
 			});
 			Arrays.sort(fl);
 			if (fl.length == 0) {
-				waiting(600, 600);
+				if (demonMode) {
+					waiting(600, 600);
+				} else {
+					waiting(10, 10);
+				}
 			} else {
 				for (int x = 0; x < fl.length; x++) {
 					f = fl[x];

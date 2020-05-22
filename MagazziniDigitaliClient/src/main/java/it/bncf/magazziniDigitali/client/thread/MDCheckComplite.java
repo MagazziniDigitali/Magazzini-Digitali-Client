@@ -21,8 +21,8 @@ public class MDCheckComplite extends MDCheck {
 	 */
 	private Logger log = LogManager.getLogger(MDCheckComplite.class);
 
-	public MDCheckComplite(Runnable target, String name, boolean testMode, IMDConfiguration<Software> configuration) {
-		super(target, name, testMode, configuration);
+	public MDCheckComplite(Runnable target, String name, boolean testMode, boolean demonMode, IMDConfiguration<Software> configuration) {
+		super(target, name, testMode, demonMode, configuration);
 	}
 
 	@Override

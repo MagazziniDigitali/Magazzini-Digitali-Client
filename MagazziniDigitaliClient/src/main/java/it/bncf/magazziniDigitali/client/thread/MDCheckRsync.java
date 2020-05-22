@@ -34,8 +34,8 @@ public class MDCheckRsync extends MDCheck {
 	 * @param name
 	 * @param testMode
 	 */
-	public MDCheckRsync(Runnable target, String name, boolean testMode, IMDConfiguration<Software> configuration) {
-		super(target, name, testMode, configuration);
+	public MDCheckRsync(Runnable target, String name, boolean testMode, boolean demonMode, IMDConfiguration<Software> configuration) {
+		super(target, name, testMode, demonMode, configuration);
 	}
 
 	@Override
