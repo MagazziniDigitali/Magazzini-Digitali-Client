@@ -24,8 +24,8 @@ import mx.randalf.configuration.exception.ConfigurationException;
 import mx.randalf.tools.SHA256Tools;
 
 /**
- * Implementazione della classe utilizzata per gestire il colloquio con il Server di 
- * Authenticazione delle infomrazioni relative al Software
+ * Implementazione della classe utilizzata per gestire il colloquio con il
+ * Server di Authenticazione delle infomrazioni relative al Software
  * 
  * @author massi
  *
@@ -40,17 +40,24 @@ public class MDUtenti {
 	/**
 	 * Costruttore
 	 * 
-	 * @param nomeSW Nome del Software
+	 * @param nomeSW            Nome del Software
 	 * @param fileConfiguration File di configurazione locale
 	 * @throws MDConfigurationException
 	 */
 	public MDUtenti() throws MDConfigurationException {
 	}
 
+	public Utenti checkUtenti(IMDConfiguration<Software> configuration, String ipClient, String login,
+			String loginPassword) throws MDConfigurationException {
+		return checkUtenti(configuration, ipClient, login,
+				loginPassword, true);
+	}
+
 	/**
 	 * 
 	 */
-	public Utenti checkUtenti(IMDConfiguration<Software> configuration, String ipClient, String login, String loginPassword) throws MDConfigurationException {
+	public Utenti checkUtenti(IMDConfiguration<Software> configuration, String ipClient, String login,
+			String loginPassword, boolean calcSha256) throws MDConfigurationException {
 		String url = null;
 		AuthenticationUtentiPortTypeProxy proxy = null;
 		AuthenticationUtenti authentication = null;
@@ -58,20 +65,24 @@ public class MDUtenti {
 		String password = null;
 		ConverterAuthenticationUtentiSoftware converterAuthenticationUtentiSoftware = null;
 		Utenti utenti = null;
-		
+
 		try {
 			url = Configuration.getValue("utenti.URLAuthentication");
-			if (url.toLowerCase().trim().startsWith("https")){
-				Protocol.registerProtocol("https", 
-						new Protocol("https", new DefaultProtocolSocketFactory(), 443));
+			if (url.toLowerCase().trim().startsWith("https")) {
+				Protocol.registerProtocol("https", new Protocol("https", new DefaultProtocolSocketFactory(), 443));
 			}
-			//"http://"+args[0]+"/MagazziniDigitaliServices/services/AuthenticationSoftwarePort?wsdl";
+			// "http://"+args[0]+"/MagazziniDigitaliServices/services/AuthenticationSoftwarePort?wsdl";
 			proxy = new AuthenticationUtentiPortTypeProxy(url);
 
 			authentication = new AuthenticationUtenti();
 
+			if (calcSha256) {
 			sha256Tools = new SHA256Tools();
 			password = sha256Tools.checkSum(loginPassword.getBytes());
+			} else {
+				sha256Tools = new SHA256Tools();
+				password = loginPassword;
+			}
 
 			authentication.setAuthentication(new AuthenticationUtentiAuthentication(login, password));
 
