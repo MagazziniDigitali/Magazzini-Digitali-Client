@@ -11,7 +11,7 @@
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
   <dependencies>
-    <dependency>
+   <dependency>
       <groupId>it.bncf.magazziniDigitali.services.client</groupId>
       <artifactId>MagazziniDigitaliServicesClient</artifactId>
       <version>3.0.6</version><!-- 3.0.5 -->
